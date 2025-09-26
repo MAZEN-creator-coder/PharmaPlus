@@ -27,8 +27,8 @@ export default function Nav() {
       <GiHamburgerMenu className={styles.menu} onClick={toggleMenu} />
 
       <div className={styles.other}>
-        <FaCartShopping />
-        {true ? (<MdPerson />) : (<button className={styles.btn}>Login/Sign</button>)}
+        <FaCartShopping  className={styles.cart}/>
+        {false ? (<MdPerson />) : (<button className={styles.btn}>Login/Sign</button>)}
         <img src="/avatrer.webp" alt="profile image" />
       </div>
     </nav>

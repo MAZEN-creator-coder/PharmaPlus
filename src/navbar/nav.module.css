@@ -29,6 +29,22 @@
   color: white;
   transition: all 0.3s ease-in-out;
 }
+.navList li{
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+.navList li::after{
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: white;
+  transition: width 0.3s ease-in-out;
+}
+.navList li:hover::after{
+  width: 100%;
+}
+
 
 .other {
   display: flex;
@@ -51,6 +67,20 @@
   border-radius: 5px;
   padding: 5px 10px;
   cursor: pointer;
+  transition: all .5s ease-in-out;
+}
+.btn:hover{
+background-color: white;
+color:#1b8b80;
+
+}
+.cart{
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .5s ease-in-out;
+}
+.cart:hover{
+  transform: rotate(360deg);
 }
 
 .menu {
@@ -69,10 +99,12 @@
     left: 0;
     padding: 10px 0;
     text-align: center;
+ 
   }
 
   .navList.active {
     display: flex;
+    
   }
 
   .menu {
@@ -81,5 +113,9 @@
     font-size: 25px;
     cursor: pointer;
     order: 3;
+  }
+  .brand h1{
+    font-size: 25px;
+
   }
 }
