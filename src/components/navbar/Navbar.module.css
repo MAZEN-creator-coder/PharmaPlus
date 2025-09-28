@@ -1,0 +1,220 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", "Roboto", sans-serif;
+}
+
+/* ===== Palette (نفس الألوان) ===== */
+:root {
+  --brand-bg: #018994; /* الأساسي */
+  --text: #ffffff; /* النص */
+  --text-muted: rgba(255, 255, 255, 0.9);
+  --pill-bg: rgba(255, 255, 255, 0.1); /* خلفية خفيفة */
+  --pill-bg-hover: rgba(255, 255, 255, 0.25);
+  --action-bg: rgba(255, 255, 255, 0.2); /* للخانات والأزرار */
+}
+.container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.navbar {
+  width: 100%;
+  background-color: var(--brand-bg);
+  color: var(--text);
+  padding: 8px 0;
+}
+/* brand */
+.brand {
+  display: inline-flex;
+  align-items: center;
+}
+.logo {
+  width: 200px;
+  height: auto;
+  display: block;
+}
+/* ===== Center menu ===== */
+.navMenu {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+.navbarMenu {
+  position: relative;
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  margin: 0;
+  padding: 3px;
+  background: var(--pill-bg);
+  border-radius: 9999px;
+  isolation: isolate;
+}
+
+/* عناصر المنيو */
+.item a {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  padding: 10px 18px; /* عدّلي المقاس اللي يناسبك */
+  border-radius: 9999px;
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 400;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.item a:hover,
+.item a:focus-visible {
+  color: #fff;
+}
+.active {
+  color: #fff;
+}
+
+.indicator {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 0;
+  background: rgba(255, 255, 255, 0.22);
+  border-radius: 9999px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* icons */
+.cartIcon,
+.chatIcon {
+  position: relative;
+  border: none;
+  background: transparent;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 22px;
+}
+.cartIcon {
+  margin-right: 8px;
+}
+.cartIcon:hover,
+.chatIcon:hover,
+.cartIcon:focus,
+.chatIcon:focus {
+  outline: none;
+  cursor: pointer;
+}
+.cartCount {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #fff;
+  color: #08141b;
+  border-radius: 9999px;
+  min-width: 16px;
+  line-height: 16px;
+  padding: 0 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-align: center;
+}
+/* ===== Sign Up Button ===== */
+.signupButton {
+  background: var(--text); /* خلفية بيضاء */
+  color: black; /* اللون الأساسي للكتابة */
+  border: 2px solid #018994; /* إطار باللون الأساسي */
+  font-weight: 500;
+  font-size: 14px;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  cursor: pointer;
+  outline: none;
+}
+
+.signupButton:hover,
+.signupButton:focus-visible {
+  background: #f3f4f6;
+}
+/* ===== User Box (Profile) ===== */
+.userBox {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px; 
+  object-fit: cover;
+}
+
+/* ===== User Profile Trigger (Button) ===== */
+.userTrigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  color: #fff;
+  cursor: pointer;
+}
+.userTrigger:hover {
+  background: rgba(255, 255, 255, 0.2); 
+}
+
+/* ===== Dropdown Menu ===== */
+.dropdown {
+  position: absolute;
+  top: 120%;
+  left: 0;
+  background: white;
+  color: #333;
+  padding: 8px 0;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  min-width: 160px;
+  z-index: 10;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 8px 16px;
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  color: inherit;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.dropdownItem:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.caret {
+  font-size: 12px;
+  opacity: 0.7;
+  color: #fff;
+}
