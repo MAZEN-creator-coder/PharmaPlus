@@ -1,0 +1,19 @@
+/* FOR GENERAL LAY OUT  */
+.container{
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    max-width: 90%;
+    height: 100vh;
+    margin: 0 auto;
+    /* background-color: aqua; */
+}
+.sidebar{
+    /* background-color: red; */
+    width:30%;
+}
+.main{
+    /* background-color: rgb(255, 0, 251); */
+    width: 70%;
+}

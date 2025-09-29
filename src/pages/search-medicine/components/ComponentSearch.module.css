@@ -1,0 +1,87 @@
+/* for styleing the component of search medicine */
+/* Textbox */
+.textbox {
+position: absolute;
+top: 176px;
+left: 112px;
+opacity: 1;
+}
+.textbox input {
+width: 384px;
+height: 48px;
+padding-left: 34px;
+padding-right: 12px;
+font-family: Inter;
+font-size: 14px;
+line-height: 22px;
+font-weight: 400;
+background: #FFFFFFFF;
+border-radius: 10px;
+border-width: 1px;
+border-color: #BDC1CAFF;
+border-style: solid;
+outline: none;
+}
+.textbox svg {
+position: absolute;
+top: 12px;
+right: 12px;
+width: 25px;
+height: 25px;
+fill: rgb(48, 49, 50);
+}
+.textbox svg.left {
+left: 12px;
+}
+/* hover */
+.textbox input:hover {
+color: #BDC1CAFF;
+background: #FFFFFFFF;
+border-color: #A8ADB7FF;
+}
+/* focused */
+.textbox input:focused {
+color: #BDC1CAFF;
+background: #FFFFFFFF;
+border-color: #9095A1FF;
+}
+/* disabled */
+.textbox input:disabled {
+color: #BDC1CAFF;
+background: #FFFFFFFF;
+border-color: #BDC1CAFF;
+}
+.textbox :disabled + .icon, .textbox :disabled + .icon + .icon {
+fill: #BDC1CAFF;
+}
+/* search text */
+.text {
+position: absolute;
+top: 121px;
+left: 112px;
+font-family: Inter;
+font-size: 24px;
+line-height: 32px;
+font-weight: 700;
+color: #171A1FFF;
+}
+ .text1 {
+position: absolute;
+top: 121px;
+left: 528px;
+font-family: Inter;
+font-size: 24px;
+line-height: 32px;
+font-weight: 700;
+color: #171A1FFF;
+}
+.text2 {
+position: absolute;
+top: 733px;
+left: 528px;
+font-family: Inter;
+font-size: 24px;
+line-height: 32px;
+font-weight: 700;
+color: #171A1FFF;
+}
