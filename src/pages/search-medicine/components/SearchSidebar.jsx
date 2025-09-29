@@ -7,16 +7,16 @@ import RecentSearches from './RecentSearches';
 
 const SearchSidebar = () => {
   return (
-    <aside className={styles.sidebar}>
-        <h2 className={styles.text}>Find Your Medicine</h2>
+    <aside>
+        <h2 className={styles.findtext}>Find Your Medicine</h2>
       <div className={styles.searchControls}>
         <SearchBar />
-        {/* <div className={styles.searchActions}>
+        <div className={styles.searchActions}>
           <UploadPhoto />
           <FiltersButton />
-        </div> */}
+        </div>
       </div>
-      {/* <RecentSearches /> */}
+      <RecentSearches />
     </aside>
   );
 };

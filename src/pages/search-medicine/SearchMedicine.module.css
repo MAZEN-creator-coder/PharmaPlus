@@ -2,16 +2,17 @@
 .container{
     display: flex;
     align-items: flex-start;
-    gap: 16px;
+    justify-content: space-evenly;
     padding: 20px;
     max-width: 90%;
     height: 100vh;
     margin: 0 auto;
-    /* background-color: aqua; */
+    gap : 20px;
+
 }
 .sidebar{
-    /* background-color: red; */
-    width:30%;
+    width: 30%;
+    /* background-color: #4CAF50;  لون أخضر */
 }
 .main{
     /* background-color: rgb(255, 0, 251); */

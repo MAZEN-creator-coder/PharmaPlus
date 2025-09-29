@@ -1,8 +1,9 @@
-import React from 'react';
-import styles from '../SearchMedicine.module.css';
+import React, { useState } from 'react';
+import styles from './ComponentSearch.module.css';
 
 const RecentSearches = () => {
-  const recentSearches = ['Paracetamol', 'Aspirin', 'Vitamin C'];
+  const [recentSearches,setRecentSearches]=useState(['Paracetamol', 'Aspirin', 'Vitamin C']);
+  
 
   return (
     <div className={styles.recentSearches}>

@@ -1,87 +1,245 @@
 /* for styleing the component of search medicine */
-/* Textbox */
-.textbox {
-position: absolute;
-top: 176px;
-left: 112px;
-opacity: 1;
+/* ===aside bar ====*/
+:root {
+    --brand-bg: #018994;
+    /* الأساسي */
+    --text: #ffffff;
+    /* النص */
+    --text-muted: rgba(255, 255, 255, 0.9);
+    --pill-bg: rgba(255, 255, 255, 0.1);
+    /* خلفية خفيفة */
+    --pill-bg-hover: rgba(255, 255, 255, 0.25);
+    --action-bg: rgba(255, 255, 255, 0.2);
+    /* للخانات والأزرار */
 }
-.textbox input {
-width: 384px;
-height: 48px;
-padding-left: 34px;
-padding-right: 12px;
-font-family: Inter;
-font-size: 14px;
-line-height: 22px;
-font-weight: 400;
-background: #FFFFFFFF;
-border-radius: 10px;
-border-width: 1px;
-border-color: #BDC1CAFF;
-border-style: solid;
-outline: none;
+
+.findtext {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: bold;
+    font-size: 25px;
 }
-.textbox svg {
-position: absolute;
-top: 12px;
-right: 12px;
-width: 25px;
-height: 25px;
-fill: rgb(48, 49, 50);
+
+/* search input */
+.searchinput {
+    position: relative;
+    width: 90%;
+    margin-top: 2rem;
 }
-.textbox svg.left {
-left: 12px;
+
+.searchinput input {
+    width: 100%;
+    padding: 10px 40px 10px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+
 }
-/* hover */
-.textbox input:hover {
-color: #BDC1CAFF;
-background: #FFFFFFFF;
-border-color: #A8ADB7FF;
+
+.searchinput svg {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0.6;
 }
-/* focused */
-.textbox input:focused {
-color: #BDC1CAFF;
-background: #FFFFFFFF;
-border-color: #9095A1FF;
+
+/* === end of search input === */
+/* ===SEARCH ACTION === */
+
+.searchActions {
+    display: flex;
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    /* background-color: aqua; */
+    height: 20vh;
+
 }
-/* disabled */
-.textbox input:disabled {
-color: #BDC1CAFF;
-background: #FFFFFFFF;
-border-color: #BDC1CAFF;
+
+/* === end of search action === */
+
+/* === UploadPhoto === */
+
+.searchActions .uploadButton {
+    padding: 8px 16px;
+    border: 1px solid var(--brand-bg);
+    border-radius: 10px;
+    background-color: white;
+    color: var(--brand-bg);
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.3s ease-in-out;
 }
-.textbox :disabled + .icon, .textbox :disabled + .icon + .icon {
-fill: #BDC1CAFF;
+
+.searchActions .uploadButton:hover {
+    background-color: var(--brand-bg);
+    color: white;
 }
-/* search text */
-.text {
-position: absolute;
-top: 121px;
-left: 112px;
-font-family: Inter;
-font-size: 24px;
-line-height: 32px;
-font-weight: 700;
-color: #171A1FFF;
+
+.cameraIcon,
+.filterIcon {
+    font-size: 20px;
 }
- .text1 {
-position: absolute;
-top: 121px;
-left: 528px;
-font-family: Inter;
-font-size: 24px;
-line-height: 32px;
-font-weight: 700;
-color: #171A1FFF;
+
+/* === end of UploadPhoto === */
+
+/* ===FiltersButton === */
+
+.searchActions .filtersButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color: #4D5F9CFF;
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.3s ease-in-out;
 }
-.text2 {
-position: absolute;
-top: 733px;
-left: 528px;
-font-family: Inter;
-font-size: 24px;
-line-height: 32px;
-font-weight: 700;
-color: #171A1FFF;
+
+.searchActions .filtersButton:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
 }
+
+/* === end of FiltersButton === */
+/* === recent searches === */
+.recentSearches {
+    width: 100%;
+}
+
+.searchTags {
+    width: 100%;
+    margin-top: .5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.searchTag {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 10px;
+    background-color: #eee;
+    font-size: 10px;
+
+
+}
+
+
+/* === end of recent searches === */
+
+/* ===medicine card */
+.medicineGrid {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 20px;
+    width: 100%;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 20px;
+    padding: 10px;
+    
+}
+
+.medicineCard {
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.medicineCard:hover {
+    transform: translateY(-2px);
+
+}
+
+.header {
+    display: flex;
+    justify-content: start;
+
+}
+
+.medicineDetails {
+    margin-left: 1.2rem;
+}
+.medicineInfo{
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.inventory {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding:.5rem 1rem
+
+}
+.category{
+    color:#777;
+    font-weight: lighter;
+    font-size:.89rem;
+}
+.price{
+    color:var(--brand-bg);
+    font-weight: bold;
+}
+.distance{
+    padding:0 .899rem;
+    color:#777;
+    font-weight: lighter;
+    font-size:.89rem ;
+}
+.Available{
+  background-color: #d1e7dd; 
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
+    
+}
+.lowStock{
+  color: #664d03;        
+  background-color: #fff3cd; 
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+.outOfStock{
+    color: #842029;          
+  background-color: #f8d7da; 
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+.medicineImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 20px;
+}
+/* end of medicine card */

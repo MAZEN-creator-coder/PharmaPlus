@@ -1,10 +1,11 @@
 import React from 'react';
-import styles from '../SearchMedicine.module.css';
+import styles from './ComponentSearch.module.css';
+import { CiFilter } from "react-icons/ci";
 
 const FiltersButton = () => {
   return (
     <button className={styles.filtersButton}>
-      Advanced Filters
+      <CiFilter className={styles.filterIcon} /> Advanced Filters
     </button>
   );
 };
