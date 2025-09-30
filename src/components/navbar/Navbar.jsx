@@ -15,9 +15,9 @@ export default function Navbar() {
         <Brand />
 
         {/* Menu */}
-        <NavMenu isOpen={isOpen} />
+        <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} />
         {/* RightControls نسخة الديسكتوب */}
-        <RightControls className={styles.rightControls} />
+        <RightControls className={styles.rightControls} isOpen={isOpen} setIsOpen={setIsOpen} />
         {/*Burger */}
         <button
           className={styles.burger}

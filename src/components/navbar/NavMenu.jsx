@@ -2,6 +2,7 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { motion, useSpring } from "framer-motion";
+import RightControls from "./RightControls.jsx";
 import styles from "./Navbar.module.css";
 
 const LINKS = [
@@ -80,6 +81,16 @@ export default function NavMenu({ isOpen, setIsOpen }) {
           </li>
         ))}
       </ul>
+      
+      {/* Mobile separator and right controls */}
+      {isOpen && (
+        <>
+          <div className={styles.mobileSeparator}></div>
+          <div className={styles.mobileRightControls}>
+            <RightControls isOpen={isOpen} setIsOpen={setIsOpen} />
+          </div>
+        </>
+      )}
     </nav>
   );
 }
