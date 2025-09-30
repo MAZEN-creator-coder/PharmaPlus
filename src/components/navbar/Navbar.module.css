@@ -4,21 +4,19 @@
   box-sizing: border-box;
   font-family: "Poppins", "Roboto", sans-serif;
 }
-
-/* ===== Palette (نفس الألوان) ===== */
+/* ===== Palette ===== */
 :root {
-  --brand-bg: #018994; /* الأساسي */
-  --text: #ffffff; /* النص */
+  --brand-bg: #018994;
+  --text: #ffffff;
   --text-muted: rgba(255, 255, 255, 0.9);
-  --pill-bg: rgba(255, 255, 255, 0.1); /* خلفية خفيفة */
+  --pill-bg: rgba(255, 255, 255, 0.1);
   --pill-bg-hover: rgba(255, 255, 255, 0.25);
-  --action-bg: rgba(255, 255, 255, 0.2); /* للخانات والأزرار */
+  --action-bg: rgba(255, 255, 255, 0.2);
 }
 .container {
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 16px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -57,13 +55,11 @@
   border-radius: 9999px;
   isolation: isolate;
 }
-
-/* عناصر المنيو */
 .item a {
   position: relative;
   z-index: 1;
   display: inline-block;
-  padding: 10px 18px; /* عدّلي المقاس اللي يناسبك */
+  padding: 10px 18px;
   border-radius: 9999px;
   color: rgba(255, 255, 255, 0.92);
   font-weight: 400;
@@ -78,7 +74,6 @@
 .active {
   color: #fff;
 }
-
 .indicator {
   position: absolute;
   top: 6px;
@@ -89,13 +84,11 @@
   pointer-events: none;
   z-index: 0;
 }
-
-.right {
+.rightControls {
   display: flex;
   align-items: center;
   gap: 5px;
 }
-
 /* icons */
 .cartIcon,
 .chatIcon {
@@ -136,9 +129,9 @@
 }
 /* ===== Sign Up Button ===== */
 .signupButton {
-  background: var(--text); /* خلفية بيضاء */
-  color: black; /* اللون الأساسي للكتابة */
-  border: 2px solid #018994; /* إطار باللون الأساسي */
+  background: var(--text);
+  color: black;
+  border: 2px solid var(--brand-bg);
   font-weight: 500;
   font-size: 14px;
   padding: 8px 16px;
@@ -146,7 +139,6 @@
   cursor: pointer;
   outline: none;
 }
-
 .signupButton:hover,
 .signupButton:focus-visible {
   background: #f3f4f6;
@@ -158,17 +150,15 @@
   align-items: center;
   gap: 8px;
 }
-
 .avatar {
   width: 40px;
   height: 40px;
-  border-radius: 12px; 
+  border-radius: 12px;
   object-fit: cover;
 }
-
 /* ===== User Profile Trigger (Button) ===== */
 .userTrigger {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 8px;
   background: transparent;
@@ -177,27 +167,36 @@
   border-radius: 9999px;
   color: #fff;
   cursor: pointer;
+  transition: background 0.2s ease;
+  position: relative;
 }
 .userTrigger:hover {
-  background: rgba(255, 255, 255, 0.2); 
+  background: rgba(255, 255, 255, 0.1);
 }
-
-/* ===== Dropdown Menu ===== */
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+/* Dropdown */
 .dropdown {
   position: absolute;
-  top: 120%;
-  left: 0;
-  background: white;
+  top: calc(100% + 8px);
+  right: 0;
+  background: #fff;
   color: #333;
-  padding: 8px 0;
-  border-radius: 8px;
+  padding: 6px 0;
+  border-radius: 3px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   min-width: 160px;
   z-index: 10;
 }
-
+/* Dropdown Items */
 .dropdownItem {
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   padding: 8px 16px;
   width: 100%;
   text-align: left;
@@ -206,15 +205,93 @@
   border: none;
   font-size: 14px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
-
 .dropdownItem:hover {
   background: rgba(0, 0, 0, 0.05);
 }
-
+/* Arrow */
 .caret {
-  font-size: 12px;
-  opacity: 0.7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
   color: #fff;
+  transform-origin: center;
+}
+.burger {
+  display: none;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 24px;
+  cursor: pointer;
+}
+/* 📱 الموبايل (حتى 767px) */
+@media (max-width: 767px) {
+  .indicator {
+    display: none;
+  }
+  .navMenu,
+  .rightControls {
+    display: none; /* اخفاء المنيو والكنترولز */
+  }
+  .burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* لما المنيو مفتوحة */
+  .navMenu.open {
+    display: flex;
+    flex-direction: column; /* العناصر تحت بعض */
+    position: absolute;
+    top: 64px; /* ارتفاع Navbar */
+    left: 0;
+    right: 0;
+    background: var(--brand-bg);
+    padding: 16px;
+    border-radius: 5px;
+    animation: slideDown 0.3s ease forwards;
+    z-index: 1000;
+  }
+  .navbarMenu {
+    flex-direction: column;
+    gap: 12px;
+    background: transparent;
+  }
+  .navbarMenu .item a {
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+  }
+  .navbarMenu .item a:hover,
+  .navbarMenu .item a:focus-visible {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+  }
+}
+/* 💻 التابلت (768px – 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .navMenu {
+    display: flex;
+    justify-content: center;
+  }
+  .navbarMenu {
+    flex-direction: row;
+    gap: 12px;
+  }
+  .burger {
+    display: none;
+  }
+}
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

@@ -1,13 +1,14 @@
-// src/app/App.jsx
-import Navbar from "../components/navbar/Navbar.jsx";
 import { Routes, Route } from "react-router-dom";
+import MainLayout from "../layouts/MainLayout.jsx";
+import EmptyLayout from "../layouts/EmptyLayout.jsx";
 import SearchMedicine from "../pages/search-medicine/SearchMedicine.jsx";
+import Profile from "../pages/profile/Profile.jsx";
 
 export default function App() {
   return (
-    <>
-      <Navbar />
-      <Routes>
+    <Routes>
+      {/* With Navbar */}
+      <Route element={<MainLayout />}>
         <Route path="/" element={<div>Home</div>} />
         <Route path="/search-medicine" element={<SearchMedicine />} />
         <Route
@@ -15,8 +16,15 @@ export default function App() {
           element={<div>Upload Prescription</div>}
         />
         <Route path="/blog" element={<div>Blog</div>} />
-        <Route path="*" element={<div>Not Found</div>} />
-      </Routes>
-    </>
+      </Route>
+
+      {/* Without Navbar */}
+      <Route element={<EmptyLayout />}>
+        <Route path="/profile" element={<Profile />} />
+      </Route>
+
+      {/* Error Page */}
+      <Route path="*" element={<div>Not Found</div>} />
+    </Routes>
   );
 }

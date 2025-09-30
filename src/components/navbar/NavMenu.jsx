@@ -11,7 +11,7 @@ const LINKS = [
   { to: "/blog", label: "Blog" },
 ];
 
-export default function NavMenu() {
+export default function NavMenu({ isOpen, setIsOpen }) {
   const location = useLocation();
   const listRef = useRef(null);
   const linkRefs = useRef({});
@@ -47,9 +47,12 @@ export default function NavMenu() {
   }, [target, x, w]);
 
   return (
-    <nav aria-label="Primary" className={styles.navMenu}>
+    <nav
+      aria-label="Primary"
+      className={`${styles.navMenu} ${isOpen ? styles.open : ""}`}
+    >
       <ul ref={listRef} className={styles.navbarMenu}>
-        {/* الحبة المتحركة بـ spring */}
+        {/* Indicator spring */}
         <motion.span
           className={styles.indicator}
           style={{ x, width: w }}
@@ -61,6 +64,7 @@ export default function NavMenu() {
               to={to}
               ref={(el) => (linkRefs.current[to] = el)}
               className={({ isActive }) => (isActive ? styles.active : "")}
+              onClick={() => isOpen && setIsOpen(false)}
               // لو عايزة تتبع الـ hover مؤقتًا:
               // onMouseEnter={() => {
               //   const a = linkRefs.current[to];
