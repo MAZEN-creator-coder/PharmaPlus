@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout.jsx";
 import EmptyLayout from "../layouts/EmptyLayout.jsx";
 import SearchMedicine from "../pages/search-medicine/SearchMedicine.jsx";
-import Profile from "../pages/profile/Profile.jsx";
+import MainPage from "../pages/profile/MainPage.jsx";
 
 export default function App() {
   return (
@@ -16,12 +16,12 @@ export default function App() {
           element={<div>Upload Prescription</div>}
         />
         <Route path="/blog" element={<div>Blog</div>} />
+        {/* Show copied profile page under navbar */}
+        <Route path="/profile" element={<MainPage />} />
       </Route>
 
       {/* Without Navbar */}
-      <Route element={<EmptyLayout />}>
-        <Route path="/profile" element={<Profile />} />
-      </Route>
+      <Route element={<EmptyLayout />}></Route>
 
       {/* Error Page */}
       <Route path="*" element={<div>Not Found</div>} />
