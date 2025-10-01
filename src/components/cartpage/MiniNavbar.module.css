@@ -1,0 +1,56 @@
+.miniNavbar {
+  display: flex;
+  justify-content: space-around; /* أو space-evenly */
+  width: 100%;
+  max-width: 1200px; /* أو أي عرض يناسب التصميم */
+
+  margin: 0 10px;
+  position: relative;
+  /* background-color: black; */
+}
+
+
+.step {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #bbb;
+  position: relative;
+  padding: 10px 0;
+  transition: color 0.3s;
+}
+
+.stepNumber {
+  background-color: #ddd;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-weight: bold;
+  font-size: 19px;
+  margin-right: 15px;
+  transition: transform 0.2s;
+}
+
+.stepTitle {
+  font-size: 17px;
+  font-weight: 500;
+  color: #555;
+}
+
+.active {
+  color: #018994;
+}
+
+.active .stepNumber {
+  background-color: #018994;
+  color: white;
+}
+
+/* الخط الذي ينزلق أسفل الأرقام */
+.underline {
+  position: absolute;
+  bottom: -8px;
+  height: 2px;
+  background-color: #018994;
+  width: 0%; /* العرض يبدأ من 0% */
+  transition: width 0.5s ease-in-out;
+}
