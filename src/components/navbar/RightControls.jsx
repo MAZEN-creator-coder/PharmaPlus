@@ -16,7 +16,7 @@ export default function RightControls({ onOpenChat, onOpenCart, isOpen, classNam
     <div className={`${className} ${isOpen ? styles.open : ""}`}>
       <ChatButton onClick={() => handleClick(onOpenChat)} />
       <CartButton count={0} onClick={() => handleClick(onOpenCart)} />
-      <AuthWidget />
+      <AuthWidget isOpen={isOpen} setIsOpen={setIsOpen} />
     </div>
   );
 }

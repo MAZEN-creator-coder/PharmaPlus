@@ -1,0 +1,265 @@
+:root {
+  --brand-primary: #018994;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --bg-gray: #f7fafc;
+  --border-color: #e2e8f0;
+  --status-available: #38a169;
+  --status-low: #d69e2e;
+  --status-out: #e53e3e;
+  --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cartItem {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+}
+
+.cartItem:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  transform: translateY(-1px);
+}
+
+.itemContent {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.checkbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--brand-primary);
+}
+
+.productImageContainer {
+  position: relative;
+}
+
+.productImage {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid var(--border-color);
+}
+
+.productInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.productHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.productName {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: white;
+}
+
+.statusBadge.available {
+  background-color: var(--status-available);
+}
+
+.statusBadge.lowStock {
+  background-color: var(--status-low);
+}
+
+.statusBadge.outOfStock {
+  background-color: var(--status-out);
+}
+
+.productDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.detailItem {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.detailLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.detailValue {
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--bg-gray);
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.pharmacyInfo {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.pharmacyDetail,
+.distanceDetail {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.detailIcon {
+  color: var(--brand-primary);
+  font-size: 14px;
+}
+
+.priceSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 100px;
+}
+
+.price {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--brand-primary);
+}
+
+.pricePerUnit {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  padding: 8px;
+  background: var(--bg-gray);
+}
+
+.quantityBtn {
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.quantityBtn:hover:not(:disabled) {
+  background: var(--brand-primary);
+  color: white;
+  border-color: var(--brand-primary);
+}
+
+.quantityBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity {
+  font-size: 16px;
+  font-weight: 600;
+  min-width: 24px;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.removeBtn {
+  background: #fef5e7;
+  border: 1px solid #fed7aa;
+  color: #c2410c;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 12px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  font-size: 18px;
+}
+
+.removeBtn:hover {
+  background: #fed7aa;
+  border-color: #fb923c;
+  color: #9a3412;
+}
+
+@media (max-width: 1024px) {
+  .itemContent {
+    gap: 16px;
+  }
+  
+  .productImage {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .pharmacyInfo {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cartItem {
+    padding: 16px;
+  }
+  
+  .itemContent {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .productImage {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .price {
+    font-size: 20px;
+  }
+  
+  .productHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}

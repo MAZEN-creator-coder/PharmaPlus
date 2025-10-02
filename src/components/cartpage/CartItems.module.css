@@ -1,0 +1,88 @@
+:root {
+  --brand-primary: #018994;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --bg-gray: #f7fafc;
+  --border-color: #e2e8f0;
+  --danger-color: #e53e3e;
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.cartItems {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.selectAllBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 16px;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
+}
+
+.selectAllSection {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.selectAllCheckbox {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--brand-primary);
+}
+
+.selectAllText {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.deleteBtn {
+  background: var(--danger-color);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.deleteBtn:hover {
+  background: #c53030;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(229, 62, 62, 0.3);
+}
+
+.itemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+@media (max-width: 768px) {
+  .selectAllBar {
+    padding: 16px 20px;
+  }
+  
+  .deleteBtn {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  .deleteBtn span {
+    display: none;
+  }
+}

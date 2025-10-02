@@ -1,0 +1,116 @@
+:root {
+  --brand-primary: #018994;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --bg-gray: #f7fafc;
+  --border-color: #e2e8f0;
+}
+
+.container {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.title {
+  margin: 0 0 16px 0;
+  color: var(--text-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.section {
+  background: var(--bg-gray);
+  border-radius: 12px;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+}
+
+.sectionTitle {
+  margin: 0 0 12px 0;
+  color: var(--text-primary);
+  font-size: 18px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 12px;
+}
+
+.inputWrap { position: relative; }
+.inputIcon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 18px; }
+.inputWrap .input { padding-left: 40px; width: 100%; }
+
+.col12 { grid-column: span 12; }
+.col6 { grid-column: span 6; }
+.col4 { grid-column: span 4; }
+
+.input {
+  padding: 12px 14px;
+  border: 1.5px solid var(--border-color);
+  border-radius: 10px;
+  outline: none;
+  font-size: 14px;
+  width: 100%;
+}
+
+.input:focus {
+  border-color: var(--brand-primary);
+  background: white;
+}
+
+.paymentOptions {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.option { display:flex; align-items:center; gap:8px; padding:10px 14px; border:1.5px solid var(--border-color); border-radius:10px; background:white; cursor:pointer; color:var(--text-primary); }
+.optionSelected { border-color: var(--brand-primary); background: #e6fffa; color: var(--brand-primary); }
+
+.cashBox { background: white; border: 1.5px solid var(--border-color); border-radius: 10px; padding: 12px; }
+.cashNote { margin: 0 0 8px 0; color: var(--text-secondary); font-size: 14px; }
+.textarea { width: 100%; min-height: 80px; border: 1.5px solid var(--border-color); border-radius: 10px; padding: 10px 12px; resize: vertical; }
+
+.error { color: #e53e3e; font-size: 12px; margin-top: 4px; display: inline-block; }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.backBtn {
+  background: white;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.placeOrderBtn {
+  background: var(--brand-primary);
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.btnDisabled { opacity: 0.5; cursor: not-allowed; }
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr; }
+  .col12, .col6, .col4 { grid-column: span 12; }
+}
+
+

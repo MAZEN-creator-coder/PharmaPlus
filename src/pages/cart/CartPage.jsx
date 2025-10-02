@@ -9,10 +9,11 @@ import OrderComplete from "../../components/cartpage/OrderComplete";
 
 export default function CartPage() {
   const [currentStep, setCurrentStep] = useState(1); // تحديد التاب النشط
+  const [maxStep, setMaxStep] = useState(1); // منع القفز لخطوات لاحقة بدون إكمال
 
   // تغيير التاب النشط عند الضغط
   const handleStepClick = (id) => {
-    setCurrentStep(id);
+    if (id <= maxStep) setCurrentStep(id);
   };
 
   return (
@@ -24,14 +25,21 @@ export default function CartPage() {
 
       {/* تمرير currentStep و handleStepClick إلى MiniNavbar */}
       <div className={styles.miniNavbarContainer}>
-        <MiniNavbar currentStep={currentStep} onStepClick={handleStepClick} />
+        <MiniNavbar currentStep={currentStep} maxStep={maxStep} onStepClick={handleStepClick} />
       </div>
 
       {/* عرض المحتوى بناءً على التاب النشط */}
       <div className={styles.content}>
-        {currentStep === 1 && <ShoppingCart />}
-        {currentStep === 2 && <CheckoutDetails />}
-        {currentStep === 3 && <OrderComplete />}
+        {currentStep === 1 && (
+          <ShoppingCart onGoToCheckout={() => { setMaxStep(2); setCurrentStep(2); }} />
+        )}
+        {currentStep === 2 && (
+          <CheckoutDetails 
+            onPlaceOrder={() => { setMaxStep(3); setCurrentStep(3); }} 
+            onBack={() => setCurrentStep(1)} 
+          />
+        )}
+        {currentStep === 3 && <OrderComplete onBackToHome={() => setCurrentStep(1)} />}
       </div>
     </div>
   );

@@ -1,0 +1,44 @@
+:root {
+  --brand-primary: #018994;
+  --text-primary: #2d3748;
+  --text-secondary: #718096;
+  --bg-gray: #f7fafc;
+  --border-color: #e2e8f0;
+}
+
+.container { display: flex; justify-content: center; }
+
+.card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  max-width: 560px;
+  width: 100%;
+  border: 1px solid var(--border-color);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  text-align: center;
+}
+
+.badge {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 12px;
+}
+
+.title { margin: 8px 0; color: var(--text-primary); }
+.subtitle { margin: 0 0 16px 0; color: var(--text-secondary); }
+
+.details { text-align: left; background: var(--bg-gray); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; }
+.row { display: flex; justify-content: space-between; margin: 8px 0; color: var(--text-primary); }
+
+.actions { margin-top: 18px; display: flex; justify-content: center; }
+.primaryBtn { background: var(--brand-primary); color: white; border: none; padding: 12px 18px; border-radius: 10px; cursor: pointer; }
+
+

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function AuthWidget() {
+export default function AuthWidget({ isOpen, setIsOpen }) {
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
 
@@ -47,7 +47,14 @@ export default function AuthWidget() {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
           >
-            <Link to="/profile" className={styles.dropdownItem}>
+            <Link 
+              to="/profile" 
+              className={styles.dropdownItem}
+              onClick={() => {
+                setOpen(false);
+                if (isOpen && setIsOpen) setIsOpen(false);
+              }}
+            >
               Profile
             </Link>
             <button
