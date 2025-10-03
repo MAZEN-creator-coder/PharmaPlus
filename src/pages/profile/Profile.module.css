@@ -43,3 +43,75 @@
   margin: 0;
   line-height: 1.6;
 }
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .profileContainer {
+    padding: 1.5rem;
+  }
+
+  .profileContent {
+    padding: 2.5rem;
+  }
+
+  .title {
+    font-size: 2.25rem;
+  }
+
+  .greeting {
+    font-size: 1.125rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 1rem;
+  }
+
+  .profileContent {
+    padding: 2rem;
+    border-radius: 8px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .greeting {
+    font-size: 1.125rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .profileInfo p {
+    font-size: 0.9375rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 640px) {
+  .profileContainer {
+    padding: 0.75rem;
+  }
+
+  .profileContent {
+    padding: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+
+  .greeting {
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .profileInfo {
+    gap: 0.875rem;
+  }
+
+  .profileInfo p {
+    font-size: 0.875rem;
+  }
+}

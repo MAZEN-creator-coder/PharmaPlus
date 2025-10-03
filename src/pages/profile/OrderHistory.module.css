@@ -165,4 +165,87 @@
   background: #f9fafb;
 }
 
+/* Tablet */
+@media (max-width: 1024px) {
+  .container {
+    padding: 1.5rem;
+  }
 
+  .ordersGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+
+  .header {
+    margin-bottom: 1.5rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .subtitle {
+    font-size: 0.9375rem;
+  }
+
+  .ordersGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .orderCard {
+    padding: 1.25rem;
+  }
+
+  .orderHeader {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .statusBadge {
+    font-size: 0.6875rem;
+    padding: 0.3125rem 0.75rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 640px) {
+  .container {
+    padding: 0.75rem;
+  }
+
+  .orderCard {
+    padding: 1rem;
+  }
+
+  .title {
+    font-size: 1.25rem;
+  }
+
+  .subtitle {
+    font-size: 0.875rem;
+  }
+
+  .orderId {
+    font-size: 0.875rem;
+  }
+
+  .detailItem {
+    font-size: 0.8125rem;
+  }
+
+  .itemText {
+    font-size: 0.8125rem;
+  }
+}
