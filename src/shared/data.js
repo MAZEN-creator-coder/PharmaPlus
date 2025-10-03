@@ -30,6 +30,16 @@ export const data=[
        pharmacy: "Pharmacy A",
          description:"this is aspirin"
     },
+    {
+      name: "Vitamin C",
+      medicineImage: "/vitaminc.jpg",
+      price: 100,
+      status: "outOfStock",
+      distance: "3km",
+      category: "drink",
+       pharmacy: "Pharmacy A",
+         description:"this is aspirin"
+    }
   ]; // Will be populated from API
 
 // Cart data for shopping cart page

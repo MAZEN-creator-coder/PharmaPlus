@@ -7,7 +7,7 @@ import RecentSearches from './RecentSearches';
 
 const SearchSidebar = () => {
   return (
-    <aside>
+    <aside className={styles.asidebar}>
         <h2 className={styles.findtext}>Find Your Medicine</h2>
       <div className={styles.searchControls}>
         <SearchBar />

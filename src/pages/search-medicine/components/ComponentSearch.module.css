@@ -55,9 +55,9 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 2rem;
-    /* background-color: aqua; */
+    gap: 1rem;
     height: 20vh;
+    margin-top: .5rem;
 
 }
 
@@ -243,3 +243,62 @@
     border-radius: 20px;
 }
 /* end of medicine card */
+/* ====media query */
+
+
+/* شاشات متوسطة كبيرة - Small Laptops & Large Tablets (900px to 1024px) */
+@media screen and (max-width: 1024px) {
+    .searchControls{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+/* Tablets - Portrait Mode (768px to 900px) */
+@media screen and (max-width: 900px) {
+    
+}
+
+/* شاشات صغيرة - Tablets Small (600px to 768px) */
+@media screen and (max-width: 768px) {
+  
+     .searchControls{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+       
+    }
+    .searchActions{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center
+    }
+    .searchinput{
+        width: 100%;
+    }
+       .medicineGrid{
+        grid-template-columns: auto;
+    }
+}
+
+/* Mobile Large (480px to 600px) */
+@media screen and (max-width: 600px) {
+ 
+}
+
+/* شاشات صغيرة جداً - Mobile (أقل من 480px) */
+@media screen and (max-width: 480px) {
+    
+}
+
+/* شاشات صغيرة جداً جداً - Mobile Small (أقل من 375px) */
+@media screen and (max-width: 375px) {
+    
+}
