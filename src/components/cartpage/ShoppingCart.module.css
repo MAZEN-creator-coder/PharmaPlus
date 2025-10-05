@@ -30,15 +30,26 @@
   gap: 32px;
   align-items: start;
 }
-
-@media (max-width: 1024px) {
+/* Narrow tablet: subtly compact layout between 1148 and 1065 */
+@media (min-width: 1065px) and (max-width: 1148px) {
   .content {
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
+  }
+  .title {
+    font-size: 24px;
+  }
+}
+
+/* Switch earlier to avoid cramped two-column around ~1064px widths */
+@media (max-width: 1064px) {
+  .content {
+    grid-template-columns: 1fr;
     gap: 24px;
   }
   
   .title {
-    font-size: 28px;
+    font-size: 24px;
   }
 }
 
@@ -59,5 +70,17 @@
   
   .shoppingCart {
     padding: 16px 0;
+  }
+}
+/* Extra small screens */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+  .content {
+    gap: 16px;
+  }
+  .title {
+    font-size: 20px;
   }
 }

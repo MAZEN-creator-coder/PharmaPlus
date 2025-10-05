@@ -172,6 +172,17 @@
   }
 }
 
+/* Narrow tablet window smoothing */
+@media (min-width: 1065px) and (max-width: 1148px) {
+  .orderSummary {
+    max-width: 320px;
+    padding: 20px;
+  }
+  .title { font-size: 20px; }
+  .totalAmount { font-size: 24px; }
+  .checkoutBtn { padding: 14px 20px; font-size: 15px; }
+}
+
 @media (max-width: 768px) {
   .orderSummary {
     padding: 20px;
@@ -184,5 +195,19 @@
   
   .totalAmount {
     font-size: 20px;
+  }
+}
+@media (max-width: 480px) {
+  .orderSummary {
+    padding: 16px;
+  }
+  .summaryRow {
+    font-size: 14px;
+  }
+  .totalRow {
+    font-size: 16px;
+  }
+  .totalAmount {
+    font-size: 18px;
   }
 }

@@ -86,3 +86,15 @@
     display: none;
   }
 }
+@media (min-width: 1065px) and (max-width: 1148px) {
+  .selectAllBar { padding: 16px 20px; }
+  .selectAllText { font-size: 15px; }
+}
+@media (max-width: 480px) {
+  .selectAllText {
+    font-size: 14px;
+  }
+  .deleteBtn {
+    padding: 8px 12px;
+  }
+}

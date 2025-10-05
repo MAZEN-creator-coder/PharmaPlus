@@ -44,8 +44,8 @@
   gap: 12px;
 }
 
-.inputWrap { position: relative; }
-.inputIcon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-size: 18px; }
+.inputWrap { position: relative; padding-bottom: 16px; }
+.inputIcon { position: absolute; left: 12px; top: calc(50% - 8px); transform: translateY(-50%); color: var(--text-secondary); font-size: 20px; }
 .inputWrap .input { padding-left: 40px; width: 100%; }
 
 .col12 { grid-column: span 12; }
@@ -79,7 +79,8 @@
 .cashNote { margin: 0 0 8px 0; color: var(--text-secondary); font-size: 14px; }
 .textarea { width: 100%; min-height: 80px; border: 1.5px solid var(--border-color); border-radius: 10px; padding: 10px 12px; resize: vertical; }
 
-.error { color: #e53e3e; font-size: 12px; margin-top: 4px; display: inline-block; }
+.error { color: #e53e3e; font-size: 12px; position: absolute; left: 40px; bottom: 2px; }
+/* reserved error line space is always present; no shift on validation */
 
 .actions {
   display: flex;
@@ -111,6 +112,25 @@
 @media (max-width: 900px) {
   .grid { grid-template-columns: 1fr; }
   .col12, .col6, .col4 { grid-column: span 12; }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 16px;
+  }
+  .section {
+    padding: 12px;
+  }
+  .paymentOptions {
+    flex-direction: column;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .backBtn, .placeOrderBtn {
+    width: 100%;
+  }
 }
 
 

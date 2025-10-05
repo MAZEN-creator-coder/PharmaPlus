@@ -263,3 +263,30 @@
     gap: 8px;
   }
 }
+@media (min-width: 1065px) and (max-width: 1148px) {
+  .cartItem { padding: 20px; }
+  .productName { font-size: 16px; }
+  .price { font-size: 22px; }
+  .productImage { width: 80px; height: 80px; }
+}
+@media (max-width: 480px) {
+  .itemContent {
+    align-items: flex-start;
+  }
+  .priceSection {
+    min-width: 0;
+    width: 100%;
+    align-items: flex-start;
+  }
+  .quantityControls {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .productImage {
+    width: 64px;
+    height: 64px;
+  }
+  .price {
+    font-size: 18px;
+  }
+}

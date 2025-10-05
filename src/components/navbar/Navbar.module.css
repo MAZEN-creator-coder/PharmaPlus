@@ -27,6 +27,7 @@
   background-color: var(--brand-bg);
   color: var(--text);
   padding: 8px 0;
+  position: relative; /* anchor absolute mobile menu */
 }
 /* brand */
 .brand {
@@ -234,6 +235,15 @@
   font-size: 24px;
   cursor: pointer;
 }
+/* Extra small phones */
+@media (max-width: 480px) {
+  .logo {
+    width: 140px;
+  }
+  .container {
+    gap: 8px;
+  }
+}
 /* 📱 الموبايل (حتى 767px) */
 @media (max-width: 767px) {
   .indicator {
@@ -334,19 +344,26 @@
     display: none !important;
   }
 }
-/* 💻 التابلت (768px – 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
-  .navMenu {
+/* Tablet and small landscape devices use burger too */
+@media (max-width: 900px) {
+  .indicator { display: none; }
+  .navMenu, .rightControls { display: none; }
+  .burger { display: inline-flex; }
+  .navMenu.open {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--brand-bg);
+    padding: 20px 16px;
+    border-radius: 0;
+    animation: slideDown 0.3s ease forwards;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
-  .navbarMenu {
-    flex-direction: row;
-    gap: 12px;
-  }
-  .burger {
-    display: none;
-  }
+  .navbarMenu { flex-direction: column; gap: 16px; background: transparent; padding: 0; margin: 0; }
 }
 @keyframes slideDown {
   from {
