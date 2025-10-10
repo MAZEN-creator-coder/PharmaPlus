@@ -1,15 +1,14 @@
 import { Routes, Route } from "react-router-dom";
+import { ProductProvider } from "../context/ProductContext.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
 import EmptyLayout from "../layouts/EmptyLayout.jsx";
 import SearchMedicine from "../pages/search-medicine/SearchMedicine.jsx";
 import MainPage from "../pages/profile/MainPage.jsx";
 import CartPage from "../pages/cart/CartPage.jsx";
 import UploadPrescription from "../pages/uploadPrescreption/PrescriptionUpload.jsx"
-import { ProductProvider } from "../context/ProductContext.jsx"
-
 export default function App() {
   return (
-     <ProductProvider>
+    <ProductProvider>
     <Routes>
       {/* With Navbar */}
       <Route element={<MainLayout />}>
@@ -17,7 +16,7 @@ export default function App() {
         <Route path="/search-medicine" element={<SearchMedicine />} />
         <Route
           path="/upload-prescription"
-          element={<UploadPrescription />}
+          element={ <UploadPrescription /> }
         />
         <Route path="/blog" element={<div>Blog</div>} />
         {/* Show copied profile page under navbar */}
@@ -31,6 +30,6 @@ export default function App() {
       {/* Error Page */}
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>
-     </ProductProvider>
+    </ProductProvider>
   );
 }

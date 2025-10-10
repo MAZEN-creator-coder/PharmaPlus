@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styles from "./ComponentSearch.module.css";
-import { ProductContext } from "../../../context/ProductContext";
+import { ProductContext } from "../../../context/productContext";
 import { SlLocationPin } from "react-icons/sl";
 
 const MedicineCard = ({ medicine }) => {

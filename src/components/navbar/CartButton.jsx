@@ -1,7 +1,7 @@
 import { FaBasketShopping } from "react-icons/fa6";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
-import { ProductContext } from "../../context/ProductContext";
+import { ProductContext } from "../../context/productContext";
 import React, { useContext } from "react";
 export default function CartButton({ count = 0, onClick }) {
   const { selectedProducts, getSelectedCount } =
