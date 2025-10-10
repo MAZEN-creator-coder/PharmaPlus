@@ -12,8 +12,8 @@ const SearchResults = () => {
     <div className={styles.searchResults}>
       <h2 className={styles.text1}>Search Results</h2>
       <div className={styles.medicineGrid}>
-        {medicines.map((medicine, index) => (
-          <MedicineCard key={index} medicine={medicine} />
+        {medicines.map((medicine) => (
+          <MedicineCard key={medicine.id} medicine={medicine} />
         ))}
       </div>
     </div>

@@ -1,46 +1,49 @@
-export const data=[
-    {
-      name: "Aspirin",
-      medicineImage: "/aspirin.jpg",
-      price: 100,
-      status: "Available",
-      distance: "2.5km",
-      category: "teblets",
-      pharmacy: "Pharmacy A",
-      description:"this is aspirin"
-    },
-    {
-      name: "Paracetamol",
-      medicineImage: "/paracetamol.jpg",
-      price: 100,
-      status: "lowStock",
-      distance: "2.5km",
-      category: "capsules",
+export const data = [
+  {
+    id: 1,
+    name: "Aspirin",
+    medicineImage: "/aspirin.jpg",
+    price: 100,
+    status: "Available",
+    distance: "2.5km",
+    category: "teblets",
     pharmacy: "Pharmacy A",
-      description:"this is aspirin"
-      
-    },
-    {
-      name: "Vitamin C",
-      medicineImage: "/vitaminc.jpg",
-      price: 100,
-      status: "outOfStock",
-      distance: "3km",
-      category: "drink",
-       pharmacy: "Pharmacy A",
-         description:"this is aspirin"
-    },
-    {
-      name: "Vitamin C",
-      medicineImage: "/vitaminc.jpg",
-      price: 100,
-      status: "outOfStock",
-      distance: "3km",
-      category: "drink",
-       pharmacy: "Pharmacy A",
-         description:"this is aspirin"
-    }
-  ]; // Will be populated from API
+    description: "this is aspirin",
+  },
+  {
+    id: 2,
+    name: "Paracetamol",
+    medicineImage: "/paracetamol.jpg",
+    price: 100,
+    status: "lowStock",
+    distance: "2.5km",
+    category: "capsules",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+  {
+    id: 3,
+    name: "Vitamin C",
+    medicineImage: "/vitaminc.jpg",
+    price: 100,
+    status: "outOfStock",
+    distance: "3km",
+    category: "drink",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+  {
+    id: 4,
+    name: "Vitamin A",
+    medicineImage: "/vitaminc.jpg",
+    price: 100,
+    status: "outOfStock",
+    distance: "3km",
+    category: "drink",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+]; // Will be populated from API
 
 // Cart data for shopping cart page
 export const cartData = [
@@ -52,26 +55,31 @@ export const cartData = [
     price: 145,
     quantity: 2,
     image: "/n20-gas.jpg",
-    selected: true
+    selected: true,
   },
   {
     id: 2,
     name: "Laughing Gas",
-    size: "Medium", 
+    size: "Medium",
     color: "Red",
     price: 180,
     quantity: 4,
     image: "/laughing-gas.jpg",
-    selected: true
+    selected: true,
   },
   {
     id: 3,
     name: "Ammonium Gas",
     size: "Large",
-    color: "Blue", 
+    color: "Blue",
     price: 240,
     quantity: 8,
     image: "/ammonium-gas.jpg",
-    selected: true
-  }
+    selected: true,
+  },
+];
+export const mapData = [
+  { id: 1, name: "Drugstore.io", price: "$4.99", position: [30.0444, 31.2357] },
+  { id: 2, name: "KeyPharmacy", price: "$5.19", position: [29.9773, 31.1325] },
+  { id: 3, name: "Nutraxx", price: "$5.29", position: [31.2001, 29.9187] },
 ];

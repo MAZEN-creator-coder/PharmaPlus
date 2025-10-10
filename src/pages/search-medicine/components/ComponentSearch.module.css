@@ -172,16 +172,36 @@
     transform: translateY(-2px);
 
 }
-
 .header {
     display: flex;
-    justify-content: start;
-
+    justify-content: space-between; /* أهم حاجة */
+    align-items: center;
+    gap: 1rem; /* مسافة بين التفاصيل والزرار */
+    width: 100%;
+    padding:0 7px;
 }
 
 .medicineDetails {
-    margin-left: 1.2rem;
+    display: flex;
+    flex-direction: column;
 }
+
+.addToCartButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background-color:var(--brand-bg);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 14px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
 .medicineInfo{
     display:flex;
     flex-direction: column;
@@ -286,6 +306,7 @@
        .medicineGrid{
         grid-template-columns: auto;
     }
+    
 }
 
 /* Mobile Large (480px to 600px) */

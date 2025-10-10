@@ -5,9 +5,11 @@ import SearchMedicine from "../pages/search-medicine/SearchMedicine.jsx";
 import MainPage from "../pages/profile/MainPage.jsx";
 import CartPage from "../pages/cart/CartPage.jsx";
 import UploadPrescription from "../pages/uploadPrescreption/PrescriptionUpload.jsx"
+import { ProductProvider } from "../context/ProductContext.jsx"
 
 export default function App() {
   return (
+     <ProductProvider>
     <Routes>
       {/* With Navbar */}
       <Route element={<MainLayout />}>
@@ -29,5 +31,6 @@ export default function App() {
       {/* Error Page */}
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>
+     </ProductProvider>
   );
 }
