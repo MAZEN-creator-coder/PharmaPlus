@@ -249,3 +249,73 @@
     font-size: 0.8125rem;
   }
 }
+
+/* Empty State Styles */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4rem 2rem;
+  min-height: 400px;
+}
+
+.emptyIcon {
+  color: #d1d5db;
+  margin-bottom: 1.5rem;
+}
+
+.emptyTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 0.75rem 0;
+}
+
+.emptyMessage {
+  font-size: 1rem;
+  color: #6b7280;
+  margin: 0 0 2rem 0;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+.shopNowButton {
+  background: #018994;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.shopNowButton:hover {
+  background: #017a85;
+}
+
+
+/* Empty State Mobile */
+@media (max-width: 768px) {
+  .emptyState {
+    padding: 3rem 1rem;
+    min-height: 300px;
+  }
+
+  .emptyTitle {
+    font-size: 1.25rem;
+  }
+
+  .emptyMessage {
+    font-size: 0.9375rem;
+  }
+
+  .shopNowButton {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+}

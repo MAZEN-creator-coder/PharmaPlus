@@ -64,6 +64,11 @@ export function ProductProvider({ children }) {
     setSelectedProducts((prev) => prev.filter((p) => !toDeleteIds.has(p.id)));
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    setSelectedProducts([]);
+  };
+
   // Derivations
   const selectedItems = useMemo(() => cartItems.filter((i) => i.selected), [cartItems]);
   const allSelected = useMemo(
@@ -95,6 +100,7 @@ export function ProductProvider({ children }) {
         toggleItemSelected,
         setAllSelected,
         deleteSelectedItems,
+        clearCart,
 
         // derived
         selectedItems,

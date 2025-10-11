@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { ProductProvider } from "../context/ProductContext.jsx";
+import { OrderProvider } from "../context/OrderContext.jsx";
 import MainLayout from "../layouts/MainLayout.jsx";
 import EmptyLayout from "../layouts/EmptyLayout.jsx";
 import SearchMedicine from "../pages/search-medicine/SearchMedicine.jsx";
@@ -9,6 +10,7 @@ import UploadPrescription from "../pages/uploadPrescreption/PrescriptionUpload.j
 export default function App() {
   return (
     <ProductProvider>
+    <OrderProvider>
     <Routes>
       {/* With Navbar */}
       <Route element={<MainLayout />}>
@@ -30,6 +32,7 @@ export default function App() {
       {/* Error Page */}
       <Route path="*" element={<div>Not Found</div>} />
     </Routes>
+    </OrderProvider>
     </ProductProvider>
   );
 }
