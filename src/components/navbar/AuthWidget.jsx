@@ -4,19 +4,24 @@ import { Link } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
-export default function AuthWidget({ isOpen, setIsOpen }) {
+export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
   const [user, setUser] = useState(null);
   const [open, setOpen] = useState(false);
+
+  const handleLoginClick = (e) => {
+    e.preventDefault();
+    if (onOpenLogin) {
+      onOpenLogin();
+    }
+  };
 
   if (!user) {
     return (
       <button
         className={styles.signupButton}
-        onClick={() =>
-          setUser({ name: "Noha", avatar: "../../public/avatar.webp" })
-        }
+        onClick={handleLoginClick}
       >
-        Sign Up
+        Login
       </button>
     );
   }

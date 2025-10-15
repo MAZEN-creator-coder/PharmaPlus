@@ -1,11 +1,12 @@
-import Navbar from "../components/navbar/Navbar.jsx";
+import React from "react";
+import Navbar from "../components/navbar/Navbar";
 import { Outlet } from "react-router-dom";
 
-export default function MainLayout() {
+export default function MainLayout({ onOpenLogin }) {
   return (
     <>
-      <Navbar /> 
-      <Outlet />   
+      <Navbar onOpenLogin={onOpenLogin} />
+      <Outlet />
     </>
   );
 }

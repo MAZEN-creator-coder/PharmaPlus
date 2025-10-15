@@ -1,0 +1,87 @@
+.offers {
+  padding: 80px 0;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sectionTitle {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 30px;
+}
+
+.offersGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.offerCard {
+  position: relative;
+  min-height: 160px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 22px;
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  transition: transform 0.3s ease;
+  
+}
+
+.offerCard:hover {
+  transform: translateY(-2px) rotate(-0.3deg);
+}
+
+.offerContent {
+  position: relative;
+  z-index: 2;
+}
+
+/* Gradients */
+.gradientPrimary {
+  background: radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.35), transparent 40%),
+              linear-gradient(135deg, #008994FF, #0f172a);
+}
+
+.gradientSecondary {
+  background: radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.35), transparent 40%),
+              linear-gradient(135deg, #0f172a, #008994FF);
+}
+
+.gradientAccent {
+  background:radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.35), transparent 40%),
+              linear-gradient(135deg, #008994FF, #0f172a);
+}
+
+/* زرار */
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.small {
+  padding: 10px 14px;
+  border-radius: 10px;
+}
+
+.white {
+  background: #fff;
+  color: var(--color-text);
+}
+
+.btn:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--shadow-sm);
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}

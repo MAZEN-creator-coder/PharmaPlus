@@ -1,0 +1,96 @@
+/* Homepage CSS Module Styles */
+.main {
+  margin-top: 80px; /* Account for fixed navbar */
+}
+
+/* Global styles for the homepage */
+:root {
+  --color-bg: #f7fbff;
+  --color-surface: #ffffff;
+  --color-primary: #018994;
+  --color-primary-600: #016b73;
+  --color-accent: #2563eb;
+  --color-text: #0f172a;
+  --color-muted: #475569;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 10px;
+  --shadow-sm: 0 6px 24px rgba(2, 24, 43, 0.06);
+  --shadow-md: 0 10px 40px rgba(2, 24, 43, 0.12);
+  --container: 1120px;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Section spacing */
+.section {
+  padding: 80px 0;
+}
+
+/* Container utility */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Button styles */
+.btn {
+  display: inline-block;
+  padding: 12px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.btnPrimary {
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+}
+
+.btnWhite {
+  background: #fff;
+  color: var(--color-text);
+  border: 1px solid rgba(2, 24, 43, 0.08);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-top: 70px;
+  }
+  
+  .section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 12px;
+  }
+  
+  .section {
+    padding: 40px 0;
+  }
+}
+

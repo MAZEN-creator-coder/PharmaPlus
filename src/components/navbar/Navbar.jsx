@@ -6,7 +6,7 @@ import styles from "./Navbar.module.css";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 
-export default function Navbar() {
+export default function Navbar({ onOpenLogin }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -17,7 +17,7 @@ export default function Navbar() {
         {/* Menu */}
         <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} />
         {/* RightControls نسخة الديسكتوب */}
-        <RightControls className={styles.rightControls} isOpen={isOpen} setIsOpen={setIsOpen} />
+        <RightControls className={styles.rightControls} isOpen={isOpen} setIsOpen={setIsOpen} onOpenLogin={onOpenLogin} />
         {/*Burger */}
         <button
           className={styles.burger}
