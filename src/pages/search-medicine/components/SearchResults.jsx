@@ -1,11 +1,11 @@
 import React from 'react';
 import styles from './ComponentSearch.module.css';
 import MedicineCard from './MedicineCard';
-import {data} from  '../../../shared/data';
+import mockData from '../../../shared/data';
 
 const SearchResults = () => {
 
-  const medicines= data;
+  const medicines = mockData.medicines || [];
   
 
   return (

@@ -22,7 +22,7 @@ export default function RoutesComponent({ onOpenLogin }) {
         <Route path="/search-medicine" element={<SearchMedicine />} />
         <Route path="/upload-prescription" element={<UploadPrescription />} />
         <Route path="/blog" element={<div>Blog</div>} />
-        <Route path="/unauthorized" element={<Unauthorized />} />
+        
 
         {/* Protected for any logged-in user */}
         <Route element={<RequireAuth />}>
@@ -45,12 +45,10 @@ export default function RoutesComponent({ onOpenLogin }) {
       </Route>
 
       {/* Pages without Navbar */}
-      <Route element={<EmptyLayout />} >
-        {/* Add any pages without navbar here */}
+      <Route element={<EmptyLayout />}>
+        <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="*" element={<div>Not Found</div>} />
       </Route>
-
-      {/* Error Page */}
-      <Route path="*" element={<div>Not Found</div>} />
     </Routes>
   );
 }
