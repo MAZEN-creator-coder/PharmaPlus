@@ -1,0 +1,93 @@
+.conversationItem {
+  display: flex;
+  gap: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.conversationItem:hover {
+  background-color: #f9fafb;
+}
+
+.conversationItem.selected {
+  background-color: #f0fdfa;
+  border-left: 3px solid #018994;
+}
+
+.avatarContainer {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.onlineIndicator {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #018994;
+  border: 2px solid #ffffff;
+  border-radius: 50%;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: #111827;
+}
+
+.time {
+  font-size: 12px;
+  color: #6b7280;
+  flex-shrink: 0;
+}
+
+.messagePreview {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.lastMessage {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.unreadBadge {
+  flex-shrink: 0;
+  background-color: #018994;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
