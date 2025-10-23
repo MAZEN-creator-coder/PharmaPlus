@@ -1,0 +1,94 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  /* Prevent horizontal overflow from children */
+  overflow-x: hidden;
+}
+
+.mainContent {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.header {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #666;
+  font-size: 0.95rem;
+}
+
+.statsGrid {
+  display: grid;
+  /* allow cards to shrink on small screens without forcing horizontal scroll */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chartsGrid {
+  display: grid;
+  /* reduce min width so two columns can fit on narrower screens */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.tablesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.iconPrimary {
+  color: #0891b2;
+}
+
+.iconSuccess {
+  color: #10b981;
+}
+
+.iconWarning {
+  color: #f59e0b;
+}
+
+.iconInfo {
+  color: #6366f1;
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 1rem;
+  }
+  
+  .chartsGrid,
+  .tablesGrid,
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  .table, .tableWrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+}
+.table {
+  width: 100%;
+  table-layout: fixed;
+  word-break: break-word;
+}
+
+.tableCell, .tableHeader {
+  overflow-wrap: anywhere;
+}

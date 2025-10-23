@@ -1,0 +1,86 @@
+.card {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+}
+
+.header {
+  padding: 1.5rem;
+  padding-bottom: 0;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.description {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.content {
+  padding: 1.5rem;
+  /* allow the content area to grow and scroll internally if needed */
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.alertItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.alertItem:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.itemName {
+  font-weight: 500;
+  font-size: 0.875rem;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.itemStock {
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  background-color: #ef4444;
+  color: #ffffff;
+  margin-left: auto;
+}
+
+@media (max-width: 480px) {
+  .alertItem {
+    padding: 0.75rem;
+  }
+  .itemName { font-size: 0.85rem; }
+}
