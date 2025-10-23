@@ -12,6 +12,7 @@ import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import SuperAdminDashboard from "../pages/super/SuperAdminDashboard.jsx";
 import { RequireAuth, RequireRole } from "../routes/guards.jsx";
 import MedicineManagement from "../pages/admin/MedicineManagement.jsx";
+import ChatInterface from "../pages/chat/ChatInterface.jsx";
 
 export default function RoutesComponent({ onOpenLogin }) {
   return (
@@ -21,7 +22,7 @@ export default function RoutesComponent({ onOpenLogin }) {
         <Route path="/" element={<Homepage />} />
         <Route path="/search-medicine" element={<SearchMedicine />} />
         <Route path="/upload-prescription" element={<UploadPrescription />} />
-        <Route path="/blog" element={<div>Blog</div>} />
+        <Route path="/blog" element={<ChatInterface />} />
         
 
         {/* Protected for any logged-in user */}
