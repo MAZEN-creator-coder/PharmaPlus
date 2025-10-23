@@ -5,9 +5,12 @@ import RightControls from "./RightControls.jsx";
 import styles from "./Navbar.module.css";
 import { FaBarsStaggered } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
+import { useAuth } from "../../hooks/useAuth";
+
 
 export default function Navbar({ onOpenLogin }) {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth();
 
   return (
     <nav className={styles.navbar}>
@@ -15,9 +18,9 @@ export default function Navbar({ onOpenLogin }) {
         <Brand />
 
         {/* Menu */}
-        <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} />
+        <NavMenu isOpen={isOpen} setIsOpen={setIsOpen}  userRole={user?.role}/>
         {/* RightControls نسخة الديسكتوب */}
-        <RightControls className={styles.rightControls} isOpen={isOpen} setIsOpen={setIsOpen} onOpenLogin={onOpenLogin} />
+        <RightControls className={styles.rightControls} isOpen={isOpen} setIsOpen={setIsOpen} onOpenLogin={onOpenLogin}  userRole={user?.role} />
         {/*Burger */}
         <button
           className={styles.burger}
@@ -27,6 +30,8 @@ export default function Navbar({ onOpenLogin }) {
         >
           {isOpen ? <FaTimes /> : <FaBarsStaggered />}
         </button>
+
+        
       </div>
     </nav>
   );

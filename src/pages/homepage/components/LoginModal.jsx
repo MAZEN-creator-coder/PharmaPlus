@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import styles from "./LoginModal.module.css";
+import { useAuth } from "../../../hooks/useAuth";
+import { useNavigate, useLocation } from "react-router-dom"; // ✅ Added
+
 
 export default function LoginModal({ isOpen, onClose }) {
+  const { login } = useAuth();
   const overlayRef = useRef(null);
   const [tab, setTab] = useState("login");
 
@@ -11,6 +15,7 @@ export default function LoginModal({ isOpen, onClose }) {
   const [loginErrors, setLoginErrors] = useState({});
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [loginLoading, setLoginLoading] = useState(false);
+  const [loginError, setLoginError] = useState('');
 
   // Register states
   const [regName, setRegName] = useState("");
@@ -20,6 +25,23 @@ export default function LoginModal({ isOpen, onClose }) {
   const [regErrors, setRegErrors] = useState({});
   const [regSuccess, setRegSuccess] = useState(false);
   const [regLoading, setRegLoading] = useState(false);
+  const [regError, setRegError] = useState('');
+
+  // Navigation hooks
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Redirect user based on role after login/register
+  const goToRoleHome = (role) => {
+    if (role === "admin") {
+      navigate("/admin", { replace: true });
+    } else if (role === "superAdmin") {
+      navigate("/super", { replace: true });
+    } else {
+      const from = location.state?.from?.pathname;
+      navigate(from || "/profile", { replace: true });
+    }
+  };
 
   useEffect(() => {
     if (location.hash === "#register") setTab("register");
@@ -38,6 +60,7 @@ export default function LoginModal({ isOpen, onClose }) {
       setLoginEmail(""); setLoginPassword(""); setLoginErrors({});
       setRegName(""); setRegEmail(""); setRegPassword(""); setRegConfirm(""); setRegErrors({});
       setLoginSuccess(false); setRegSuccess(false);
+      setLoginError(''); setRegError('');
     }
   }, [isOpen]);
 
@@ -59,14 +82,39 @@ export default function LoginModal({ isOpen, onClose }) {
     if (Object.keys(errs).length) return;
 
     setLoginLoading(true);
+    setLoginError('');
+
+    // Simulate API call
     setTimeout(() => {
-      setLoginLoading(false);
-      setLoginSuccess(true);
-      setTimeout(() => {
-        setLoginSuccess(false);
-        onClose();
-      }, 900);
-    }, 1500);
+      try {
+        // TODO: Replace this mock with real backend response later
+        const roleFromBackendMock =
+          loginEmail.endsWith("@admin.com") ? "admin" :
+          loginEmail.endsWith("@super.com") ? "superAdmin" :
+          "user";
+
+        // Save user data to context
+        const userObj = login({
+          email: loginEmail,
+          name: loginEmail.split('@')[0],
+          avatar: '/user-avatar.png',
+          role: roleFromBackendMock, // replace this with real backend role later
+        });
+        
+        setLoginLoading(false);
+        setLoginSuccess(true);
+
+        // Redirect after login
+        setTimeout(() => {
+          setLoginSuccess(false);
+          onClose();
+          goToRoleHome(userObj.role);
+        }, 600);
+      } catch (error) {
+        setLoginLoading(false);
+        setLoginError(error.message || 'Login failed. Please try again.');
+      }
+    }, 900);
   };
 
   const onRegSubmit = (e) => {
@@ -82,14 +130,35 @@ export default function LoginModal({ isOpen, onClose }) {
     if (Object.keys(errs).length) return;
 
     setRegLoading(true);
+    setRegError('');
+
+    // Simulate API call
     setTimeout(() => {
-      setRegLoading(false);
-      setRegSuccess(true);
-      setTimeout(() => {
-        setRegSuccess(false);
-        setTab("login");
-      }, 900);
-    }, 1500);
+      try {
+        // TODO: Replace this mock with backend response role
+        const roleFromBackendMock = "user";
+
+        const userObj = login({
+          email: regEmail,
+          name: regName,
+          avatar: '/user-avatar.png',
+          role: roleFromBackendMock,
+        });
+
+        setRegLoading(false);
+        setRegSuccess(true);
+
+        // Redirect after registration
+        setTimeout(() => {
+          setRegSuccess(false);
+          onClose();
+          goToRoleHome(userObj.role);
+        }, 600);
+      } catch (error) {
+        setRegLoading(false);
+        setRegError(error.message || 'Registration failed. Please try again.');
+      }
+    }, 900);
   };
 
   if (!isOpen) return null;
@@ -109,14 +178,15 @@ export default function LoginModal({ isOpen, onClose }) {
             <div className={`${styles.formSection} ${styles.active}`} id="loginForm">
               <h2 className={styles.formTitle}>Welcome Back</h2>
               <div className={`${styles.successMessage} ${loginSuccess ? styles.show : ""}`}>Login successful!</div>
+              <div className={`${styles.errorMessage} ${loginError ? styles.show : ""}`}>{loginError}</div>
               <form id="loginFormElement" onSubmit={onLoginSubmit}>
                 <div className={styles.formGroup}>
                   <label htmlFor="loginEmail">Email Address</label>
                   <input 
-                    id="loginEmail" 
+                    id="loginEmail"
                     className={`${styles.formInput} ${loginErrors.email ? styles.error : ""}`}
-                    type="email" 
-                    value={loginEmail} 
+                    type="email"
+                    value={loginEmail}
                     onChange={(e)=>setLoginEmail(e.target.value)}
                     onBlur={() => { 
                       if (loginEmail && !validateEmail(loginEmail)) 
@@ -132,10 +202,10 @@ export default function LoginModal({ isOpen, onClose }) {
                 <div className={styles.formGroup}>
                   <label htmlFor="loginPassword">Password</label>
                   <input 
-                    id="loginPassword" 
+                    id="loginPassword"
                     className={`${styles.formInput} ${loginErrors.password ? styles.error : ""}`}
-                    type="password" 
-                    value={loginPassword} 
+                    type="password"
+                    value={loginPassword}
                     onChange={(e)=>setLoginPassword(e.target.value)}
                     onBlur={() => { 
                       if (loginPassword && !validatePassword(loginPassword,6)) 
@@ -147,6 +217,8 @@ export default function LoginModal({ isOpen, onClose }) {
                   />
                   <div className={`${styles.errorMessage} ${loginErrors.password ? styles.show : ""}`}>{loginErrors.password}</div>
                 </div>
+
+                {/* Optional: you can add a role select for testing if needed */}
 
                 <button className={styles.submitBtn} type="submit" disabled={loginLoading}>
                   {loginLoading ? "Signing In..." : "Sign In"}
@@ -170,14 +242,15 @@ export default function LoginModal({ isOpen, onClose }) {
             <div className={`${styles.formSection} ${styles.active}`} id="registerForm">
               <h2 className={styles.formTitle}>Create Account</h2>
               <div className={`${styles.successMessage} ${regSuccess ? styles.show : ""}`}>Registration successful!</div>
+              <div className={`${styles.errorMessage} ${regError ? styles.show : ""}`}>{regError}</div>
               <form id="registerFormElement" onSubmit={onRegSubmit}>
                 <div className={styles.formGroup}>
                   <label htmlFor="registerName">Full Name</label>
                   <input 
-                    id="registerName" 
+                    id="registerName"
                     className={`${styles.formInput} ${regErrors.name ? styles.error : ""}`}
-                    type="text" 
-                    value={regName} 
+                    type="text"
+                    value={regName}
                     onChange={(e)=>setRegName(e.target.value)}
                     placeholder="Enter your full name" 
                   />
@@ -187,10 +260,10 @@ export default function LoginModal({ isOpen, onClose }) {
                 <div className={styles.formGroup}>
                   <label htmlFor="registerEmail">Email Address</label>
                   <input 
-                    id="registerEmail" 
+                    id="registerEmail"
                     className={`${styles.formInput} ${regErrors.email ? styles.error : ""}`}
-                    type="email" 
-                    value={regEmail} 
+                    type="email"
+                    value={regEmail}
                     onChange={(e)=>setRegEmail(e.target.value)}
                     onBlur={()=>{ 
                       if (regEmail && !validateEmail(regEmail)) 
@@ -206,10 +279,10 @@ export default function LoginModal({ isOpen, onClose }) {
                 <div className={styles.formGroup}>
                   <label htmlFor="registerPassword">Password</label>
                   <input 
-                    id="registerPassword" 
+                    id="registerPassword"
                     className={`${styles.formInput} ${regErrors.password ? styles.error : ""}`}
-                    type="password" 
-                    value={regPassword} 
+                    type="password"
+                    value={regPassword}
                     onChange={(e)=>setRegPassword(e.target.value)}
                     onBlur={()=>{ 
                       if (regPassword && !validatePassword(regPassword,8)) 
@@ -225,10 +298,10 @@ export default function LoginModal({ isOpen, onClose }) {
                 <div className={styles.formGroup}>
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <input 
-                    id="confirmPassword" 
+                    id="confirmPassword"
                     className={`${styles.formInput} ${regErrors.confirm ? styles.error : ""}`}
-                    type="password" 
-                    value={regConfirm} 
+                    type="password"
+                    value={regConfirm}
                     onChange={(e)=>setRegConfirm(e.target.value)}
                     onBlur={()=>{ 
                       if (regConfirm && regPassword !== regConfirm) 
@@ -258,4 +331,3 @@ export default function LoginModal({ isOpen, onClose }) {
     </div>
   );
 }
-

@@ -1,12 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
-  const [user, setUser] = useState(null);
+  const { user, logout, isAuthenticated, isLoading } = useAuth();
   const [open, setOpen] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleLoginClick = (e) => {
     e.preventDefault();
@@ -15,7 +17,42 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
     }
   };
 
-  if (!user) {
+  const handleLogout = () => {
+    logout();
+    setOpen(false);
+    if (isOpen && setIsOpen) setIsOpen(false);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setOpen(false);
+      }
+    };
+
+    if (open) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [open]);
+
+  // Show loading state while checking authentication
+  if (isLoading) {
+    return (
+      <button
+        className={styles.signupButton}
+        disabled
+      >
+        Loading...
+      </button>
+    );
+  }
+
+  if (!isAuthenticated) {
     return (
       <button
         className={styles.signupButton}
@@ -27,7 +64,7 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
   }
 
   return (
-    <div className={styles.userBox}>
+    <div className={styles.userBox} ref={dropdownRef}>
       <button className={styles.userTrigger} onClick={() => setOpen((v) => !v)}>
         <img src={user.avatar} alt="profile" className={styles.avatar} />
         <span>{user.name}</span>
@@ -64,7 +101,7 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
             </Link>
             <button
               className={styles.dropdownItem}
-              onClick={() => setUser(null)}
+              onClick={handleLogout}
             >
               Logout
             </button>
