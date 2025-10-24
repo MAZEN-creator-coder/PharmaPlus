@@ -1,0 +1,194 @@
+.pageContainer {
+  background: #f5f6fa;
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.tableContainer {
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Inter", sans-serif;
+}
+
+
+.table thead {
+  background-color: #f9fafb;
+  border-bottom: 2px solid #eaeaea;
+    font-family: "Inter", sans-serif;
+    padding: 5px;
+}
+
+.table thead th {
+  text-align: left;
+  padding: 14px 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #565D6DFF;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+.table tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.25s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+
+.table td {
+  padding: 14px 20px;
+  font-size: 0.8rem;
+  color:  #008994FF;
+  vertical-align: middle;
+  font-weight: bold;
+}
+
+
+.customer strong {
+  display: block;
+  font-weight: 600;
+  color: #2d3436;
+  font-size: 1rem;
+}
+
+.email {
+    font-family: Inter; 
+  font-size: 12px; 
+  line-height: 16px; 
+  font-weight: 400;
+    color: #565D6DFF;
+  margin-top: 3px;
+}
+
+
+.status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  text-transform: capitalize;
+}
+
+.delivered {
+  
+  background: #10B981FF;
+  color:#FFFFFFFF;
+}
+
+.shipped {
+  color: #ffffff;
+ background: #4D5F9CFF;
+}
+
+.processing {
+  background: #F97316FF; 
+ color: #FFFFFFFF;
+}
+
+.pending {
+   color: rgb(255, 255, 255); 
+  background: #BDC1CAFF; 
+  border-color: #565D6DFF;
+}
+
+.cancelled {
+  background: #ffeaea;
+  color: #a41303;
+}
+
+
+.table td:nth-child(5) {
+  font-weight: 600;
+  color: #2d3436;
+}
+
+
+.editBtn,
+.cancelBtn {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editBtn {
+  background: #e3f2fd;
+  color: #1976d2;
+  margin-right: 8px;
+}
+
+.editBtn:hover {
+  background: #bbdefb;
+}
+
+.cancelBtn {
+  background: #fdecea;
+  color: #e53935;
+}
+
+.cancelBtn:hover {
+  background: #f8c7c4;
+}
+
+
+.noResults {
+  text-align: center;
+  padding: 20px;
+  color: #636e72;
+  font-style: italic;
+  font-size: 0.95rem;
+}
+
+
+@media (max-width: 768px) {
+  .tableContainer {
+    /* لو الشاشة صغيرة والجدول عريض → بيظهر scroll أفقي علشان الجدول ما يتكسرش. */
+    overflow-x: auto;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+   /* بدل ما الصف يكون أفقي (زي الجدول العادي)، بيتحول لمربع أو card. */
+    display: block;  
+    margin-bottom: 12px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 12px;
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    font-size: 0.9rem;
+  }
+/* خُد القيمة من الخاصية data-label اللي في العنصر نفسه. */
+  .table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #636e72;
+  }
+
+  .editBtn, .cancelBtn {
+    width: 48%;
+  }
+}

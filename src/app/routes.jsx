@@ -13,6 +13,7 @@ import SuperAdminDashboard from "../pages/super/SuperAdminDashboard.jsx";
 import { RequireAuth, RequireRole } from "../routes/guards.jsx";
 import MedicineManagement from "../pages/admin/MedicineManagement.jsx";
 import ChatInterface from "../pages/chat/ChatInterface.jsx";
+import OrderManagement from "../pages/OrderManagement/OrderManagement.jsx"
 
 export default function RoutesComponent({ onOpenLogin }) {
   return (
@@ -35,7 +36,7 @@ export default function RoutesComponent({ onOpenLogin }) {
         <Route element={<RequireRole allowed={['admin']} />}>
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/medicine-management" element={<MedicineManagement />} />
-          <Route path="/admin/orders" element={<div>Orders</div>} />
+          <Route path="/admin/orders" element={<OrderManagement />} />
           <Route path="/admin/users" element={<div>Manage Users</div>} />
         </Route>
 
