@@ -1,0 +1,93 @@
+.tableWrap {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.table th,
+.table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+  color: #343a40;
+}
+
+.table tr:hover {
+  background-color: #f8f9fa;
+}
+
+.thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.status {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: white;
+}
+
+.active {
+  background: #10b981;
+}
+
+.inactive {
+  background: #ef4444;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #f59e0b;
+}
+
+.starIcon {
+  font-size: 12px;
+}
+
+.iconBtn {
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+  background: rgba(14,165,233,0.08);
+  border: none;
+  border-radius: 8px;
+  color: #0284c7;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.iconBtn:hover {
+  background: rgba(14,165,233,0.12);
+}
+
+.iconBtnDanger {
+  padding: 0.5rem;
+  background: rgba(239,68,68,0.08);
+  border: none;
+  border-radius: 8px;
+  color: #ef4444;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.iconBtnDanger:hover {
+  background: rgba(239,68,68,0.12);
+}

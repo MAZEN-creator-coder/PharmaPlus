@@ -21,8 +21,8 @@ const ADMIN_LINKS = [
 
 const SUPER_ADMIN_LINKS = [
   { to: "/super", label: "Super Admin Dashboard" },
-  { to: "/super/analytics", label: "Analytics" },
-  { to: "/super/settings", label: "Settings" },
+  { to: "/super/pharmacies-management", label: "Pharmacies" },
+  { to: "/super/reports", label: "Reports" },
 ];
 
 export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {

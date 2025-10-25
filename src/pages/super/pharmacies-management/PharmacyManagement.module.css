@@ -1,0 +1,152 @@
+.page {
+  padding: 24px;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: #f8fafc;
+  min-height: 100vh;
+}
+
+.header {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #e2e8f0;
+  padding-bottom: 16px;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #1e293b;
+}
+
+.actions {
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.searchWrap {
+  display: flex;
+  align-items: center;
+  background: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(2,6,23,0.04);
+  border: 1px solid #e2e8f0;
+  gap: 12px;
+}
+
+.searchWrap input {
+  border: 0;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  min-width: 240px;
+}
+
+.searchIcon {
+  color: #64748b;
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filterBtn:hover {
+  background: #f8fafc;
+}
+
+.controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.primary {
+  background: #018994;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  border: 0;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid #018994;
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: #018994;
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.secondary:hover {
+  background: rgba(1,137,148,0.05);
+}
+
+.tableCard {
+  margin-top: 20px;
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+}
+
+.tableCard h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.subtitle {
+  color: #64748b;
+  margin-top: 6px;
+}
+
+@media (max-width: 640px) {
+  .controls {
+    flex-wrap: wrap;
+  }
+  
+  .controls button {
+    flex: 1;
+    justify-content: center;
+  }
+  
+  /* Keep search inline with icons on small screens so placeholder stays aligned */
+  .searchWrap {
+    /* no wrap - keep icon, input and filter button on one row */
+    flex-wrap: nowrap;
+  }
+
+  .searchWrap input {
+    min-width: 0;
+    order: 0;
+  }
+
+  .filterBtn {
+    margin-left: 0;
+  }
+}

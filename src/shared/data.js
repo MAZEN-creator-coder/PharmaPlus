@@ -56,8 +56,88 @@ export const medicines = [
   { id: 106, name: "Allergy Relief 10mg", image: "https://placehold.co/400x400/f59e0b/ffffff?text=AL", category: "Allergy", stock: 3, price: 10.5, description: "24-hour allergy symptom relief.", status: "lowStock" }
 ];
 
+// super admin page pharmacy data
+export const pharmaciesData = [
+  {
+    id: 1,
+    img: "/pharmacy-a.jpg",
+    name: "Pharmacy A",
+    license: "License A",
+    contact: "555-1234",
+    address: "123 Main St, Cityville",
+    status: "Active",
+    rating: 4.5,
+    price: "$4.99",
+    medicines: ["Medicine A", "Medicine B"],
+    categorys: ["Category A", "Category B"],
+    description: "Description for Pharmacy A",
+    email: "pharmacy-a@example.com",
+  },
+  {
+    id: 2,
+    img: "/pharmacy-b.jpg",
+    name: "Pharmacy B",
+    license: "License B",
+    contact: "555-5678",
+    address: "456 Elm St, Townsville",
+    status: "Inactive",
+    rating: 4.0,
+    price: "$5.19",
+    medicines: ["Medicine C", "Medicine D"],
+    categorys: ["Category C", "Category D"],
+    description: "Description for Pharmacy B",
+    email: "pharmacy-b@example.com",
+  },
+  {
+    id: 3,
+    img: "/pharmacy-c.jpg",
+    name: "Pharmacy C",
+    license: "License C",
+    contact: "555-8765",
+    address: "789 Oak St, Villageville",
+    status: "Active",
+    rating: 4.8,
+    price: "$5.29",
+    medicines: ["Medicine E", "Medicine F"],
+    categorys: ["Category E", "Category F"],
+    description: "Description for Pharmacy C",
+    email: "pharmacy-c@example.com",
+  },
+  {
+    id: 4,
+    img: "/pharmacy-d.jpg",
+    name: "Pharmacy D",
+    license: "License D",
+    contact: "555-2345",
+    address: "321 Pine St, Countryside",
+    status: "Active",
+    rating: 4.2,
+    price: "$4.79",
+    medicines: ["Medicine G", "Medicine H"],
+    categorys: ["Category G", "Category H"],
+    description: "Description for Pharmacy D",
+    email: "pharmacy-d@example.com",
+  },
+  {
+    id: 5,
+    img: "/pharmacy-e.jpg",
+    name: "Pharmacy E",
+    license: "License E",
+    contact: "555-6789",
+    address: "654 Maple St, Citytown",
+    status: "Inactive",
+    rating: 4.6,
+    price: "$4.89",
+    medicines: ["Medicine I", "Medicine J"],
+    categorys: ["Category I", "Category J"],
+    description: "Description for Pharmacy E",
+    email: "pharmacy-e@example.com",
+},
+];
+
+
 // Backwards compatibility for all importers
-export default { medicines, data };
+export default { medicines, data, pharmaciesData };
 
 // // Cart data for shopping cart page
 // export const cartData = [
