@@ -15,7 +15,7 @@ import MedicineManagement from "../pages/admin/MedicineManagement.jsx";
 import ChatInterface from "../pages/chat/ChatInterface.jsx";
 import OrderManagement from "../pages/OrderManagement/OrderManagement.jsx"
 import PharmacyManagement from "../pages/super/pharmacies-management/PharmacyManagement.jsx";
-
+import PharmacyDashboard from "../pages/Super Admin Global Analytics/GlobalPharmacyDashboard.jsx"
 export default function RoutesComponent({ onOpenLogin }) {
   return (
     <Routes>
@@ -45,7 +45,7 @@ export default function RoutesComponent({ onOpenLogin }) {
         <Route element={<RequireRole allowed={['superAdmin']} />}>
           <Route path="/super" element={<SuperAdminDashboard />} />
           <Route path="/super/pharmacies-management" element={<PharmacyManagement />} />
-          <Route path="/super/reports" element={<div>Reports</div>} />
+          <Route path="/super/reports" element={<PharmacyDashboard />} />
         </Route>
       </Route>
 

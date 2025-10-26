@@ -1,0 +1,385 @@
+.container {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #F3F4F6;
+  min-height: 100vh;
+  padding: 24px;
+  color: #111827;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.headerRight {
+  display: flex;
+  gap: 12px;
+}
+
+.exportBtn {
+  padding: 10px 18px;
+  background-color: #fff;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  transition: all 0.2s;
+}
+
+.exportBtn:hover {
+  background-color: #F9FAFB;
+}
+
+.generateBtn {
+  padding: 10px 18px;
+  background-color: #008994;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.generateBtn:hover {
+  background-color: #007580;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.statCard {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid #E5E7EB;
+}
+
+.statLabel {
+  font-size: 11px;
+  color: #6B7280;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+
+.statSubLabel {
+  font-size: 12px;
+  color: #9CA3AF;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.statValue {
+  font-size: 36px;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 8px;
+  line-height: 1;
+}
+
+.statChangeGreen {
+  font-size: 13px;
+  color: #10B981;
+  font-weight: 500;
+}
+
+.statChangeRed {
+  font-size: 13px;
+  color: #EF4444;
+  font-weight: 500;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 20px;
+}
+
+.chartCard {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid #E5E7EB;
+}
+
+.chartCardWithBorder {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border: 2px solid #818CF8;
+}
+
+.benchmarkCard {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid #E5E7EB;
+}
+
+.chartTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 4px;
+  margin-top: 0;
+}
+
+.chartSubtitle {
+  font-size: 13px;
+  color: #6B7280;
+  margin-bottom: 24px;
+  margin-top: 0;
+  font-weight: 400;
+}
+
+.tableCard {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid #E5E7EB;
+}
+
+.tableHeader {
+  margin-bottom: 20px;
+}
+
+.filterContainer {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  padding: 10px 14px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 14px;
+  outline: none;
+  color: #111827;
+}
+
+.searchInput:focus {
+  border-color: #008994;
+  box-shadow: 0 0 0 3px rgba(0, 137, 148, 0.1);
+}
+
+.filterSelect {
+  padding: 10px 14px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  background-color: #fff;
+  color: #111827;
+}
+
+.filterSelect:focus {
+  border-color: #008994;
+  box-shadow: 0 0 0 3px rgba(0, 137, 148, 0.1);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tableHeaderRow {
+  background-color: #F9FAFB;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.th {
+  padding: 14px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.th:hover {
+  background-color: #F3F4F6;
+}
+
+.tableRow {
+  border-bottom: 1px solid #E5E7EB;
+  transition: background-color 0.2s;
+}
+
+.tableRow:hover {
+  background-color: #F9FAFB;
+}
+
+.td {
+  padding: 14px 16px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.statusBadge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+  color: #fff;
+}
+
+.viewBtn {
+  padding: 6px 14px;
+  background-color: #fff;
+  color: #008994;
+  border: 1px solid #008994;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.viewBtn:hover {
+  background-color: #008994;
+  color: #fff;
+}
+
+.customTooltip {
+  background-color: #fff;
+  padding: 10px 12px;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background-color: #fff;
+  padding: 32px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 25px rgba(0,0,0,0.15);
+}
+
+.modalTitle {
+  font-size: 24px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 24px;
+  margin-top: 0;
+}
+
+.modalContent {
+  margin-bottom: 24px;
+}
+
+.modalRow {
+  padding: 12px 0;
+  border-bottom: 1px solid #E5E7EB;
+  font-size: 14px;
+  color: #374151;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+
+.toggleStatusBtn {
+  padding: 10px 18px;
+  background-color: #F59E0B;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.toggleStatusBtn:hover {
+  background-color: #D97706;
+}
+
+.closeBtn {
+  padding: 10px 18px;
+  background-color: #6B7280;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.closeBtn:hover {
+  background-color: #4B5563;
+}
