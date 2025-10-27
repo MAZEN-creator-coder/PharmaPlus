@@ -5,7 +5,6 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   // Check for existing user session on app load
   useEffect(() => {
     const checkAuth = async () => {

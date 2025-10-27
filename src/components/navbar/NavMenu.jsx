@@ -13,16 +13,17 @@ const USER_LINKS = [
 ];
 
 const ADMIN_LINKS = [
-  { to: "/admin", label: "Admin Dashboard" },
+  { to: "/admin", label: "Dashboard" },
   { to: "/admin/medicine-management", label: "Medicines" },
   { to: "/admin/orders", label: "Orders" },
   { to: "/admin/users", label: "Manage Users" },
 ];
 
 const SUPER_ADMIN_LINKS = [
-  { to: "/super", label: "Super Admin Dashboard" },
+  { to: "/super", label: "Dashboard" },
   { to: "/super/pharmacies-management", label: "Pharmacies" },
   { to: "/super/reports", label: "Reports" },
+  { to: "/super/global-analytics", label: "Analytics" },
 ];
 
 export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
@@ -36,15 +37,19 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
   const w = useSpring(0, { stiffness: 160, damping: 32, mass: 1 });
 
   const visibleLinks =
-    userRole === "admin" ? ADMIN_LINKS : userRole === "superAdmin" ? SUPER_ADMIN_LINKS : USER_LINKS;
+    userRole === "admin"
+      ? ADMIN_LINKS
+      : userRole === "superAdmin"
+      ? SUPER_ADMIN_LINKS
+      : USER_LINKS;
 
   useEffect(() => {
     const visibleLinksLocal = visibleLinks;
 
     const recalc = () => {
       const current =
-        (visibleLinksLocal.find((l) => location.pathname === l.to)?.to ||
-          visibleLinksLocal.find((l) => location.pathname.startsWith(l.to))?.to) ||
+        visibleLinksLocal.find((l) => location.pathname === l.to)?.to ||
+        visibleLinksLocal.find((l) => location.pathname.startsWith(l.to))?.to ||
         visibleLinksLocal[0].to;
 
       const a = linkRefs.current[current];
@@ -66,9 +71,16 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
   }, [target, x, w]);
 
   return (
-    <nav aria-label="Primary" className={`${styles.navMenu} ${isOpen ? styles.open : ""}`}>
+    <nav
+      aria-label="Primary"
+      className={`${styles.navMenu} ${isOpen ? styles.open : ""}`}
+    >
       <ul ref={listRef} className={styles.navbarMenu}>
-  <Motion.span className={styles.indicator} style={{ x, width: w }} aria-hidden="true" />
+        <Motion.span
+          className={styles.indicator}
+          style={{ x, width: w }}
+          aria-hidden="true"
+        />
 
         {visibleLinks.map(({ to, label }) => (
           <li key={to} className={styles.item}>
@@ -88,7 +100,11 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
         <>
           <div className={styles.mobileSeparator}></div>
           <div className={styles.mobileRightControls}>
-            <RightControls isOpen={isOpen} setIsOpen={setIsOpen} onOpenLogin={onOpenLogin} />
+            <RightControls
+              isOpen={isOpen}
+              setIsOpen={setIsOpen}
+              onOpenLogin={onOpenLogin}
+            />
           </div>
         </>
       )}

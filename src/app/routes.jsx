@@ -45,7 +45,8 @@ export default function RoutesComponent({ onOpenLogin }) {
         <Route element={<RequireRole allowed={['superAdmin']} />}>
           <Route path="/super" element={<SuperAdminDashboard />} />
           <Route path="/super/pharmacies-management" element={<PharmacyManagement />} />
-          <Route path="/super/reports" element={<PharmacyDashboard />} />
+          <Route path="/super/reports" element={<div>Reports Page</div>} />
+          <Route path="/super/global-analytics" element={<PharmacyDashboard />} />
         </Route>
       </Route>
 
