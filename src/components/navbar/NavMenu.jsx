@@ -9,14 +9,12 @@ const USER_LINKS = [
   { to: "/", label: "Home" },
   { to: "/search-medicine", label: "Search Medicine" },
   { to: "/upload-prescription", label: "Upload Prescription" },
-  { to: "/blog", label: "Blog" },
 ];
 
 const ADMIN_LINKS = [
   { to: "/admin", label: "Dashboard" },
   { to: "/admin/medicine-management", label: "Medicines" },
   { to: "/admin/orders", label: "Orders" },
-  { to: "/admin/users", label: "Manage Users" },
 ];
 
 const SUPER_ADMIN_LINKS = [

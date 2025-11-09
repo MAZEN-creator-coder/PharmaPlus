@@ -24,13 +24,17 @@ export default function RoutesComponent({ onOpenLogin }) {
         <Route path="/" element={<Homepage />} />
         <Route path="/search-medicine" element={<SearchMedicine />} />
         <Route path="/upload-prescription" element={<UploadPrescription />} />
-        <Route path="/blog" element={<ChatInterface />} />
-        
+       
+
+        {/* Protected for regular users only */}
+        <Route element={<RequireRole allowed={['user']} />}>
+          <Route path="/cart" element={<CartPage />} />
+        </Route>
 
         {/* Protected for any logged-in user */}
         <Route element={<RequireAuth />}>
           <Route path="/profile" element={<MainPage />} />
-          <Route path="/cart" element={<CartPage />} />
+          <Route path="/chat" element={<ChatInterface />} />
         </Route>
 
         {/* Admin-only */}
@@ -38,7 +42,6 @@ export default function RoutesComponent({ onOpenLogin }) {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/medicine-management" element={<MedicineManagement />} />
           <Route path="/admin/orders" element={<OrderManagement />} />
-          <Route path="/admin/users" element={<div>Manage Users</div>} />
         </Route>
 
         {/* SuperAdmin-only */}

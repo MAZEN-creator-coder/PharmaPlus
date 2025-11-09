@@ -18,9 +18,14 @@ export default function Navbar({ onOpenLogin }) {
         <Brand />
 
         {/* Menu */}
-        <NavMenu isOpen={isOpen} setIsOpen={setIsOpen}  userRole={user?.role}/>
+        <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} userRole={user?.role}/>
         {/* RightControls نسخة الديسكتوب */}
-        <RightControls className={styles.rightControls} isOpen={isOpen} setIsOpen={setIsOpen} onOpenLogin={onOpenLogin}  userRole={user?.role} />
+        <RightControls 
+          className={styles.rightControls} 
+          isOpen={isOpen} 
+          setIsOpen={setIsOpen} 
+          onOpenLogin={onOpenLogin}  
+          userRole={user?.role} />
         {/*Burger */}
         <button
           className={styles.burger}

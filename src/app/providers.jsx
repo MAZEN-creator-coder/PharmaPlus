@@ -1,5 +1,5 @@
 import React from "react";
-import { AuthProvider } from "../context/AuthContext.jsx"; // AuthProvider
+import { AuthProvider } from "../context/AuthContext.jsx";
 import { ProductProvider } from "../context/ProductContext.jsx";
 import { OrderProvider } from "../context/OrderContext.jsx";
 

@@ -2,6 +2,19 @@ import { createContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext();
 
+// Helper function to get dashboard route based on role
+const getDashboardRoute = (role) => {
+  console.log('Redirecting role:', role); // Debug log
+  switch (role?.toLowerCase()) {
+    case 'admin':
+      return '/admin';
+    case 'superadmin':
+      return '/super';
+    default:
+      return '/';
+  }
+};
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -51,6 +64,10 @@ export function AuthProvider({ children }) {
       
       setUser(userWithDefaults);
       localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults));
+      
+      // Navigate to the appropriate dashboard based on role
+      const dashboardRoute = getDashboardRoute(userWithDefaults.role);
+      window.location.href = dashboardRoute;
     } catch (error) {
       console.error('Error during login:', error);
       throw error;
