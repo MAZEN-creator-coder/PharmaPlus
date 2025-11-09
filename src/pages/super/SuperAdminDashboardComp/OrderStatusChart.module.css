@@ -1,0 +1,14 @@
+.chartContainer {
+  width: 100%;
+}
+
+.chartHeader {
+  margin-bottom: 20px;
+}
+
+.chartHeader h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0;
+}
