@@ -1,0 +1,132 @@
+/* 🧩 الحاوية العامة للكروت */
+.cardsContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* 🎴 الكارت الأساسي */
+.card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-left: 6px solid transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* 💫 تأثير hover */
+.card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* 🌀 أيقونات */
+.icon {
+  width: 42px;
+  height: 42px;
+  padding: 8px;
+  border-radius: 12px;
+  color: #fff;
+  opacity: 0.95;
+  transition: all 0.3s ease;
+}
+
+/* ✨ حركة الأيقونة عند hover */
+.card:hover .icon {
+  transform: rotate(8deg) scale(1.1);
+  opacity: 1;
+}
+
+/* 🎨 الألوان لكل نوع */
+.total .icon {
+  background: linear-gradient(135deg, #6a5acd, #8a7ef0);
+}
+.completed .icon,
+.success .icon {
+  background: linear-gradient(135deg, #27ae60, #58d68d);
+}
+.pending .icon {
+  background: linear-gradient(135deg, #f1c40f, #f4d03f);
+}
+.alert .icon {
+  background: linear-gradient(135deg, #e74c3c, #ff7675);
+}
+
+/* 💡 خلفيات الهوفر */
+.total:hover {
+  background: linear-gradient(135deg, #f4f2ff, #edeaff);
+  border-left-color: #6a5acd;
+}
+.completed:hover,
+.success:hover {
+  background: linear-gradient(135deg, #eafaf1, #d4f8e8);
+  border-left-color: #27ae60;
+}
+.pending:hover {
+  background: linear-gradient(135deg, #fff9e6, #fff4c3);
+  border-left-color: #f1c40f;
+}
+.alert:hover {
+  background: linear-gradient(135deg, #ffeaea, #ffd9d9);
+  border-left-color: #e74c3c;
+}
+
+/* 🖋️ النصوص */
+.card h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2d3436;
+  margin: 0;
+}
+.card p {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0.3rem 0;
+  color: #1a1a1a;
+}
+.card span {
+  font-size: 0.85rem;
+  color: #636e72;
+}
+
+/* 📱 الموبايل والتابلت */
+@media (max-width: 768px) {
+  .cardsContainer {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .card {
+    padding: 1rem;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .card h3 {
+    font-size: 0.95rem;
+  }
+
+  .card p {
+    font-size: 1.4rem;
+  }
+}
+
+
+body, html {
+  overflow-x: hidden;
+}

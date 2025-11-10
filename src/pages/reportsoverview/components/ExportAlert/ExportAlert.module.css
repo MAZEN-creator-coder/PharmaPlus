@@ -1,0 +1,55 @@
+.alert {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: 14px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 500;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: fadeIn 0.4s ease forwards, fadeOut 0.4s ease 2.1s forwards;
+}
+
+/* 🌀 Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* 🎨 Styles for types */
+.success {
+  background: linear-gradient(135deg, #4caf50, #2e7d32);
+}
+
+.error {
+  background: linear-gradient(135deg, #e53935, #c62828);
+}
+
+.info {
+  background: linear-gradient(135deg, #00bfa5, #009688);
+}
+
+/* 🖼️ Icon styles */
+.icon {
+  width: 22px;
+  height: 22px;
+  color: #fff;
+}

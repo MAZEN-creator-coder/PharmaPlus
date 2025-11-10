@@ -1,0 +1,72 @@
+.tableContainer {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
+}
+
+.tableTitle {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: #008994;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, .table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.status {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.completed { background: #e6f7f1; color: #28a745; }
+.review { background: #fff4e5; color: #ff9800; }
+.failed { background: #fdecea; color: #e53935; }
+
+.iconBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #555;
+  margin-right: 6px;
+}
+
+.iconBtn:hover {
+  color: #008994;
+}
+
+@media (max-width: 768px) {
+  .table thead {
+    display: none;
+  }
+
+  .table tbody tr {
+    display: block;
+    margin-bottom: 12px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px;
+  }
+
+  .table td {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #666;
+  }
+}

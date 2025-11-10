@@ -1,0 +1,65 @@
+/* src/pages/reportsoverview/components/ReportRow/ReportRow.module.css */
+
+/* تعريف المتغيرات والألوان */
+:root {
+  --success-color: #28aa62;
+  --warning-color: #ffc107;
+  --danger-color: #dc3545;
+  --pending-color: #007bff; /* الأزرق */
+  --row-text-color: #495057;
+}
+
+.reportRow td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+  color: var(--row-text-color);
+  /* لمنع التفاف النص الذي قد يفسد عرض الجدول */
+  white-space: nowrap; 
+}
+
+.actionsColumn {
+  text-align: center;
+  width: 100px; 
+  white-space: nowrap;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0 5px;
+  font-size: 16px;
+  color: #6c757d;
+}
+
+.statusBadge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 12px;
+  display: inline-block;
+  min-width: 65px; 
+  text-align: center;
+}
+
+.statusCompleted {
+  background-color: rgba(40, 170, 98, 0.1); 
+  color: var(--success-color); 
+}
+
+.statusReview {
+  background-color: rgba(255, 193, 7, 0.1); 
+  color: var(--warning-color); 
+}
+
+.statusPending {
+  background-color: rgba(0, 123, 255, 0.1); 
+  color: var(--pending-color); 
+}
+
+.statusFailed {
+  background-color: rgba(220, 53, 69, 0.1); 
+  color: var(--danger-color); 
+}

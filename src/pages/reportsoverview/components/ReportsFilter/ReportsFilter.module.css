@@ -1,0 +1,49 @@
+.filterContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+}
+
+.select, .dateInput, .searchBox input {
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 240px;
+}
+
+.searchBox .icon {
+  color: #888;
+  margin-right: 8px;
+}
+
+.exportBtn {
+  background: #008994;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.exportBtn:hover {
+  background: #00727d;
+}
+
+@media (max-width: 768px) {
+  .filterContainer {
+    flex-direction: column;
+  }
+}
