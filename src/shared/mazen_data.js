@@ -1,19 +1,70 @@
-import { useState } from 'react';
-import styles from './ChatInterface.module.css';
-import ChatSidebar from './ChatSidebar';
-import ChatConversation from './ChatConversation';
+// Original data used by search 
+export const data = [
+  {
+    id: 1,
+    name: "Aspirin",
+    medicineImage: "/aspirin.jpg",
+    price: 100,
+    status: "Available",
+    distance: "2.5km",
+    category: "teblets",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+  {
+    id: 2,
+    name: "Paracetamol",
+    medicineImage: "/paracetamol.jpg",
+    price: 100,
+    status: "lowStock",
+    distance: "2.5km",
+    category: "capsules",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+  {
+    id: 3,
+    name: "Vitamin C",
+    medicineImage: "/vitaminc.jpg",
+    price: 100,
+    status: "outOfStock",
+    distance: "3km",
+    category: "drink",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+  {
+    id: 4,
+    name: "Vitamin A",
+    medicineImage: "/vitaminc.jpg",
+    price: 100,
+    status: "outOfStock",
+    distance: "3km",
+    category: "drink",
+    pharmacy: "Pharmacy A",
+    description: "this is aspirin",
+  },
+];
 
-const ChatInterface = () => {
-  const [selectedChat, setSelectedChat] = useState('alice');
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [unreadCounts, setUnreadCounts] = useState({
-    alice: 3,
+// PharmacyMap data 
+export const mapData = [
+  { id: 1, name: "Drugstore.io", price: "$4.99", position: [30.0444, 31.2357] },
+  { id: 2, name: "KeyPharmacy", price: "$5.19", position: [29.9773, 31.1325] },
+  { id: 3, name: "Nutraxx", price: "$5.29", position: [31.2001, 29.9187] },
+];
+//================================
+
+//chat data 
+//number of unread messages per chat
+unreadCounts={
+  alice: 3,
     bob: 2,
-    charlie: 2,
+    charlie: 0,
     diana: 0,
     eve: 0,
-  });
-  const [allMessages, setAllMessages] = useState({
+};
+//all messages per chat
+allMessages={
     alice: [
       {
         id: 1,
@@ -75,19 +126,9 @@ const ChatInterface = () => {
         sender: 'me',
       }
     ]
-  });
-
-  const handleSelectChat = (chatId) => {
-    setSelectedChat(chatId);
-    setIsSidebarOpen(false); // Close sidebar on mobile after selecting chat
-    // Clear unread count when opening chat
-    setUnreadCounts(prev => ({
-      ...prev,
-      [chatId]: 0,
-    }));
   };
-
-  const conversations = [
+ //all conversation 
+  conversations = [
     {
       id: 'alice',
       name: 'Alice Johnson',
@@ -123,56 +164,28 @@ const ChatInterface = () => {
       lastMessage: 'Yes, that works for me.',
       time: 'Last Month',
     },
-  ];
+  ]; 
+//============================
 
-  const getCurrentTime = () => {
-    const now = new Date();
-    return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  };
+// Prescription upload data
+const mockFiles = [
+  {
+    id: "1",
+    name: "Prescription_20240726.pdf",
+    status: "reviewed",
+    date: "Jul 26, 2024 10:30 AM",
+  },
+  {
+    id: "2",
+    name: "RX_Antibiotics_Dr_Smith.jpg",
+    status: "processing",
+    date: "Jul 25, 2024 03:15 PM",
+  },
+  {
+    id: "3",
+    name: "Eye_Drops_Refill.png",
+    status: "pending",
+    date: "Jul 25, 2024 08:00 AM",
+  },
+];
 
-  const handleSendMessage = (messageText) => {
-    if (messageText.trim()) {
-      const newMessage = {
-        id: Date.now(),
-        text: messageText,
-        time: getCurrentTime(),
-        sender: 'me',
-      };
-
-      setAllMessages(prev => ({
-        ...prev,
-        [selectedChat]: [...(prev[selectedChat] || []), newMessage],
-      }));
-    }
-  };
-
-  const currentConversation = conversations.find(c => c.id === selectedChat);
-  const currentMessages = allMessages[selectedChat] || [];
-
-  return (
-    <div className={styles.chatInterface}>
-      {isSidebarOpen && (
-        <div 
-          className={styles.overlay} 
-          onClick={() => setIsSidebarOpen(false)}
-        />
-      )}
-      <ChatSidebar
-        conversations={conversations}
-        selectedChat={selectedChat}
-        onSelectChat={handleSelectChat}
-        unreadCounts={unreadCounts}
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      />
-      <ChatConversation
-        conversation={currentConversation}
-        messages={currentMessages}
-        onSendMessage={handleSendMessage}
-        onMenuClick={() => setIsSidebarOpen(true)}
-      />
-    </div>
-  );
-};
-
-export default ChatInterface;

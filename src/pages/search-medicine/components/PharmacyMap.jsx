@@ -16,15 +16,6 @@ const PharmacyMap = () => {
   url={`https://tile.jawg.io/jawg-terrain/{z}/{x}/{y}{r}.png?access-token=${import.meta.env.VITE_JAWG_TOKEN}`}
   attribution='&copy; <a href="https://www.jawg.io/">Jawg Maps</a>'
 />
-
-
-
-
-
-
-
-
-
       {/* بنعمل ماركر لكل صيدلية */}
       {pharmacies.map((pharmacy) => (
         <Marker key={pharmacy.id} position={pharmacy.position}>
