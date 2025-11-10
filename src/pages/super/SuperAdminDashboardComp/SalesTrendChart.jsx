@@ -3,14 +3,23 @@ import styles from './SalesTrendChart.module.css';
 
 const SalesTrendChart = () => {
   const data = [
-    { date: 'Nov 20', current: 2100, previous: 2000 },
-    { date: 'Nov 21', current: 2400, previous: 2200 },
-    { date: 'Nov 22', current: 2200, previous: 2300 },
-    { date: 'Nov 23', current: 2800, previous: 2400 },
-    { date: 'Nov 24', current: 2600, previous: 2500 },
-    { date: 'Nov 25', current: 3200, previous: 2800 },
-    { date: 'Nov 26', current: 3600, previous: 3000 },
-    { date: 'Nov 27', current: 4000, previous: 3200 },
+    { date: '1', current: 2100, previous: 2000 },
+    { date: '2', current: 2100, previous: 2000 },
+    { date: '3', current: 2100, previous: 2000 },
+    { date: '4', current: 2100, previous: 2000 },
+    { date: '5', current: 2100, previous: 2000 },
+    { date: '6', current: 2100, previous: 2000 },
+    { date: '7', current: 2100, previous: 2000 },
+    { date: '8', current: 2100, previous: 2000 },
+    { date: '19', current: 2100, previous: 2000 },
+    { date: '20', current: 2100, previous: 2000 },
+    { date: '21', current: 2400, previous: 2200 },
+    { date: '22', current: 2200, previous: 2300 },
+    { date: '23', current: 2800, previous: 2400 },
+    { date: '24', current: 2600, previous: 2500 },
+    { date: '25', current: 3200, previous: 2800 },
+    { date: '26', current: 3600, previous: 3000 },
+    { date: '27', current: 4000, previous: 3200 },
   ];
 
   return (
