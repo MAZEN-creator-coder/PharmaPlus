@@ -188,4 +188,108 @@ const mockFiles = [
     date: "Jul 25, 2024 08:00 AM",
   },
 ];
+//============================
+//SUPER ADMIN GLOBAL ANALYTICS DATA
+const dashboardData = {
+  meta: {
+    generatedAt: "2025-11-10T14:30:00Z", // وقت توليد التقرير من السيرفر
+    reportTitle: "Global Analytics Overview",
+  },
+
+  platformSummary: {
+    totalUsers: 9500,
+    userGrowthPercentage: 9,       // نسبة النمو الشهرية %
+    totalRevenue: 392000,          // مجموع الإيرادات بالدولار
+    revenueGrowthPercentage: 30,   // نسبة النمو الشهرية %
+    activePharmacies: 2,
+    pharmacyGrowthPercentage: 8,   // نمو عدد الصيدليات النشطة %
+    avgOrderValue: 78,
+    avgOrderChangePercentage: -5,  // نسبة الانخفاض الشهري
+    totalServed: 21255,
+  },
+
+  userGrowth: [
+    { month: "Feb", users: 3000 },
+    { month: "Mar", users: 3500 },
+    { month: "Apr", users: 4200 },
+    { month: "May", users: 4800 },
+    { month: "Jun", users: 5200 },
+    { month: "Jul", users: 5800 },
+    { month: "Aug", users: 6500 },
+    { month: "Sep", users: 7200 },
+    { month: "Oct", users: 8000 },
+    { month: "Nov", users: 8800 },
+    { month: "Dec", users: 9500 },
+  ],
+
+  revenueDistribution: [
+    { name: "Prescription", value: 45 },
+    { name: "OTC Products", value: 25 },
+    { name: "Wellness & Supplements", value: 20 },
+    { name: "Devices", value: 10 },
+  ],
+
+  topPharmacies: [
+    { name: "Pharmacy A", sales: 95000 },
+    { name: "Pharmacy B", sales: 88000 },
+    { name: "Pharmacy C", sales: 82000 },
+    { name: "Pharmacy D", sales: 75000 },
+    { name: "Main St", sales: 68000 },
+  ],
+
+  pharmacies: [
+    {
+      id: 1,
+      name: "Medicare Pharmacy",
+      location: "New York, USA",
+      status: "Active",
+      sales: 92000,
+      served: 5005,
+      avgPerUser: 18,
+    },
+    {
+      id: 2,
+      name: "City Center Drugs",
+      location: "Los Angeles, USA",
+      status: "Pending",
+      sales: 85000,
+      served: 4800,
+      avgPerUser: 17,
+    },
+    {
+      id: 3,
+      name: "Pharmacare Supplies",
+      location: "London, UK",
+      status: "Active",
+      sales: 78000,
+      served: 4200,
+      avgPerUser: 18,
+    },
+    {
+      id: 4,
+      name: "Green Rx Solutions",
+      location: "Berlin, DE",
+      status: "Pending",
+      sales: 70000,
+      served: 3850,
+      avgPerUser: 18,
+    },
+    {
+      id: 5,
+      name: "Sunset Health",
+      location: "Sydney, AUS",
+      status: "Suspended",
+      sales: 65000,
+      served: 3400,
+      avgPerUser: 19,
+    },
+  ],
+
+  pharmacyStatusSummary: {
+    active: 2,
+    pending: 2,
+    suspended: 1,
+  },
+};
+
 
