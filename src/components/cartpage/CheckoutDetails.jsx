@@ -10,7 +10,7 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
   
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [address, setAddress] = useState({
-    name: '', phone: '', street: '', city: '', state: '', postal: ''
+    name: '', phone: '', street: '', city: '', postal: '', additionalDirections: ''
   });
   const [card, setCard] = useState({ holder: '', number: '', exp: '', cvc: '' });
   const [note, setNote] = useState('');
@@ -23,8 +23,8 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
       phone: address.phone.trim(),
       street: address.street.trim(),
       city: address.city.trim(),
-      state: address.state.trim(),
       postal: address.postal.trim(),
+      additionalDirections: address.additionalDirections.trim(),
     },
     card: {
       holder: card.holder.trim(),
@@ -40,8 +40,8 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
     if (!trimmed.address.phone || trimmed.address.phone.length < 7) e.phone = 'Invalid phone';
     if (!trimmed.address.street) e.street = 'Required';
     if (!trimmed.address.city) e.city = 'Required';
-    if (!trimmed.address.state) e.state = 'Required';
     if (!trimmed.address.postal) e.postal = 'Required';
+    // additionalDirections is optional - no validation needed
     if (paymentMethod === 'card') {
       if (!trimmed.card.holder) e.holder = 'Required';
       if (!/^\d{12,19}$/.test(trimmed.card.number)) e.number = 'Invalid card';
@@ -107,13 +107,13 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
             </div>
             <div className={`${styles.inputWrap} ${styles.col4}`}>
               <RiBuilding2Line className={styles.inputIcon} />
-              <input className={styles.input} placeholder="State" value={address.state} onChange={e=>setAddress(a=>({...a,state:e.target.value}))} onBlur={()=>setTouched(t=>({...t,state:true}))} required />
-              {(showErrors || touched.state) && errors.state && <span className={styles.error}>{errors.state}</span>}
-            </div>
-            <div className={`${styles.inputWrap} ${styles.col4}`}>
-              <RiNumber1 className={styles.inputIcon} />
               <input className={styles.input} placeholder="Postal Code" value={address.postal} onChange={e=>setAddress(a=>({...a,postal:e.target.value}))} onBlur={()=>setTouched(t=>({...t,postal:true}))} required />
               {(showErrors || touched.postal) && errors.postal && <span className={styles.error}>{errors.postal}</span>}
+            </div>
+            <div className={`${styles.inputWrap} ${styles.col4}`}>
+              <RiMapPin2Line className={styles.inputIcon} />
+              <input className={styles.input} placeholder="Additional Directions (optional)" value={address.additionalDirections} onChange={e=>setAddress(a=>({...a,additionalDirections:e.target.value}))} onBlur={()=>setTouched(t=>({...t,additionalDirections:true}))} />
+              {(showErrors || touched.additionalDirections) && errors.additionalDirections && <span className={styles.error}>{errors.additionalDirections}</span>}
             </div>
           </div>
         </section>

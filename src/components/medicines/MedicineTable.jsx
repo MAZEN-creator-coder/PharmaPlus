@@ -14,6 +14,7 @@ export default function MedicineTable({ medicines, onEdit, onDelete }) {
             <th>Category</th>
             <th>Stock</th>
             <th>Price</th>
+            <th>Description</th>
             <th>Status</th>
             <th>Actions</th>
           </tr>
@@ -28,6 +29,7 @@ export default function MedicineTable({ medicines, onEdit, onDelete }) {
               <td>{medicine.category}</td>
               <td>{medicine.stock}</td>
               <td>${medicine.price.toFixed(2)}</td>
+              <td>{medicine.description}</td>
               <td>
                 <StatusBadge stock={medicine.stock} />
               </td>

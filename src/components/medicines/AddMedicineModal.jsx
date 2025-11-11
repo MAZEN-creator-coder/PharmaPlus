@@ -7,6 +7,7 @@ export default function AddMedicineModal({ isOpen, onClose, onAdd, medicine, onU
   const [category, setCategory] = useState(medicine?.category || "");
   const [stock, setStock] = useState(medicine?.stock || 0);
   const [price, setPrice] = useState(medicine?.price || 0);
+  const [description, setDescription] = useState(medicine?.description || "");
   const [image, setImage] = useState(medicine?.image || null);
   const fileRef = useRef(null);
   const isEditing = Boolean(medicine);
@@ -17,9 +18,10 @@ export default function AddMedicineModal({ isOpen, onClose, onAdd, medicine, onU
       setCategory(medicine.category || "");
       setStock(medicine.stock || 0);
       setPrice(medicine.price || 0);
+      setDescription(medicine.description || "");
       setImage(medicine.image || null);
     } else if (!isOpen) {
-      setName(""); setCategory(""); setStock(0); setPrice(0); setImage(null);
+      setName(""); setCategory(""); setStock(0); setPrice(0); setDescription(""); setImage(null);
     }
   }, [isOpen, medicine]);
 
@@ -37,6 +39,7 @@ export default function AddMedicineModal({ isOpen, onClose, onAdd, medicine, onU
       category, 
       stock: Number(stock), 
       price: Number(price), 
+      description,
       image: image || '/placeholder.png'
     };
     
@@ -120,6 +123,16 @@ export default function AddMedicineModal({ isOpen, onClose, onAdd, medicine, onU
                     placeholder="0.00" 
                   />
                 </div>
+              </div>
+
+              <div className={styles.row}>
+                <label>Description</label>
+                <textarea 
+                  value={description} 
+                  onChange={(e)=>setDescription(e.target.value)}
+                  placeholder="Enter medicine description" 
+                  rows="3"
+                />
               </div>
             </div>
           </div>
