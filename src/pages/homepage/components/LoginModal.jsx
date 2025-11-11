@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react"; 
 import styles from "./LoginModal.module.css";
 import { useAuth } from "../../../hooks/useAuth";
-import { useNavigate, useLocation } from "react-router-dom"; // ✅ Added
-
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function LoginModal({ isOpen, onClose }) {
   const { login } = useAuth();
@@ -17,11 +16,13 @@ export default function LoginModal({ isOpen, onClose }) {
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
 
-  // Register states
-  const [regName, setRegName] = useState("");
+  // Register states (updated)
+  const [regFirstName, setRegFirstName] = useState("");
+  const [regLastName, setRegLastName] = useState("");
   const [regEmail, setRegEmail] = useState("");
   const [regPassword, setRegPassword] = useState("");
   const [regConfirm, setRegConfirm] = useState("");
+  const [regPhone, setRegPhone] = useState("");
   const [regErrors, setRegErrors] = useState({});
   const [regSuccess, setRegSuccess] = useState(false);
   const [regLoading, setRegLoading] = useState(false);
@@ -31,7 +32,6 @@ export default function LoginModal({ isOpen, onClose }) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Redirect user based on role after login/register
   const goToRoleHome = (role) => {
     if (role === "admin") {
       navigate("/admin", { replace: true });
@@ -58,7 +58,7 @@ export default function LoginModal({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) {
       setLoginEmail(""); setLoginPassword(""); setLoginErrors({});
-      setRegName(""); setRegEmail(""); setRegPassword(""); setRegConfirm(""); setRegErrors({});
+      setRegFirstName(""); setRegLastName(""); setRegEmail(""); setRegPassword(""); setRegConfirm(""); setRegPhone(""); setRegErrors({});
       setLoginSuccess(false); setRegSuccess(false);
       setLoginError(''); setRegError('');
     }
@@ -66,6 +66,7 @@ export default function LoginModal({ isOpen, onClose }) {
 
   const validateEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   const validatePassword = (v, min=6) => v.length >= min;
+  const validatePhone = (v) => /^\+?[0-9]{7,15}$/.test(v); // يسمح بالـ + اختياريًا ثم 7-15 رقم
 
   const handleOverlayClick = (e) => {
     if (e.target === overlayRef.current) onClose();
@@ -87,7 +88,7 @@ export default function LoginModal({ isOpen, onClose }) {
     // Simulate API call
     setTimeout(() => {
       try {
-        // TODO: Replace this mock with real backend response later
+        // Mock role logic
         const roleFromBackendMock =
           loginEmail.endsWith("@admin.com") ? "admin" :
           loginEmail.endsWith("@super.com") ? "superAdmin" :
@@ -98,7 +99,7 @@ export default function LoginModal({ isOpen, onClose }) {
           email: loginEmail,
           name: loginEmail.split('@')[0],
           avatar: '/user-avatar.png',
-          role: roleFromBackendMock, // replace this with real backend role later
+          role: roleFromBackendMock,
         });
         
         setLoginLoading(false);
@@ -120,12 +121,15 @@ export default function LoginModal({ isOpen, onClose }) {
   const onRegSubmit = (e) => {
     e.preventDefault();
     const errs = {};
-    if (!regName || regName.trim().length < 2) errs.name = "Name must be at least 2 characters";
+    if (!regFirstName || regFirstName.trim().length < 2) errs.firstName = "First name must be at least 2 characters";
+    if (!regLastName || regLastName.trim().length < 2) errs.lastName = "Last name must be at least 2 characters";
     if (!regEmail) errs.email = "Email is required";
     else if (!validateEmail(regEmail)) errs.email = "Please enter a valid email address";
     if (!regPassword || !validatePassword(regPassword, 8)) errs.password = "Password must be at least 8 characters";
     if (!regConfirm) errs.confirm = "Please confirm your password";
     else if (regPassword !== regConfirm) errs.confirm = "Passwords do not match";
+    if (!regPhone) errs.phone = "Mobile number is required";
+    else if (!validatePhone(regPhone)) errs.phone = "Please enter a valid phone number (7-15 digits, optional +)";
     setRegErrors(errs);
     if (Object.keys(errs).length) return;
 
@@ -138,9 +142,13 @@ export default function LoginModal({ isOpen, onClose }) {
         // TODO: Replace this mock with backend response role
         const roleFromBackendMock = "user";
 
+        // Build the user object with first/last/phone included
         const userObj = login({
           email: regEmail,
-          name: regName,
+          firstName: regFirstName.trim(),
+          lastName: regLastName.trim(),
+          name: `${regFirstName.trim()} ${regLastName.trim()}`, // full name for legacy usage
+          phone: regPhone,
           avatar: '/user-avatar.png',
           role: roleFromBackendMock,
         });
@@ -218,8 +226,6 @@ export default function LoginModal({ isOpen, onClose }) {
                   <div className={`${styles.errorMessage} ${loginErrors.password ? styles.show : ""}`}>{loginErrors.password}</div>
                 </div>
 
-                {/* Optional: you can add a role select for testing if needed */}
-
                 <button className={styles.submitBtn} type="submit" disabled={loginLoading}>
                   {loginLoading ? "Signing In..." : "Sign In"}
                 </button>
@@ -232,8 +238,8 @@ export default function LoginModal({ isOpen, onClose }) {
               </div>
               <div className={styles.divider}><span>or continue with</span></div>
               <div className={styles.socialLogin}>
-                <button className={styles.socialBtn} onClick={()=>alert("Google login")}>🔍 Google</button>
-                <button className={styles.socialBtn} onClick={()=>alert("Facebook login")}>📘 Facebook</button>
+                <button className={styles.socialBtn} onClick={()=>alert("Google login")}> Google</button>
+                <button className={styles.socialBtn} onClick={()=>alert("Facebook login")}> Facebook</button>
               </div>
             </div>
           )}
@@ -244,17 +250,45 @@ export default function LoginModal({ isOpen, onClose }) {
               <div className={`${styles.successMessage} ${regSuccess ? styles.show : ""}`}>Registration successful!</div>
               <div className={`${styles.errorMessage} ${regError ? styles.show : ""}`}>{regError}</div>
               <form id="registerFormElement" onSubmit={onRegSubmit}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="registerName">Full Name</label>
-                  <input 
-                    id="registerName"
-                    className={`${styles.formInput} ${regErrors.name ? styles.error : ""}`}
-                    type="text"
-                    value={regName}
-                    onChange={(e)=>setRegName(e.target.value)}
-                    placeholder="Enter your full name" 
-                  />
-                  <div className={`${styles.errorMessage} ${regErrors.name ? styles.show : ""}`}>{regErrors.name}</div>
+
+                <div className={styles.formGroup} style={{display: 'flex', gap: '12px'}}>
+                  <div style={{flex: 1}}>
+                    <label htmlFor="registerFirstName">First Name</label>
+                    <input
+                      id="registerFirstName"
+                      className={`${styles.formInput} ${regErrors.firstName ? styles.error : ""}`}
+                      type="text"
+                      value={regFirstName}
+                      onChange={(e)=>setRegFirstName(e.target.value)}
+                      onBlur={()=> {
+                        if (regFirstName && regFirstName.trim().length < 2)
+                          setRegErrors(p=>({...p,firstName:"First name must be at least 2 characters"}));
+                        else
+                          setRegErrors(p=>{ const c={...p}; delete c.firstName; return c; });
+                      }}
+                      placeholder="First name"
+                    />
+                    <div className={`${styles.errorMessage} ${regErrors.firstName ? styles.show : ""}`}>{regErrors.firstName}</div>
+                  </div>
+
+                  <div style={{flex: 1}}>
+                    <label htmlFor="registerLastName">Last Name</label>
+                    <input
+                      id="registerLastName"
+                      className={`${styles.formInput} ${regErrors.lastName ? styles.error : ""}`}
+                      type="text"
+                      value={regLastName}
+                      onChange={(e)=>setRegLastName(e.target.value)}
+                      onBlur={()=> {
+                        if (regLastName && regLastName.trim().length < 2)
+                          setRegErrors(p=>({...p,lastName:"Last name must be at least 2 characters"}));
+                        else
+                          setRegErrors(p=>{ const c={...p}; delete c.lastName; return c; });
+                      }}
+                      placeholder="Last name"
+                    />
+                    <div className={`${styles.errorMessage} ${regErrors.lastName ? styles.show : ""}`}>{regErrors.lastName}</div>
+                  </div>
                 </div>
 
                 <div className={styles.formGroup}>
@@ -274,6 +308,25 @@ export default function LoginModal({ isOpen, onClose }) {
                     placeholder="Enter your email" 
                   />
                   <div className={`${styles.errorMessage} ${regErrors.email ? styles.show : ""}`}>{regErrors.email}</div>
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="registerPhone">Mobile Number</label>
+                  <input
+                    id="registerPhone"
+                    className={`${styles.formInput} ${regErrors.phone ? styles.error : ""}`}
+                    type="tel"
+                    value={regPhone}
+                    onChange={(e)=>setRegPhone(e.target.value)}
+                    onBlur={()=>{
+                      if (regPhone && !validatePhone(regPhone))
+                        setRegErrors(p=>({...p,phone:"Please enter a valid phone number (7-15 digits, optional +)"}));
+                      else
+                        setRegErrors(p=>{ const c={...p}; delete c.phone; return c; });
+                    }}
+                    placeholder="+201234567890 or 01234567890"
+                  />
+                  <div className={`${styles.errorMessage} ${regErrors.phone ? styles.show : ""}`}>{regErrors.phone}</div>
                 </div>
 
                 <div className={styles.formGroup}>
@@ -321,8 +374,8 @@ export default function LoginModal({ isOpen, onClose }) {
 
               <div className={styles.divider}><span>or continue with</span></div>
               <div className={styles.socialLogin}>
-                <button className={styles.socialBtn} onClick={()=>alert("Google register")}>🔍 Google</button>
-                <button className={styles.socialBtn} onClick={()=>alert("Facebook register")}>📘 Facebook</button>
+                <button className={styles.socialBtn} onClick={()=>alert("Google register")}> Google</button>
+                <button className={styles.socialBtn} onClick={()=>alert("Facebook register")}> Facebook</button>
               </div>
             </div>
           )}
