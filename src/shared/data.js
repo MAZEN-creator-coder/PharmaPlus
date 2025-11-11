@@ -46,6 +46,8 @@ export const data = [
   },
 ]; // Will be populated from API
 
+
+//NOHA 
 // Admin page medicine data
 export const medicines = [
   { id: 101, name: "Paracetamol 500mg", image: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available" },
