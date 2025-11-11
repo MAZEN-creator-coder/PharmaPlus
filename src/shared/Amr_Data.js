@@ -1,67 +1,299 @@
 // Mock backend data for Profile pages
 // Designed similarly to `src/shared/data.js` so components can import realistic sample data.
-
 export const currentUser = {
   id: 9001,
-  firstName: 'Mazen',
-  lastName: 'Ahmed',
-  fullName: 'Mazen Ahmed',
-  email: 'mazen.ahmed@example.com',
-  avatar: '/avatars/user-9001.jpg',
-  phone: '+20 100 000 0000',
-  dob: '1990-05-12',
-  joined: '2023-03-18',
-  role: 'customer',
+  firstName: "Mazen",
+  lastName: "Ahmed",
+  fullName: "Mazen Ahmed",
+  email: "mazen.ahmed@example.com",
+  avatar: "/avatars/user-9001.jpg",
+  phone: "+20 100 000 0000",
+  dob: "1990-05-12",
+  joined: "2023-03-18",
+  role: "customer",
+  conversations : [
+    {
+      id: 'alice',
+      name: 'Alice Johnson',
+      avatar: 'https://i.pravatar.cc/150?img=1',
+      lastMessage: 'Thank you for the update!',
+      time: '10:30 AM',
+    },
+    {
+      id: 'bob',
+      name: 'Bob Smith',
+      avatar: 'https://i.pravatar.cc/150?img=12',
+      lastMessage: 'Sure, I\'ll send it over.',
+      time: 'Yesterday',
+    },
+    {
+      id: 'charlie',
+      name: 'Charlie Brown',
+      avatar: 'https://i.pravatar.cc/150?img=13',
+      lastMessage: 'Okay, I understand.',
+      time: 'Mon',
+    },
+    {
+      id: 'diana',
+      name: 'Diana Prince',
+      avatar: 'https://i.pravatar.cc/150?img=5',
+      lastMessage: 'Thanks for the quick response!',
+      time: 'Last Week',
+    },
+    {
+      id: 'eve',
+      name: 'Eve Adams',
+      avatar: 'https://i.pravatar.cc/150?img=9',
+      lastMessage: 'Yes, that works for me.',
+      time: 'Last Month',
+    },
+  ],
   preferences: {
     newsletter: true,
     smsAlerts: false,
   },
+  orders: [
+    {
+      id: "ORD-001",
+      name: "Aisha Sharma",
+      date: "2024-07-28",
+      status: "Delivered",
+      total: "₹1,250.00",
+      paymentMethod: "Card",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-002",
+      name: "Rajesh Kumar",
+      date: "2024-07-27",
+      status: "Shipped",
+      total: "₹899.50",
+      paymentMethod: "cash",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-003",
+      name: "Mazen Ahmed",
+      date: "2024-07-26",
+      status: "Pending",
+      total: "₹2,100.00",
+      paymentMethod: "cash",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-004",
+      name: "Lina Ali",
+      email: "lina@example.com",
+      date: "2024-07-25",
+      status: "Processing",
+      total: "₹700.00",
+      paymentMethod: "cash",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-005",
+      name: "Omar Khaled",
+      date: "2024-07-24",
+      status: "Delivered",
+      total: "₹1,050.00",
+      paymentMethod: "cash",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-006",
+      name: "Sarah Mohamed",
+      date: "2024-07-23",
+      status: "Cancelled",
+      total: "₹1,200.00",
+      paymentMethod: "cash",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-007",
+      name: "Kareem Nabil",
+      date: "2024-07-22",
+      status: "Processing",
+      total: "₹880.00",
+      paymentMethod: "cash",
+        addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+    {
+      id: "ORD-008",
+      name: "Hana Youssef",
+      date: "2024-07-21",
+      status: "Pending",
+      total: "₹960.00",
+      paymentMethod: "cash",
+      addresses: 
+    {
+      street: "12 Nile St",
+      city: "Cairo",
+      additionalDirections: "Near the central park",
+      postalCode: "11511",
+      phone: "+20 100 000 0000",
+    },
+      items: [
+        {
+          id: 1,
+          name: "Aspirin",
+          medicineImage: "/aspirin.jpg",
+          price: 100,
+          status: "Available",
+          distance: "2.5km",
+          category: "teblets",
+          pharmacy: "Pharmacy A",
+          description: "this is aspirin",
+          quantity: 2,
+        },
+      ],
+    },
+  ],
+
 };
-
-export const addresses = [
-  {
-    id: 'addr-1',
-    label: 'Home',
-    street: '12 Nile St',
-    city: 'Cairo',
-    region: 'Cairo Governorate',
-    postalCode: '11511',
-    country: 'Egypt',
-    phone: '+20 100 000 0000',
-    default: true,
-  }
-];
-
-export const paymentMethods = [
-  { id: 'pm-1', type: 'card', brand: 'Visa', last4: '4242', expiry: '12/26', primary: true },
-  { id: 'pm-2', type: 'cash', label: 'Cash on Delivery', primary: false },
-];
-
-export const orders = [
-  {
-    id: 'ORD-9001',
-    date: '2025-09-10',
-    items: [
-      { sku: 101, name: 'Paracetamol 500mg', qty: 2, price: 5.99 },
-      { sku: 106, name: 'Allergy Relief 10mg', qty: 1, price: 10.5 },
-    ],
-    subtotal: 22.48,
-    shipping: 2.5,
-    total: 24.98,
-    status: 'Delivered',
-    deliveredAt: '2025-09-13',
-    pharmacy: 'Pharmacy A',
-  }
-];
-
-export const notifications = [
-  { id: 'n-1', type: 'order', text: 'Your order ORD-9001 has been delivered.', read: true, date: '2025-09-13' },
-  { id: 'n-2', type: 'promo', text: 'Get 10% off vitamins this week!', read: false, date: '2025-11-01' },
-];
-export const medicines = [
-  { id: 101, name: 'Paracetamol 500mg', image: '/paracetamol.jpg', category: 'Pain Relief', stock: 120, price: 5.99, status: 'Available' },
-  { id: 106, name: 'Allergy Relief 10mg', image: '/allergy.jpg', category: 'Allergy', stock: 3, price: 10.5, status: 'lowStock' },
-  { id: 104, name: 'Multivitamin Complex', image: '/multivitamin.jpg', category: 'Supplements', stock: 45, price: 9.99, status: 'Available' },
-];
-
-export default { currentUser, addresses, paymentMethods, prescriptions, orders, notifications, medicines };

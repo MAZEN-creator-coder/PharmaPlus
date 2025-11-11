@@ -2,14 +2,25 @@
 export const data = [
   {
     id: 1,
+    id_pharmacy: 1,
+
+    //done
     name: "Aspirin",
+    //done
     medicineImage: "/aspirin.jpg",
+    //done
     price: 100,
+    //done
     status: "Available",
+    //done
     distance: "2.5km",
+    //calc from back end
     category: "teblets",
+    //done
     pharmacy: "Pharmacy A",
+    //done
     description: "this is aspirin",
+    //done
   },
   {
     id: 2,

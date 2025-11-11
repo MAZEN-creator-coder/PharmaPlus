@@ -7,7 +7,7 @@ const ChatInterface = () => {
   const [selectedChat, setSelectedChat] = useState('alice');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [unreadCounts, setUnreadCounts] = useState({
-    alice: 3,
+    alice: 4,
     bob: 2,
     charlie: 2,
     diana: 0,
@@ -45,7 +45,13 @@ const ChatInterface = () => {
         text: "It's 123 Main St, Anytown. Thank you for the update!",
         time: '10:30 AM',
         sender: 'other',
-      }, 
+      },
+      {
+        id: 6,
+        text: 'noha',
+        time: '10:00 AM',
+        sender: 'me',
+      } 
     ],
     bob: [
       {

@@ -1,10 +1,12 @@
 import { useContext } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Calendar, DollarSign, Package, ChevronRight } from 'lucide-react';
 import { OrderContext } from '../../context/OrderContext.jsx';
 import styles from './OrderHistory.module.css';
 
 const OrderHistory = () => {
   const { orders } = useContext(OrderContext);
+  const navigate = useNavigate();
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -36,7 +38,7 @@ const OrderHistory = () => {
           <p className={styles.emptyMessage}>
             You haven't placed any orders yet. Start shopping to see your order history here.
           </p>
-          <button className={styles.shopNowButton}>
+          <button onClick={()=> navigate('/search-medicine')} className={styles.shopNowButton}>
             Start Shopping
           </button>
         </div>
