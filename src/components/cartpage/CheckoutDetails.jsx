@@ -1,12 +1,10 @@
 import { useMemo, useState, useContext } from 'react';
 import { RiBankCard2Line, RiMoneyDollarCircleLine, RiUser3Line, RiPhoneLine, RiMapPin2Line, RiBuilding2Line, RiNumber1, RiCalendar2Line, RiLock2Line } from 'react-icons/ri';
-import { OrderContext } from '../../context/OrderContext.jsx';
 import { ProductContext } from '../../context/productContext.js';
 import styles from './CheckoutDetails.module.css';
 
 export default function CheckoutDetails({ onPlaceOrder, onBack }) {
-  const { addOrder } = useContext(OrderContext);
-  const { selectedItems, total, clearCart } = useContext(ProductContext);
+  const { clearCart } = useContext(ProductContext);
   
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [address, setAddress] = useState({
@@ -59,17 +57,8 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
       return;
     }
 
-    // Create new order with exact same structure as hardcoded data
-    const newOrder = {
-      id: `MC${Date.now()}`,
-      date: new Date().toISOString().split('T')[0],
-      total: `$${total.toFixed(2)}`,
-      status: 'Processing',
-      items: selectedItems.map(item => `${item.name} (x${item.quantity})`)
-    };
-
-    // Add order to context
-    addOrder(newOrder);
+    // TODO: Send order to backend API (POST /api/orders)
+    // For now, just clear cart and go to success page
     
     // Clear cart after successful order
     clearCart();

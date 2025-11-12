@@ -23,7 +23,7 @@
   background: white;
   border-radius: 20px;
   width: 90%;
-  max-width: 480px;
+  max-width: 500px;
   max-height: 90vh;
   overflow-y: auto;
   position: relative;
@@ -61,7 +61,7 @@
 }
 
 .formContainer {
-  padding: 40px 32px 32px;
+  padding: 20px 32px 32px;
 }
 
 .tabContainer {
@@ -97,13 +97,13 @@
 
 .formSection.active {
   display: block;
+  animation: fadeInUp 0.4s ease forwards;
 }
 
 .formTitle {
   font-size: 28px;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 24px;
   text-align: center;
 }
 
@@ -117,6 +117,15 @@
   color: #374151;
   margin-bottom: 8px;
   font-size: 14px;
+}
+
+.formRow {
+  display: flex;
+  gap: 16px;
+}
+
+.formRow .formGroup {
+  flex: 1;
 }
 
 .formInput {
@@ -182,7 +191,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 20px;
+  margin-top: 10px;
 }
 
 .submitBtn:hover:not(:disabled) {
@@ -263,11 +272,13 @@
   border-color: #cbd5e1;
   transform: translateY(-1px);
 }
+
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Responsive Adjustments */
 @media (max-width: 480px) {
   .modal {
     width: 95%;
@@ -281,9 +292,13 @@
   .formTitle {
     font-size: 24px;
   }
-  
+
+  .formRow {
+    flex-direction: column;
+    gap: 0;
+  }
+
   .socialLogin {
     flex-direction: column;
   }
 }
-

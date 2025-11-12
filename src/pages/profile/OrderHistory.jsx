@@ -1,12 +1,13 @@
-import { useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Calendar, DollarSign, Package, ChevronRight } from 'lucide-react';
-import { OrderContext } from '../../context/OrderContext.jsx';
 import styles from './OrderHistory.module.css';
 
 const OrderHistory = () => {
-  const { orders } = useContext(OrderContext);
+  const [orders, setOrders] = useState([]);
   const navigate = useNavigate();
+
+  //fetching from backend (GET /api/orders)
 
   const getStatusClass = (status) => {
     switch (status) {
