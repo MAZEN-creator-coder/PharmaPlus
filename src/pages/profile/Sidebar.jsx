@@ -11,8 +11,8 @@ const Sidebar = () => {
 
   useEffect(() => {
     (async () => {
-      //const token = localStorage.getItem('token');
-      const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5MTM3Y2Y2NTBkN2I5NzhlNmI5YzFjMiIsImVtYWlsIjoibm9oYUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImltYWdlIjoidXBsb2Fkcy9hdmF0YXItZGVmYXVsdC5qcGVnIiwiaWF0IjoxNzYyOTg0OTM4LCJleHAiOjE3NjI5ODg1Mzh9.1dI_rDvBk3n9n3A2rrRR81kTV2ddIlkG04cAVnqt350";
+
+      const token = localStorage.getItem('pharmaplus_token');
       if (!token) {
         setError('Not authenticated');
         setLoading(false);

@@ -63,10 +63,12 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
     );
   }
 
+
+   console.log('user in AuthWidget', user);
   return (
     <div className={styles.userBox} ref={dropdownRef}>
       <button className={styles.userTrigger} onClick={() => setOpen((v) => !v)}>
-        <img src={user.avatar} alt="profile" className={styles.avatar} />
+        <img src={`http://localhost:3000/${user?.avatar || 'uploads/avatar.webp'}`} alt="profile" className={styles.avatar} />
         <span>{user.name}</span>
 
         {/* السهم بيتحرك */}

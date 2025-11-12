@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react"; 
 import styles from "./LoginModal.module.css";
 import { useAuth } from "../../../hooks/useAuth";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function LoginModal({ isOpen, onClose }) {
-  const { login } = useAuth();
+  const { loginWithToken } = useAuth();
   const overlayRef = useRef(null);
   const [tab, setTab] = useState("login");
 
@@ -29,23 +29,13 @@ export default function LoginModal({ isOpen, onClose }) {
   const [regError, setRegError] = useState('');
 
   // Navigation hooks
-  const navigate = useNavigate();
   const location = useLocation();
 
-  const goToRoleHome = (role) => {
-    if (role === "admin") {
-      navigate("/admin", { replace: true });
-    } else if (role === "superAdmin") {
-      navigate("/super", { replace: true });
-    } else {
-      const from = location.state?.from?.pathname;
-      navigate(from || "/profile", { replace: true });
-    }
-  };
+  // Redirect handled by AuthProvider.login which sets window.location.href
 
   useEffect(() => {
     if (location.hash === "#register") setTab("register");
-  }, [isOpen]);
+  }, [isOpen, location]);
 
   useEffect(() => {
     function onKey(e) {
@@ -85,37 +75,44 @@ export default function LoginModal({ isOpen, onClose }) {
     setLoginLoading(true);
     setLoginError('');
 
-    // Simulate API call
-    setTimeout(() => {
+    (async () => {
       try {
-        // Mock role logic
-        const roleFromBackendMock =
-          loginEmail.endsWith("@admin.com") ? "admin" :
-          loginEmail.endsWith("@super.com") ? "superAdmin" :
-          "user";
-
-        // Save user data to context
-        const userObj = login({
-          email: loginEmail,
-          name: loginEmail.split('@')[0],
-          avatar: '/user-avatar.png',
-          role: roleFromBackendMock,
+        const API = 'http://localhost:3000/api/users';
+        const res = await fetch(`${API}/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: loginEmail, password: loginPassword })
         });
-        
+
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const msg = payload?.message || payload?.error || 'Login failed';
+          throw new Error(msg);
+        }
+
+        const token = payload?.data?.token;
+        if (!token) throw new Error('No token returned from server');
+
+        // Delegate token handling to AuthContext
+        try {
+          await Promise.resolve(loginWithToken(token));
+        } catch (err) {
+          throw new Error(err?.message || 'Failed to initialize session');
+        }
+
         setLoginLoading(false);
         setLoginSuccess(true);
 
-        // Redirect after login
+        // close modal briefly after success (AuthProvider will redirect)
         setTimeout(() => {
           setLoginSuccess(false);
           onClose();
-          goToRoleHome(userObj.role);
         }, 600);
       } catch (error) {
         setLoginLoading(false);
         setLoginError(error.message || 'Login failed. Please try again.');
       }
-    }, 900);
+    })();
   };
 
   const onRegSubmit = (e) => {
@@ -136,37 +133,50 @@ export default function LoginModal({ isOpen, onClose }) {
     setRegLoading(true);
     setRegError('');
 
-    // Simulate API call
-    setTimeout(() => {
+    (async () => {
       try {
-        // TODO: Replace this mock with backend response role
-        const roleFromBackendMock = "user";
+        const API = 'http://localhost:3000/api/users';
+        const form = new FormData();
+        form.append('firstname', regFirstName.trim());
+        form.append('lastname', regLastName.trim());
+        form.append('email', regEmail.trim());
+        form.append('password', regPassword);
+        form.append('role', 'user');
+        form.append('phone', regPhone.trim());
 
-        // Build the user object with first/last/phone included
-        const userObj = login({
-          email: regEmail,
-          firstName: regFirstName.trim(),
-          lastName: regLastName.trim(),
-          name: `${regFirstName.trim()} ${regLastName.trim()}`, // full name for legacy usage
-          phone: regPhone,
-          avatar: '/user-avatar.png',
-          role: roleFromBackendMock,
+        const res = await fetch(`${API}/register`, {
+          method: 'POST',
+          body: form // multipart/form-data, backend expects 'avatar' if provided
         });
+
+        const payload = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          const msg = payload?.message || payload?.error || 'Registration failed';
+          throw new Error(msg);
+        }
+
+        const token = payload?.data?.token;
+        if (!token) throw new Error('No token returned from server');
+
+        // Delegate token handling to AuthContext
+        try {
+          await Promise.resolve(loginWithToken(token));
+        } catch (err) {
+          throw new Error(err?.message || 'Failed to initialize session');
+        }
 
         setRegLoading(false);
         setRegSuccess(true);
 
-        // Redirect after registration
         setTimeout(() => {
           setRegSuccess(false);
           onClose();
-          goToRoleHome(userObj.role);
         }, 600);
       } catch (error) {
         setRegLoading(false);
         setRegError(error.message || 'Registration failed. Please try again.');
       }
-    }, 900);
+    })();
   };
 
   if (!isOpen) return null;

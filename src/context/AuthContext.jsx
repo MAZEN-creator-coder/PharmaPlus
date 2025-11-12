@@ -4,8 +4,7 @@ const AuthContext = createContext();
 
 // Helper function to get dashboard route based on role
 const getDashboardRoute = (role) => {
-  console.log('Redirecting role:', role); // Debug log
-  switch (role?.toLowerCase()) {
+  switch ((role || '').toLowerCase()) {
     case 'admin':
       return '/admin';
     case 'superadmin':
@@ -15,94 +14,137 @@ const getDashboardRoute = (role) => {
   }
 };
 
+const decodeJwtPayload = (token) => {
+  try {
+    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(b64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    return JSON.parse(json);
+  } catch (err) {
+    console.error('Failed to decode JWT', err);
+    return null;
+  }
+};
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  // Check for existing user session on app load
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const savedUser = localStorage.getItem('pharmaplus_user');
-        if (savedUser) {
-          const userData = JSON.parse(savedUser);
-          // Validate user data structure
-          if (userData.email && userData.name) {
-            setUser(userData);
-          } else {
-            // Invalid user data, remove it
-            localStorage.removeItem('pharmaplus_user');
-          }
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-        localStorage.removeItem('pharmaplus_user');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, []);
-
-  // Login function
-  const login = (userData) => {
+  const [token, setToken] = useState(() => {
+    try { return localStorage.getItem('pharmaplus_token'); } catch { return null; }
+  });
+  const [user, setUser] = useState(() => {
     try {
-      // Validate required fields
-      if (!userData.email) {
-        throw new Error('Email is required for login');
-      }
+      const saved = localStorage.getItem('pharmaplus_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
+  const [isLoading, setIsLoading] = useState(true);
 
-      const userWithDefaults = {
-        id: userData.id || Date.now(),
-        name: userData.name || userData.email.split('@')[0] || 'User',
-        email: userData.email,
-        avatar: userData.avatar || '/user-avatar.png',
-        role: userData.role || 'user', // Default role
-        loginTime: new Date().toISOString(),
-        ...userData
+  useEffect(() => {
+    // Initialize from token if present
+    try {
+      if (!user && token) {
+        const payload = decodeJwtPayload(token);
+        if (payload) {
+          const userObj = {
+            id: payload.id || payload._id,
+            email: payload.email,
+            role: payload.role || 'user',
+            avatar: payload.image || '/user-avatar.png',
+            loginTime: new Date().toISOString()
+          };
+          setUser(userObj);
+          localStorage.setItem('pharmaplus_user', JSON.stringify(userObj));
+        }
+      }
+    } catch (err) {
+      console.error('Error initializing auth from token', err);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [token, user]);
+
+  // Accepts a raw JWT token, persists it and decodes payload into user
+  const loginWithToken = (t) => {
+    try {
+      if (!t) throw new Error('No token provided');
+      setToken(t);
+      localStorage.setItem('pharmaplus_token', t);
+
+      const payload = decodeJwtPayload(t) || {};
+      console.log('payload', payload);
+      const userObj = {
+        id: payload.id || payload._id || Date.now(),
+        email: payload.email,
+        role: payload.role || 'user',
+        avatar: payload.image || '/user-avatar.png',
+        loginTime: new Date().toISOString()
       };
-      
-      setUser(userWithDefaults);
-      localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults));
-      
-      // Navigate to the appropriate dashboard based on role
-      const dashboardRoute = getDashboardRoute(userWithDefaults.role);
+
+      setUser(userObj);
+      localStorage.setItem('pharmaplus_user', JSON.stringify(userObj));
+      localStorage.setItem('payload', JSON.stringify(payload));
+
+      // redirect to dashboard immediately (preserve existing behavior)
+      const dashboardRoute = getDashboardRoute(userObj.role);
       window.location.href = dashboardRoute;
-    } catch (error) {
-      console.error('Error during login:', error);
-      throw error;
+    } catch (err) {
+      console.error('loginWithToken error', err);
+      throw err;
     }
   };
 
-  // Logout function
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('pharmaplus_user');
+  // Legacy: accept a pre-built user object (keeps compatibility)
+  const login = (userData) => {
+    try {
+      const userWithDefaults = {
+        id: userData.id || Date.now(),
+        name: userData.name || userData.email?.split('@')[0] || 'User',
+        email: userData.email,
+        avatar: userData.avatar || '/user-avatar.png',
+        role: userData.role || 'user',
+        loginTime: new Date().toISOString(),
+        ...userData
+      };
+      setUser(userWithDefaults);
+      localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults));
+      const dashboardRoute = getDashboardRoute(userWithDefaults.role);
+      window.location.href = dashboardRoute;
+    } catch (err) {
+      console.error('login error', err);
+      throw err;
+    }
   };
 
-  // Update user data
+  const logout = () => {
+    setToken(null);
+    setUser(null);
+    try { localStorage.removeItem('pharmaplus_token'); } catch (err) { console.error('Storage remove error', err); }
+    try { localStorage.removeItem('pharmaplus_user'); } catch (err) { console.error('Storage remove error', err); }
+  };
+
   const updateUser = (updatedData) => {
     if (user) {
       const updatedUser = { ...user, ...updatedData };
       setUser(updatedUser);
-      localStorage.setItem('pharmaplus_user', JSON.stringify(updatedUser));
+      try { localStorage.setItem('pharmaplus_user', JSON.stringify(updatedUser)); } catch (err) { console.error('Storage set error', err); }
     }
   };
 
-  // New: Role checking function
   const hasRole = (roles) => {
     if (!user?.role) return false;
     return Array.isArray(roles) ? roles.includes(user.role) : user.role === roles;
   };
 
   const value = {
+    token,
     user,
     isLoading,
+    loginWithToken,
     login,
     logout,
     updateUser,
     isAuthenticated: !!user,
-    hasRole, // Include hasRole in the context
+    hasRole,
   };
 
   return (
