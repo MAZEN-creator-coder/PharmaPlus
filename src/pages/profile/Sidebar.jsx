@@ -2,10 +2,12 @@ import { Lock, Camera } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { getProfile } from '../../shared/api/users';
 import { updateProfile } from '../../shared/api/users';
+import { useAuth } from '../../hooks/useAuth';
 import styles from './Sidebar.module.css';
 import userAvatar from '/user-avatar.png';
 
 const Sidebar = () => {
+  const { updateUser: updateAuthUser } = useAuth();
   const [user, setUser] = useState(null);
   const [form, setForm] = useState({});
   const [avatarFile, setAvatarFile] = useState(null);
@@ -29,6 +31,7 @@ const Sidebar = () => {
       try { 
         const profile = await getProfile(token);
         setUser(profile);
+        if (updateAuthUser) updateAuthUser(profile);
         setForm({
           fullName: profile?.fullName || '',
           email: profile?.email || '',
@@ -43,7 +46,7 @@ const Sidebar = () => {
         setLoading(false);
       }
     })();
-  }, []);
+  }, [updateAuthUser]);
 
   if (loading) return <aside className={styles.sidebar}>Loading...</aside>;
 console.log(user);
@@ -82,7 +85,7 @@ console.log(user);
               if (f) {
                 // revoke previous preview if it was an object URL
                 if (avatarPreview && avatarPreview.startsWith('blob:')) {
-                  try { URL.revokeObjectURL(avatarPreview); } catch (err) {}
+                  try { URL.revokeObjectURL(avatarPreview); } catch { void 0; }
                 }
                 setAvatarFile(f);
                 setAvatarPreview(URL.createObjectURL(f));
@@ -222,6 +225,8 @@ console.log(user);
                         // update local user/avatar preview
                         const updatedAvatarUser = b.data.user;
                         setUser((prev) => ({ ...prev, ...updatedAvatarUser }));
+                        // sync with AuthContext so navbar updates immediately
+                        if (updateAuthUser) updateAuthUser({ ...updatedAvatarUser, image: updatedAvatarUser.avatar });
                         if (updatedAvatarUser?.avatar) setAvatarPreview(`http://localhost:3000/${updatedAvatarUser.avatar}`);
                         setAvatarFile(null);
                       }
@@ -236,6 +241,8 @@ console.log(user);
                       const updated = await updateProfile(token, id, payload);
                       // backend returns the updated user object
                       setUser((prev) => ({ ...prev, ...updated }));
+                      // keep AuthContext in sync (map avatar -> image for compatibility)
+                      if (updateAuthUser) updateAuthUser({ ...updated, image: updated.avatar || updated.image });
                       setForm({
                         fullName: updated.fullName || payload.fullName,
                         email: updated.email || payload.email,

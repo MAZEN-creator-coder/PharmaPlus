@@ -84,7 +84,7 @@ console.log(user);
         onClick={() => setOpen((v) => !v)}
       >
         <img
-          src={`http://localhost:3000/${user?.image || "uploads/avatar.webp"}`}
+          src={`http://localhost:3000/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
           alt="profile"
           className={styles.avatar}
         />
@@ -137,7 +137,7 @@ console.log(user);
           }}
         >
           <img
-            src={`http://localhost:3000/${user?.avatar || "uploads/avatar.webp"}`}
+            src={`http://localhost:3000/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
             alt="profile"
             className={styles.avatar}
           />

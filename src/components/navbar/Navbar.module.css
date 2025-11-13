@@ -241,7 +241,8 @@
 .mobileAuthContainer {
   display: none;
   align-items: center;
-  gap: 0;
+  gap: 8px;
+  padding: 8px 4px;
 }
 
 .desktopProfileLink {
@@ -268,13 +269,15 @@
   gap: 8px;
   background: transparent;
   border: none;
-  padding: 0;
-  border-radius: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
   color: #fff;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s ease;
   flex: 1;
+  font-size: 14px;
+  min-height: 44px;
 }
 
 .mobileProfileLink:hover {
@@ -283,20 +286,25 @@
 
 .mobileLogoutBtn {
   background: transparent;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
   color: #fff;
-  padding: 0;
-  border-radius: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
-  transition: background 0.2s ease;
+  transition: all 0.2s ease;
   flex: 1;
   text-align: center;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mobileLogoutBtn:hover {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Extra small phones */
@@ -385,23 +393,27 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 0;
+    gap: 8px;
+    padding: 8px 4px;
     width: 100%;
   }
  
   
   .mobileRightControls .cartIcon {
-    margin-right: 4px;
-    margin-top: 2px;
+    margin-right: 0;
+    margin-top: 0;
+    padding: 8px;
   }
   
   .mobileRightControls .chatIcon {
-    margin-top: 2px;
+    margin-top: 0;
+    padding: 8px;
   }
   
   .mobileRightControls .signupButton {
-    margin-top: -2px;
+    margin-top: 0;
+    padding: 8px 12px;
+    min-height: 44px;
   }
   
   .mobileRightControls .cartIcon:hover,
@@ -410,6 +422,15 @@
   .mobileRightControls .chatIcon:focus {
     outline: none;
     cursor: pointer;
+  }
+  
+  /* Mobile avatar styling - proper sizing */
+  .mobileAuthContainer .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
   }
   
 }
