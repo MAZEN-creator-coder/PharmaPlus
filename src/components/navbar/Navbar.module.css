@@ -203,6 +203,7 @@
 }
 /* Dropdown Items */
 .dropdownItem {
+  text-decoration: none;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -235,6 +236,66 @@
   font-size: 24px;
   cursor: pointer;
 }
+
+/* Mobile auth container (profile link + logout button on mobile) */
+.mobileAuthContainer {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.desktopProfileLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.desktopProfileLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mobileProfileLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 9999px;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.mobileProfileLink:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.mobileLogoutBtn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.mobileLogoutBtn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 /* Extra small phones */
 @media (max-width: 480px) {
   .logo {
@@ -244,7 +305,7 @@
     gap: 8px;
   }
 }
-/* 📱 الموبايل (حتى 767px) */
+  /* 📱 الموبايل (حتى 767px) */
 @media (max-width: 767px) {
   .indicator {
     display: none;
@@ -258,6 +319,18 @@
     align-items: center;
     justify-content: center;
   }
+  
+  /* Show mobile auth UI, hide desktop dropdown */
+  .mobileAuthContainer {
+    display: flex !important;
+  }
+  .userTrigger {
+    display: none !important;
+  }
+  .dropdown {
+    display: none !important;
+  }
+  
   /* لما المنيو مفتوحة */
   .navMenu.open {
     display: flex;
@@ -342,6 +415,17 @@
 @media (min-width: 768px) {
   .mobileRightControls {
     display: none !important;
+  }
+  
+  /* Show desktop dropdown, hide mobile auth UI */
+  .mobileAuthContainer {
+    display: none !important;
+  }
+  .userTrigger {
+    display: flex !important;
+  }
+  .dropdown {
+    display: block !important;
   }
 }
 /* Tablet and small landscape devices use burger too */

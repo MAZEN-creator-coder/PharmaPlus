@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
+import getUserById from '../shared/api/getUserById';
 
 const AuthContext = createContext();
 
@@ -29,6 +30,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => {
     try { return localStorage.getItem('pharmaplus_token'); } catch { return null; }
   });
+  // Initialize `user` from localStorage if present
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('pharmaplus_user');
@@ -40,28 +42,38 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize from token if present
-    try {
-      if (!user && token) {
+    // Initialize from token if present. Runs when `token` changes.
+    (async () => {
+      try {
+        if (!token) return;
+
         const payload = decodeJwtPayload(token);
-        if (payload) {
-          const userObj = {
-            id: payload.id || payload._id,
-            email: payload.email,
-            role: payload.role || 'user',
-            avatar: payload.image || '/user-avatar.png',
-            loginTime: new Date().toISOString()
-          };
-          setUser(userObj);
-          localStorage.setItem('pharmaplus_user', JSON.stringify(userObj));
-        }
+        if (!payload) return;
+        try { localStorage.setItem('pharmaplus_user', JSON.stringify(payload)); } catch { void 0; }
+        setUser(payload);
+
+        try {
+          const id = payload.id || payload._id;
+          if (id) {
+            // pass the current token for authorization
+            getUserById(id, token).then((remote) => {
+              if (!remote) return;
+              const first = remote.firstName || remote.firstname || remote.first_name;
+              const last = remote.lastName || remote.lastname || remote.last_name;
+              const name = remote.name || `${first || ''} ${last || ''}`.trim() || undefined;
+              if (first || last || name) {
+                setUser((prev) => ({ ...(prev || {}), ...(first ? { firstName: first } : {}), ...(last ? { lastName: last } : {}), ...(name ? { name } : {}) }));
+              }
+            }).catch(() => { /* ignore background errors */ });
+          }
+        } catch { /* ignore */ }
+      } catch (err) {
+        console.error('Error initializing auth from token', err);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      console.error('Error initializing auth from token', err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [token, user]);
+    })();
+  }, [token]);
 
   // Accepts a raw JWT token, persists it and decodes payload into user
   const loginWithToken = (t) => {
@@ -69,23 +81,28 @@ export function AuthProvider({ children }) {
       if (!t) throw new Error('No token provided');
       setToken(t);
       localStorage.setItem('pharmaplus_token', t);
-
       const payload = decodeJwtPayload(t) || {};
-      console.log('payload', payload);
-      const userObj = {
-        id: payload.id || payload._id || Date.now(),
-        email: payload.email,
-        role: payload.role || 'user',
-        avatar: payload.image || '/user-avatar.png',
-        loginTime: new Date().toISOString()
-      };
+      setUser(payload);
+      try { localStorage.setItem('pharmaplus_user', JSON.stringify(payload)); } catch { void 0; }
 
-      setUser(userObj);
-      localStorage.setItem('pharmaplus_user', JSON.stringify(userObj));
-      localStorage.setItem('payload', JSON.stringify(payload));
+      // In-memory-only enrichment: fetch canonical profile names but DO NOT persist them.
+      try {
+        const id = payload.id || payload._id;
+        if (id) {
+          getUserById(id, t).then((remote) => {
+            if (!remote) return;
+            const first = remote.firstName || remote.firstname || remote.first_name;
+            const last = remote.lastName || remote.lastname || remote.last_name;
+            const name = remote.name || `${first || ''} ${last || ''}`.trim() || undefined;
+            if (first || last || name) {
+              setUser((prev) => ({ ...(prev || {}), ...(first ? { firstName: first } : {}), ...(last ? { lastName: last } : {}), ...(name ? { name } : {}) }));
+            }
+          }).catch(() => { /* ignore background errors */ });
+        }
+      } catch { /* ignore */ }
 
-      // redirect to dashboard immediately (preserve existing behavior)
-      const dashboardRoute = getDashboardRoute(userObj.role);
+      // redirect to dashboard immediately (use role from payload)
+      const dashboardRoute = getDashboardRoute(payload.role);
       window.location.href = dashboardRoute;
     } catch (err) {
       console.error('loginWithToken error', err);
@@ -93,7 +110,6 @@ export function AuthProvider({ children }) {
     }
   };
 
-  // Legacy: accept a pre-built user object (keeps compatibility)
   const login = (userData) => {
     try {
       const userWithDefaults = {
@@ -105,8 +121,8 @@ export function AuthProvider({ children }) {
         loginTime: new Date().toISOString(),
         ...userData
       };
-      setUser(userWithDefaults);
-      localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults));
+  setUser(userWithDefaults);
+    try { localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults)); } catch { void 0; }
       const dashboardRoute = getDashboardRoute(userWithDefaults.role);
       window.location.href = dashboardRoute;
     } catch (err) {
@@ -116,17 +132,17 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-    setToken(null);
-    setUser(null);
-    try { localStorage.removeItem('pharmaplus_token'); } catch (err) { console.error('Storage remove error', err); }
-    try { localStorage.removeItem('pharmaplus_user'); } catch (err) { console.error('Storage remove error', err); }
+  setToken(null);
+  setUser(null);
+  try { localStorage.removeItem('pharmaplus_token'); } catch (err) { console.error('Storage remove error', err); }
+  try { localStorage.removeItem('pharmaplus_user'); } catch (err) { console.error('Storage remove error', err); }
   };
 
   const updateUser = (updatedData) => {
     if (user) {
       const updatedUser = { ...user, ...updatedData };
       setUser(updatedUser);
-      try { localStorage.setItem('pharmaplus_user', JSON.stringify(updatedUser)); } catch (err) { console.error('Storage set error', err); }
+      try { localStorage.setItem('pharmaplus_user', JSON.stringify(updatedUser)); } catch { void 0; }
     }
   };
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react"; 
 import styles from "./LoginModal.module.css";
 import { useAuth } from "../../../hooks/useAuth";
+import postLogin from "../../../shared/api/postLogin";
+import postUser from "../../../shared/api/postUser";
 import { useLocation } from "react-router-dom";
 
 export default function LoginModal({ isOpen, onClose }) {
@@ -77,28 +79,12 @@ export default function LoginModal({ isOpen, onClose }) {
 
     (async () => {
       try {
-        const API = 'http://localhost:3000/api/users';
-        const res = await fetch(`${API}/login`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: loginEmail, password: loginPassword })
-        });
-
-        const payload = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          const msg = payload?.message || payload?.error || 'Login failed';
-          throw new Error(msg);
-        }
-
+        const payload = await postLogin({ email: loginEmail, password: loginPassword });
         const token = payload?.data?.token;
         if (!token) throw new Error('No token returned from server');
 
         // Delegate token handling to AuthContext
-        try {
-          await Promise.resolve(loginWithToken(token));
-        } catch (err) {
-          throw new Error(err?.message || 'Failed to initialize session');
-        }
+        await loginWithToken(token);
 
         setLoginLoading(false);
         setLoginSuccess(true);
@@ -135,7 +121,6 @@ export default function LoginModal({ isOpen, onClose }) {
 
     (async () => {
       try {
-        const API = 'http://localhost:3000/api/users';
         const form = new FormData();
         form.append('firstname', regFirstName.trim());
         form.append('lastname', regLastName.trim());
@@ -144,26 +129,12 @@ export default function LoginModal({ isOpen, onClose }) {
         form.append('role', 'user');
         form.append('phone', regPhone.trim());
 
-        const res = await fetch(`${API}/register`, {
-          method: 'POST',
-          body: form // multipart/form-data, backend expects 'avatar' if provided
-        });
-
-        const payload = await res.json().catch(() => ({}));
-        if (!res.ok) {
-          const msg = payload?.message || payload?.error || 'Registration failed';
-          throw new Error(msg);
-        }
-
+        const payload = await postUser(form);
         const token = payload?.data?.token;
         if (!token) throw new Error('No token returned from server');
 
         // Delegate token handling to AuthContext
-        try {
-          await Promise.resolve(loginWithToken(token));
-        } catch (err) {
-          throw new Error(err?.message || 'Failed to initialize session');
-        }
+        await loginWithToken(token);
 
         setRegLoading(false);
         setRegSuccess(true);

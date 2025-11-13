@@ -2,25 +2,18 @@ import { useMemo, useState } from "react";
 import { ProductContext } from "./productContext";
 
 export function ProductProvider({ children }) {
-  // Products selected from search list (source of truth for what's added to cart)
   const [selectedProducts, setSelectedProducts] = useState([]);
-
-  // Cart items with UI-specific state (quantity, selected)
   const [cartItems, setCartItems] = useState([]);
 
-  // Toggle a product from search results (Add/Remove from cart)
+  // Product operations
   const toggleProduct = (product) => {
     const exists = selectedProducts.find((p) => p.id === product.id);
 
     if (exists) {
-      // Remove from selected list
       setSelectedProducts((prev) => prev.filter((p) => p.id !== product.id));
-      // Remove corresponding cart item
       setCartItems((items) => items.filter((item) => item.id !== product.id));
     } else {
-      // Add to selected list
       setSelectedProducts((prev) => [...prev, product]);
-      // Add to cart with defaults (qty: 1, selected: true)
       setCartItems((items) => [
         ...items,
         {
@@ -42,7 +35,6 @@ export function ProductProvider({ children }) {
   };
 
   const removeFromCart = (id) => {
-    // Remove from cart and also unselect from search-selected list
     setCartItems((items) => items.filter((item) => item.id !== id));
     setSelectedProducts((prev) => prev.filter((p) => p.id !== id));
   };
