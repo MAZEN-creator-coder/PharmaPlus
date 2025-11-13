@@ -32,7 +32,7 @@ const Sidebar = () => {
   }, []);
 
   if (loading) return <aside className={styles.sidebar}>Loading...</aside>;
-
+console.log(user);
   return (
     <aside className={styles.sidebar}>
       <div className={styles.profileSection}>
