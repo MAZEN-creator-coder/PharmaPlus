@@ -1,6 +1,9 @@
+import { desc } from "framer-motion/client";
+
 export const pharmacy ={
     total_sales: '$125,430',
     total_orders: 5421,
+    position: [30.0444, 31.2357],
     products_in_stock: 3421,
     no_of_customers: 8765,
     orders : [
@@ -43,10 +46,10 @@ export const pharmacy ={
         }
     ],
     medicines : [
-        { id: 201, name: 'Cetirizine 10mg', image: '/meds/cetirizine.jpg', category: 'Allergy', stock: 200, threshold: 25, price: 6.5, status: 'Available' },
-        { id: 202, name: 'Metformin 500mg', image: '/meds/metformin.jpg', category: 'Diabetes', stock: 20, threshold: 10, price: 11.0, status: 'lowStock' },
-        { id: 203, name: 'Atorvastatin 20mg', image: '/meds/atorvastatin.jpg', category: 'Cardio', stock: 0, threshold: 0, price: 18.0, status: 'outOfStock' },
-        { id: 204, name: 'Omeprazole 20mg', image: '/meds/omeprazole.jpg', category: 'Gastro', stock: 75, threshold: 25, price: 7.25, status: 'Available' },
+        { id: 201, name: 'Cetirizine 10mg', medicineImage: '/meds/cetirizine.jpg', category: 'Allergy', stock: 200, threshold: 25, price: 6.5, status: 'Available',description: 'Used for allergy relief.' },
+        { id: 202, name: 'Metformin 500mg', medicineImage: '/meds/metformin.jpg', category: 'Diabetes', stock: 20, threshold: 10, price: 11.0, status: 'lowStock',description: 'Helps control blood sugar levels.' },
+        { id: 203, name: 'Atorvastatin 20mg', medicineImage: '/meds/atorvastatin.jpg', category: 'Cardio', stock: 0, threshold: 0, price: 18.0, status: 'outOfStock',description: 'Lowers cholesterol levels.' },
+        { id: 204, name: 'Omeprazole 20mg', medicineImage: '/meds/omeprazole.jpg', category: 'Gastro', stock: 75, threshold: 25, price: 7.25, status: 'Available',description: 'Treats acid reflux and ulcers.' },
     ],
     lowStockAlerts : medicines.filter(m => m.stock <= m.threshold).map(m => ({
         id: `alert-${m.id}`,

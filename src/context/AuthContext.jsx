@@ -73,7 +73,7 @@ export function AuthProvider({ children }) {
         setIsLoading(false);
       }
     })();
-  }, [token]);
+  }, [token,setUser]);
 
   // Accepts a raw JWT token, persists it and decodes payload into user
   const loginWithToken = (t) => {
