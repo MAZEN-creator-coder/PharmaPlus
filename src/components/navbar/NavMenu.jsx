@@ -34,10 +34,11 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
   const x = useSpring(0, { stiffness: 140, damping: 28, mass: 1 });
   const w = useSpring(0, { stiffness: 160, damping: 32, mass: 1 });
 
+  const normalizedRole = (userRole || '').toLowerCase();
   const visibleLinks =
-    userRole === "admin"
+    normalizedRole === "admin"
       ? ADMIN_LINKS
-      : userRole === "superAdmin"
+      : normalizedRole === "superadmin"
       ? SUPER_ADMIN_LINKS
       : USER_LINKS;
 

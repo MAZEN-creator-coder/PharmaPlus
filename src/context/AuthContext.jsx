@@ -110,26 +110,7 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const login = (userData) => {
-    try {
-      const userWithDefaults = {
-        id: userData.id || Date.now(),
-        name: userData.name || userData.email?.split('@')[0] || 'User',
-        email: userData.email,
-        avatar: userData.avatar || '/user-avatar.png',
-        role: userData.role || 'user',
-        loginTime: new Date().toISOString(),
-        ...userData
-      };
-  setUser(userWithDefaults);
-    try { localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults)); } catch { void 0; }
-      const dashboardRoute = getDashboardRoute(userWithDefaults.role);
-      window.location.href = dashboardRoute;
-    } catch (err) {
-      console.error('login error', err);
-      throw err;
-    }
-  };
+  // legacy `login` removed — use `loginWithToken` which derives role from the JWT payload
 
   const logout = () => {
   setToken(null);
@@ -148,15 +129,18 @@ export function AuthProvider({ children }) {
 
   const hasRole = (roles) => {
     if (!user?.role) return false;
-    return Array.isArray(roles) ? roles.includes(user.role) : user.role === roles;
+    const userRoleNormalized = String(user.role).toLowerCase();
+    if (Array.isArray(roles)) {
+      return roles.some(r => String(r).toLowerCase() === userRoleNormalized);
+    }
+    return String(roles).toLowerCase() === userRoleNormalized;
   };
 
   const value = {
     token,
     user,
     isLoading,
-    loginWithToken,
-    login,
+  loginWithToken,
     logout,
     updateUser,
     isAuthenticated: !!user,

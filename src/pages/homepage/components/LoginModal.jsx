@@ -33,7 +33,7 @@ export default function LoginModal({ isOpen, onClose }) {
   // Navigation hooks
   const location = useLocation();
 
-  // Redirect handled by AuthProvider.login which sets window.location.href
+  // Redirect handled by AuthProvider via `loginWithToken` (role is derived from the JWT payload)
 
   useEffect(() => {
     if (location.hash === "#register") setTab("register");
