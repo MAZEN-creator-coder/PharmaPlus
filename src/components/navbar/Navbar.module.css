@@ -241,7 +241,7 @@
 .mobileAuthContainer {
   display: none;
   align-items: center;
-  gap: 12px;
+  gap: 0;
 }
 
 .desktopProfileLink {
@@ -268,32 +268,35 @@
   gap: 8px;
   background: transparent;
   border: none;
-  padding: 6px 12px;
-  border-radius: 9999px;
+  padding: 0;
+  border-radius: 0;
   color: #fff;
   cursor: pointer;
   text-decoration: none;
   transition: background 0.2s ease;
+  flex: 1;
 }
 
 .mobileProfileLink:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: transparent;
 }
 
 .mobileLogoutBtn {
-  background: rgba(255, 255, 255, 0.2);
+  background: transparent;
   border: none;
   color: #fff;
-  padding: 8px 14px;
-  border-radius: 9999px;
+  padding: 0;
+  border-radius: 0;
   cursor: pointer;
   font-size: 14px;
   font-weight: 500;
   transition: background 0.2s ease;
+  flex: 1;
+  text-align: center;
 }
 
 .mobileLogoutBtn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: transparent;
 }
 
 /* Extra small phones */
@@ -336,7 +339,7 @@
     display: flex;
     flex-direction: column; /* العناصر تحت بعض */
     position: absolute;
-    top: 64px; /* ارتفاع Navbar */
+    top: 100%; /* sit directly below navbar */
     left: 0;
     right: 0;
     background: var(--brand-bg);
@@ -437,7 +440,7 @@
     display: flex;
     flex-direction: column;
     position: absolute;
-    top: 64px;
+    top: 100%;
     left: 0;
     right: 0;
     background: var(--brand-bg);

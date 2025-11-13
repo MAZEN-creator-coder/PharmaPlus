@@ -10,8 +10,9 @@ export default function CartButton({ onOpenLogin }) {
   const { user } = useAuth();
   const { getSelectedCount } = useContext(ProductContext);
 
-  // Hide cart for admin and superAdmin roles
-  if (user?.role === 'admin' || user?.role === 'superAdmin') {
+  // Hide cart for admin and superAdmin roles (case-insensitive)
+  const role = (user?.role || '').toLowerCase();
+  if (role === 'admin' || role === 'superadmin') {
     return null;
   }
 
