@@ -16,6 +16,13 @@ const Sidebar = () => {
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
 
+  const splitFullName = (fullName = '') => {
+    const parts = (fullName || '').trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return { firstname: '', lastname: '' };
+    if (parts.length === 1) return { firstname: parts[0], lastname: '' };
+    return { firstname: parts[0], lastname: parts.slice(1).join(' ') };
+  };
+
   useEffect(() => {
     (async () => {
       
@@ -36,7 +43,6 @@ const Sidebar = () => {
           preferences: profile?.preferences || {},
         });
         if (profile?.avatar) setAvatarPreview(`http://localhost:3000/${profile.avatar}`);
-        console.log(profile);
       } catch (err) {
         setError(err.message || 'Failed to load profile');
       } finally {
@@ -45,8 +51,8 @@ const Sidebar = () => {
     })();
   }, []);
 
+  console.log("amr_user: ",user);
   if (loading) return <aside className={styles.sidebar}>Loading...</aside>;
-console.log(user);
   return (
     <aside className={styles.sidebar}>
       <div className={styles.profileSection}>
@@ -226,8 +232,11 @@ console.log(user);
                         setAvatarFile(null);
                       }
 
+                      const nameParts = splitFullName(form.fullName || user?.fullName || '');
                       const payload = {
                         fullName: form.fullName,
+                        firstname: nameParts.firstname,
+                        lastname: nameParts.lastname,
                         email: form.email,
                         phone: form.phone,
                         preferences: form.preferences,
@@ -235,7 +244,11 @@ console.log(user);
 
                       const updated = await updateProfile(token, id, payload);
                       // backend returns the updated user object
-                      setUser((prev) => ({ ...prev, ...updated }));
+                      // ensure firstname/lastname are present locally if backend doesn't return them
+                      const merged = { ...updated };
+                      if (!merged.firstname && payload.firstname) await updateProfile(token, id, {firstname: payload.firstname});
+                      if (!merged.lastname && payload.lastname) await updateProfile(token, id, {lastname: payload.lastname});
+                      setUser((prev) => ({ ...prev, ...merged }));
                       setForm({
                         fullName: updated.fullName || payload.fullName,
                         email: updated.email || payload.email,
