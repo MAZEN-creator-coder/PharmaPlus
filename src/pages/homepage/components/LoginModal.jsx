@@ -60,6 +60,32 @@ export default function LoginModal({ isOpen, onClose }) {
   const validatePassword = (v, min=6) => v.length >= min;
   const validatePhone = (v) => /^\+?[0-9]{7,15}$/.test(v); // يسمح بالـ + اختياريًا ثم 7-15 رقم
 
+  // Extract user-friendly message and optional field errors from API errors
+  const parseApiError = (error) => {
+    try {
+      const payload = error && error.payload ? error.payload : null;
+      // payload may contain { status, data: { msg: '...' } } or { message }
+      const status = error && error.status ? error.status : (payload && payload.status) || null;
+
+      // prefer payload.data.msg (backend sample), then payload.message, then error.message
+      const backendMsg = payload && payload.data && (payload.data.msg || payload.data.message);
+      const message = backendMsg || (payload && (payload.message || payload.error)) || error.message || 'Request failed';
+
+      // if payload contains field-level errors (common shapes), try to map them
+      let fieldErrors = null;
+      // Example: payload.data.errors = { email: 'Invalid', password: '...' }
+      if (payload && payload.data && typeof payload.data.errors === 'object' && !Array.isArray(payload.data.errors)) {
+        fieldErrors = payload.data.errors;
+      } else if (payload && payload.errors && typeof payload.errors === 'object' && !Array.isArray(payload.errors)) {
+        fieldErrors = payload.errors;
+      }
+
+      return { message: status ? `Error (${status}): ${message}` : message, fieldErrors };
+    } catch {
+      return { message: error?.message || 'Request failed', fieldErrors: null };
+    }
+  };
+
   const handleOverlayClick = (e) => {
     if (e.target === overlayRef.current) onClose();
   };
@@ -96,7 +122,9 @@ export default function LoginModal({ isOpen, onClose }) {
         }, 600);
       } catch (error) {
         setLoginLoading(false);
-        setLoginError(error.message || 'Login failed. Please try again.');
+        const { message, fieldErrors } = parseApiError(error);
+        if (fieldErrors) setLoginErrors(prev => ({ ...prev, ...fieldErrors }));
+        setLoginError(message || 'Login failed. Please try again.');
       }
     })();
   };
@@ -145,7 +173,9 @@ export default function LoginModal({ isOpen, onClose }) {
         }, 600);
       } catch (error) {
         setRegLoading(false);
-        setRegError(error.message || 'Registration failed. Please try again.');
+        const { message, fieldErrors } = parseApiError(error);
+        if (fieldErrors) setRegErrors(prev => ({ ...prev, ...fieldErrors }));
+        setRegError(message || 'Registration failed. Please try again.');
       }
     })();
   };
@@ -167,7 +197,13 @@ export default function LoginModal({ isOpen, onClose }) {
             <div className={`${styles.formSection} ${styles.active}`} id="loginForm">
               <h2 className={styles.formTitle}>Welcome Back</h2>
               <div className={`${styles.successMessage} ${loginSuccess ? styles.show : ""}`}>Login successful!</div>
-              <div className={`${styles.errorMessage} ${loginError ? styles.show : ""}`}>{loginError}</div>
+              {loginError && (
+                <div className={`${styles.alertBox} ${styles.alertError}`} role="alert">
+                  <div className={styles.alertIcon}>!</div>
+                  <div className={styles.alertContent}>{loginError}</div>
+                  <button className={styles.alertClose} onClick={() => setLoginError('')} aria-label="Dismiss">×</button>
+                </div>
+              )}
               <form id="loginFormElement" onSubmit={onLoginSubmit}>
                 <div className={styles.formGroup}>
                   <label htmlFor="loginEmail">Email Address</label>
@@ -229,7 +265,13 @@ export default function LoginModal({ isOpen, onClose }) {
             <div className={`${styles.formSection} ${styles.active}`} id="registerForm">
               <h2 className={styles.formTitle}>Create Account</h2>
               <div className={`${styles.successMessage} ${regSuccess ? styles.show : ""}`}>Registration successful!</div>
-              <div className={`${styles.errorMessage} ${regError ? styles.show : ""}`}>{regError}</div>
+              {regError && (
+                <div className={`${styles.alertBox} ${styles.alertError}`} role="alert">
+                  <div className={styles.alertIcon}>!</div>
+                  <div className={styles.alertContent}>{regError}</div>
+                  <button className={styles.alertClose} onClick={() => setRegError('')} aria-label="Dismiss">×</button>
+                </div>
+              )}
               <form id="registerFormElement" onSubmit={onRegSubmit}>
 
                 <div className={styles.formGroup} style={{display: 'flex', gap: '12px'}}>
