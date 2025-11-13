@@ -1,11 +1,11 @@
 import { createContext, useState, useEffect } from 'react';
+import getUserById from '../shared/api/getUserById';
 
 const AuthContext = createContext();
 
 // Helper function to get dashboard route based on role
 const getDashboardRoute = (role) => {
-  console.log('Redirecting role:', role); // Debug log
-  switch (role?.toLowerCase()) {
+  switch ((role || '').toLowerCase()) {
     case 'admin':
       return '/admin';
     case 'superadmin':
@@ -15,94 +15,136 @@ const getDashboardRoute = (role) => {
   }
 };
 
+const decodeJwtPayload = (token) => {
+  try {
+    const b64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const json = decodeURIComponent(atob(b64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+    return JSON.parse(json);
+  } catch (err) {
+    console.error('Failed to decode JWT', err);
+    return null;
+  }
+};
+
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(() => {
+    try { return localStorage.getItem('pharmaplus_token'); } catch { return null; }
+  });
+  // Initialize `user` from localStorage if present
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pharmaplus_user');
+      return saved ? JSON.parse(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isLoading, setIsLoading] = useState(true);
-  // Check for existing user session on app load
+
   useEffect(() => {
-    const checkAuth = async () => {
+    // Initialize from token if present. Runs when `token` changes.
+    (async () => {
       try {
-        const savedUser = localStorage.getItem('pharmaplus_user');
-        if (savedUser) {
-          const userData = JSON.parse(savedUser);
-          // Validate user data structure
-          if (userData.email && userData.name) {
-            setUser(userData);
-          } else {
-            // Invalid user data, remove it
-            localStorage.removeItem('pharmaplus_user');
+        if (!token) return;
+
+        const payload = decodeJwtPayload(token);
+        if (!payload) return;
+        try { localStorage.setItem('pharmaplus_user', JSON.stringify(payload)); } catch { void 0; }
+        setUser(payload);
+
+        try {
+          const id = payload.id || payload._id;
+          if (id) {
+            // pass the current token for authorization
+            getUserById(id, token).then((remote) => {
+              if (!remote) return;
+              const first = remote.firstName || remote.firstname || remote.first_name;
+              const last = remote.lastName || remote.lastname || remote.last_name;
+              const name = remote.name || `${first || ''} ${last || ''}`.trim() || undefined;
+              if (first || last || name) {
+                setUser((prev) => ({ ...(prev || {}), ...(first ? { firstName: first } : {}), ...(last ? { lastName: last } : {}), ...(name ? { name } : {}) }));
+              }
+            }).catch(() => { /* ignore background errors */ });
           }
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
-        localStorage.removeItem('pharmaplus_user');
+        } catch { /* ignore */ }
+      } catch (err) {
+        console.error('Error initializing auth from token', err);
       } finally {
         setIsLoading(false);
       }
-    };
+    })();
+  }, [token,setUser]);
 
-    checkAuth();
-  }, []);
-
-  // Login function
-  const login = (userData) => {
+  // Accepts a raw JWT token, persists it and decodes payload into user
+  const loginWithToken = (t) => {
     try {
-      // Validate required fields
-      if (!userData.email) {
-        throw new Error('Email is required for login');
-      }
+      if (!t) throw new Error('No token provided');
+      setToken(t);
+      localStorage.setItem('pharmaplus_token', t);
+      const payload = decodeJwtPayload(t) || {};
+      setUser(payload);
+      try { localStorage.setItem('pharmaplus_user', JSON.stringify(payload)); } catch { void 0; }
 
-      const userWithDefaults = {
-        id: userData.id || Date.now(),
-        name: userData.name || userData.email.split('@')[0] || 'User',
-        email: userData.email,
-        avatar: userData.avatar || '/user-avatar.png',
-        role: userData.role || 'user', // Default role
-        loginTime: new Date().toISOString(),
-        ...userData
-      };
-      
-      setUser(userWithDefaults);
-      localStorage.setItem('pharmaplus_user', JSON.stringify(userWithDefaults));
-      
-      // Navigate to the appropriate dashboard based on role
-      const dashboardRoute = getDashboardRoute(userWithDefaults.role);
+      // In-memory-only enrichment: fetch canonical profile names but DO NOT persist them.
+      try {
+        const id = payload.id || payload._id;
+        if (id) {
+          getUserById(id, t).then((remote) => {
+            if (!remote) return;
+            const first = remote.firstName || remote.firstname || remote.first_name;
+            const last = remote.lastName || remote.lastname || remote.last_name;
+            const name = remote.name || `${first || ''} ${last || ''}`.trim() || undefined;
+            if (first || last || name) {
+              setUser((prev) => ({ ...(prev || {}), ...(first ? { firstName: first } : {}), ...(last ? { lastName: last } : {}), ...(name ? { name } : {}) }));
+            }
+          }).catch(() => { /* ignore background errors */ });
+        }
+      } catch { /* ignore */ }
+
+      // redirect to dashboard immediately (use role from payload)
+      const dashboardRoute = getDashboardRoute(payload.role);
       window.location.href = dashboardRoute;
-    } catch (error) {
-      console.error('Error during login:', error);
-      throw error;
+    } catch (err) {
+      console.error('loginWithToken error', err);
+      throw err;
     }
   };
 
-  // Logout function
+  // legacy `login` removed — use `loginWithToken` which derives role from the JWT payload
+
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem('pharmaplus_user');
+  setToken(null);
+  setUser(null);
+  try { localStorage.removeItem('pharmaplus_token'); } catch (err) { console.error('Storage remove error', err); }
+  try { localStorage.removeItem('pharmaplus_user'); } catch (err) { console.error('Storage remove error', err); }
   };
 
-  // Update user data
   const updateUser = (updatedData) => {
     if (user) {
       const updatedUser = { ...user, ...updatedData };
       setUser(updatedUser);
-      localStorage.setItem('pharmaplus_user', JSON.stringify(updatedUser));
+      try { localStorage.setItem('pharmaplus_user', JSON.stringify(updatedUser)); } catch { void 0; }
     }
   };
 
-  // New: Role checking function
   const hasRole = (roles) => {
     if (!user?.role) return false;
-    return Array.isArray(roles) ? roles.includes(user.role) : user.role === roles;
+    const userRoleNormalized = String(user.role).toLowerCase();
+    if (Array.isArray(roles)) {
+      return roles.some(r => String(r).toLowerCase() === userRoleNormalized);
+    }
+    return String(roles).toLowerCase() === userRoleNormalized;
   };
 
   const value = {
+    token,
     user,
     isLoading,
-    login,
+  loginWithToken,
     logout,
     updateUser,
     isAuthenticated: !!user,
-    hasRole, // Include hasRole in the context
+    hasRole,
   };
 
   return (

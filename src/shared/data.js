@@ -1,3 +1,5 @@
+import { distance } from "framer-motion";
+
 // Original data used by search and other pages
 export const data = [
   {
@@ -50,13 +52,11 @@ export const data = [
 //NOHA 
 // Admin page medicine data
 export const medicines = [
-  { id: 101, name: "Paracetamol 500mg", image: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available" },
-  { id: 102, name: "Ibuprofen 200mg", image: "https://placehold.co/400x400/f97316/ffffff?text=I", category: "Anti-inflammatory", stock: 8, price: 7.49, description: "For pain and inflammation.", status: "lowStock" },
-  { id: 103, name: "Amoxicillin 250mg", image: "https://placehold.co/400x400/ef4444/ffffff?text=A", category: "Antibiotics", stock: 0, price: 12.0, description: "Broad spectrum antibiotic.", status: "outOfStock" },
-  { id: 104, name: "Multivitamin Complex", image: "https://placehold.co/400x400/10b981/ffffff?text=M", category: "Supplements", stock: 45, price: 9.99, description: "Complete daily vitamin and mineral supplement.", status: "Available" },
-  { id: 105, name: "Night-time Cough Syrup", image: "https://placehold.co/400x400/06b6d4/ffffff?text=C", category: "Cold & Flu", stock: 15, price: 6.25, description: "Non-drowsy formula for persistent coughs.", status: "Available" },
-  { id: 106, name: "Allergy Relief 10mg", image: "https://placehold.co/400x400/f59e0b/ffffff?text=AL", category: "Allergy", stock: 3, price: 10.5, description: "24-hour allergy symptom relief.", status: "lowStock" }
-];
+  { id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
+  { id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
+  { id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
+  {  id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
+ ];
 
 // super admin page pharmacy data
 export const pharmaciesData = [

@@ -9,6 +9,9 @@ import CursorEffect from "./components/CursorEffect";
 import styles from "./Homepage.module.css";
 
 export default function Homepage() {
+  const x = localStorage.getItem('pharmaplus_token');
+  console.log(x);
+
   useEffect(() => {
     // Optional: show login modal if URL has #login or #register
   }, []);

@@ -1,20 +1,26 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 import { FaChevronDown } from "react-icons/fa";
+// eslint-disable-next-line no-unused-vars
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../../hooks/useAuth";
 
 export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const [displayName, setDisplayName] = useState(() => {
+    const first = user?.firstName ?? user?.firstname ?? user?.first_name;
+    const last = user?.lastName ?? user?.lastname ?? user?.last_name;
+    if (first || last) return `${first || ''} ${last || ''}`.trim();
+    if (user?.name) return user.name;
+    return '';
+  });
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef(null);
 
   const handleLoginClick = (e) => {
     e.preventDefault();
-    if (onOpenLogin) {
-      onOpenLogin();
-    }
+    if (onOpenLogin) onOpenLogin();
   };
 
   const handleLogout = () => {
@@ -31,22 +37,32 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
       }
     };
 
-    if (open) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    if (open) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [open]);
 
-  // Show loading state while checking authentication
+  // Keep displayName in sync with user from AuthContext
+  useEffect(() => {
+    const first = user?.firstName ?? user?.firstname ?? user?.first_name;
+    const last = user?.lastName ?? user?.lastname ?? user?.last_name;
+    if (first || last) {
+      setDisplayName(`${first || ''} ${last || ''}`.trim());
+      return;
+    }
+
+    if (user?.name) {
+      setDisplayName(user.name);
+      return;
+    }
+    // If no name/first+last available, leave empty
+    setDisplayName('');
+  }, [user]);
+
+
+  //  AuthWidget only reads `user` and `profileLoading`.
   if (isLoading) {
     return (
-      <button
-        className={styles.signupButton}
-        disabled
-      >
+      <button className={styles.signupButton} disabled>
         Loading...
       </button>
     );
@@ -54,22 +70,27 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
 
   if (!isAuthenticated) {
     return (
-      <button
-        className={styles.signupButton}
-        onClick={handleLoginClick}
-      >
+      <button className={styles.signupButton} onClick={handleLoginClick}>
         Login
       </button>
     );
   }
-
+console.log(user);
   return (
     <div className={styles.userBox} ref={dropdownRef}>
-      <button className={styles.userTrigger} onClick={() => setOpen((v) => !v)}>
-        <img src={user.avatar} alt="profile" className={styles.avatar} />
-        <span>{user.name}</span>
-
-        {/* السهم بيتحرك */}
+      {/* Desktop: button toggles dropdown */}
+      <button 
+        className={styles.userTrigger} 
+        onClick={() => setOpen((v) => !v)}
+      >
+        <img
+          src={`http://localhost:3000/${user?.image || "uploads/avatar.webp"}`}
+          alt="profile"
+          className={styles.avatar}
+        />
+        <span>
+          {(displayName && displayName !== '') ? displayName : "Loading…"}
+        </span>
         <motion.div
           className={styles.caret}
           animate={{ rotate: open ? 180 : 0 }}
@@ -79,7 +100,7 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
         </motion.div>
       </button>
 
-      {/* القائمة المنسدلة */}
+      {/* Desktop: Dropdown menu */}
       <AnimatePresence>
         {open && (
           <motion.div
@@ -89,8 +110,8 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.25 }}
           >
-            <Link 
-              to="/profile" 
+            <Link
+              to="/profile"
               className={styles.dropdownItem}
               onClick={() => {
                 setOpen(false);
@@ -99,15 +120,40 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
             >
               Profile
             </Link>
-            <button
-              className={styles.dropdownItem}
-              onClick={handleLogout}
-            >
+            <button className={styles.dropdownItem} onClick={handleLogout}>
               Logout
             </button>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Mobile: Link to profile + logout button */}
+      <div className={styles.mobileAuthContainer}>
+        <Link 
+          to="/profile" 
+          className={styles.mobileProfileLink}
+          onClick={() => {
+            if (isOpen && setIsOpen) setIsOpen(false);
+          }}
+        >
+          <img
+            src={`http://localhost:3000/${user?.avatar || "uploads/avatar.webp"}`}
+            alt="profile"
+            className={styles.avatar}
+          />
+          <span>{(displayName && displayName !== '') ? displayName : "Loading…"}</span>
+        </Link>
+        <button 
+          className={styles.mobileLogoutBtn}
+          onClick={() => {
+            handleLogout();
+            if (isOpen && setIsOpen) setIsOpen(false);
+          }}
+          type="button"
+        >
+          Logout
+        </button>
+      </div>
     </div>
   );
 }

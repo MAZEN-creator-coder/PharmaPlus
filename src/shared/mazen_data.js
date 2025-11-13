@@ -1,9 +1,8 @@
 // Original data used by search 
+//اربط الادوية الصيدليات 
 export const data = [
   {
     id: 1,
-    id_pharmacy: 1,
-
     //done
     name: "Aspirin",
     //done
@@ -14,13 +13,13 @@ export const data = [
     status: "Available",
     //done
     distance: "2.5km",
-    //calc from back end
+    //calculated in front by pharmacy location
     category: "teblets",
     //done
     pharmacy: "Pharmacy A",
-    //done
     description: "this is aspirin",
     //done
+
   },
   {
     id: 2,
@@ -302,5 +301,47 @@ const dashboardData = {
     suspended: 1,
   },
 };
+// اللي ناقص فيه ال orders
+//قول لعمرو يغير اسم  customer  -> name
+//لازم اضيف الايميل  عشان الادمن
+//اربط كل order بالصيدلية بتاعتها 
+//اربط كل order باليوزر بتاعتها
+//  orders= [
+//     {
+//       id: "ORD-001",
+//       //done
+//       name: "Aisha Sharma",
+//       //done
+//       date: "2024-07-28",
+//       //done
+//       status: "Delivered",
+//       //done
+//       total: "₹1,250.00",
+//       //done
+//       paymentMethod: "Card",
+//         addresses: 
+//     {
+//       street: "12 Nile St",
+//       city: "Cairo",
+//       additionalDirections: "Near the central park",
+//       postalCode: "11511",
+//       phone: "+20 100 000 0000",
+//     },
+//       items: [
+//         {
+//           id: 1,
+//           name: "Aspirin",
+//           medicineImage: "/aspirin.jpg",
+//           price: 100,
+//           status: "Available",
+//           distance: "2.5km",
+//           category: "teblets",
+//           pharmacy: "Pharmacy A",
+//           description: "this is aspirin",
+//           quantity: 2,
+//         },
+//       ]
+//     },
+
 
 

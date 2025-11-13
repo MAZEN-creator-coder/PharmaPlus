@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Brand from "./Brand.jsx";
 import NavMenu from "./NavMenu.jsx";
 import RightControls from "./RightControls.jsx";
@@ -11,15 +11,35 @@ import { useAuth } from "../../hooks/useAuth";
 export default function Navbar({ onOpenLogin }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
+  const navRef = useRef(null);
+
+  // Close mobile menu when clicking outside the navbar/menu
+  useEffect(() => {
+    function handleDocClick(e) {
+      if (!isOpen) return;
+      const node = navRef.current;
+      if (!node) return;
+      if (!node.contains(e.target)) {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handleDocClick);
+    document.addEventListener('touchstart', handleDocClick);
+    return () => {
+      document.removeEventListener('mousedown', handleDocClick);
+      document.removeEventListener('touchstart', handleDocClick);
+    };
+  }, [isOpen]);
 
   return (
-    <nav className={styles.navbar}>
+  <nav className={styles.navbar} ref={navRef}>
       <div className={styles.container}>
         <Brand />
 
-        {/* Menu */}
-        <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} userRole={user?.role}/>
-        {/* RightControls نسخة الديسكتوب */}
+  {/* Menu */}
+  <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} userRole={user?.role} onOpenLogin={onOpenLogin} />
+        {/* RightControls Desktop */}
         <RightControls 
           className={styles.rightControls} 
           isOpen={isOpen} 
