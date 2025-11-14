@@ -70,7 +70,17 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
   }, [target, x, w]);
 
   return (
-    <nav
+    <Motion.nav
+      initial={{
+        opacity: 0,
+        scaleX: 0
+      }}
+      animate={{
+        opacity: 1,
+        scaleX: 1,
+        transition: { type: 'spring', stiffness: 150, damping: 25  }
+      }}
+      style={{ transformOrigin: 'center center' }}
       aria-label="Primary"
       className={`${styles.navMenu} ${isOpen ? styles.open : ""}`}
     >
@@ -107,6 +117,6 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
           </div>
         </>
       )}
-    </nav>
+    </Motion.nav>
   );
 }
