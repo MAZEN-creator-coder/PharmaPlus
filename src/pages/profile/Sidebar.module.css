@@ -20,7 +20,64 @@
   height: 120px;
   border-radius: 50%;
   object-fit: cover;
-  margin-bottom: 1rem;
+  margin: 0; /* spacing moved to wrapper so overlay fits exactly */
+}
+
+.avatarWrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem; /* keep space between avatar and name */
+  box-shadow: 0 6px 18px rgba(2,6,23,0.08);
+}
+
+.avatarWrapper[role="button"] {
+  cursor: pointer;
+}
+
+
+.profileImage { display: block; }
+
+.avatarOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(1, 137, 148, 0.25); /* gentle teal tint */
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.15s ease-in-out, background 0.15s ease-in-out, transform 0.15s;
+  z-index: 3;
+  pointer-events: auto;
+  border-radius: 50%;
+}
+
+/* Hover overlay only when NOT editing (role not set) */
+.avatarWrapper:not([role="button"]):hover .avatarOverlay {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.overlayVisible {
+  opacity: 1;
+}
+
+/* Different visual when in editing mode (always visible via overlayVisible + this class) */
+.overlayEditing {
+  background: rgba(1, 137, 148, 0.85);
+}
+
+/* Camera icon styling (white circular badge) */
+.avatarOverlay svg {
+  background: #fff;
+  color: #018994; /* icon stroke color */
+  padding: 6px;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  box-shadow: 0 4px 10px rgba(2,6,23,0.12);
 }
 
 .userName {
@@ -61,6 +118,11 @@
   font-size: 0.875rem;
   color: #1f2937;
   background: #f9fafb;
+}
+
+/* make inputs look writable when editing (white background) */
+.input:not([readonly]) {
+  background: white;
 }
 
 .phoneInput {
@@ -183,6 +245,41 @@
 .saveButton:hover {
   background-color: #017a85;
 }
+
+.editButton {
+  padding: 1rem;
+  background-color: #018994;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  width: 100%;
+}
+
+.editButton:hover { background-color: #017a85; }
+
+.cancelButton {
+  padding: 1rem;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  color: #513737;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.actionRow {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.actionRow .saveButton { flex: 1; }
+.actionRow .cancelButton { flex: 1; }
 
 /* Tablet */
 @media (max-width: 1024px) {

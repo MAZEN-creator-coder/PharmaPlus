@@ -75,7 +75,7 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
       </button>
     );
   }
-
+console.log(user);
   return (
     <div className={styles.userBox} ref={dropdownRef}>
       {/* Desktop: button toggles dropdown */}
@@ -84,7 +84,7 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
         onClick={() => setOpen((v) => !v)}
       >
         <img
-          src={`http://localhost:3000/${user?.avatar || "uploads/avatar.webp"}`}
+          src={`http://localhost:3000/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
           alt="profile"
           className={styles.avatar}
         />
@@ -137,7 +137,7 @@ export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
           }}
         >
           <img
-            src={`http://localhost:3000/${user?.avatar || "uploads/avatar.webp"}`}
+            src={`http://localhost:3000/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
             alt="profile"
             className={styles.avatar}
           />

@@ -17,14 +17,15 @@ import OrderManagement from "../pages/OrderManagement/OrderManagement.jsx"
 import PharmacyManagement from "../pages/super/pharmacies-management/PharmacyManagement.jsx";
 import PharmacyDashboard from "../pages/Super Admin Global Analytics/GlobalPharmacyDashboard.jsx";
 import ReportsOverview from "../pages/reportsoverview/reportsoverview.jsx";
+import PublicNotAdmin from "./PublicNotAdmin.jsx";
 export default function RoutesComponent({ onOpenLogin }) {
   return (
     <Routes>
       <Route element={<MainLayout onOpenLogin={onOpenLogin} />}>
         {/* Public routes */}
         <Route path="/" element={<Homepage />} />
-        <Route path="/search-medicine" element={<SearchMedicine />} />
-        <Route path="/upload-prescription" element={<UploadPrescription />} />
+        <Route path="/search-medicine" element={ <PublicNotAdmin > <SearchMedicine /> </PublicNotAdmin>} />
+        <Route path="/upload-prescription" element={ <PublicNotAdmin > <UploadPrescription /> </PublicNotAdmin>} />
        
 
         {/* Protected for regular users only */}
@@ -46,7 +47,7 @@ export default function RoutesComponent({ onOpenLogin }) {
         </Route>
 
         {/* SuperAdmin-only */}
-        <Route element={<RequireRole allowed={['superAdmin']} />}>
+        <Route element={<RequireRole allowed={['superadmin']} />}>
           <Route path="/super" element={<SuperAdminDashboard />} />
           <Route path="/super/pharmacies-management" element={<PharmacyManagement />} />
           <Route path="/super/reports" element={<ReportsOverview />} />
