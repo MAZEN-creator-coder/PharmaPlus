@@ -52,7 +52,7 @@ const Sidebar = () => {
         setLoading(false);
       }
     })();
-  }, [updateAuthUser]);
+  }, []);
 
   console.log("amr_user: ",user);
   if (loading) return <aside className={styles.sidebar}>Loading...</aside>;
