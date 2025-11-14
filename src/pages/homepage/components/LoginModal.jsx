@@ -10,7 +10,6 @@ export default function LoginModal({ isOpen, onClose }) {
   const overlayRef = useRef(null);
   const [tab, setTab] = useState("login");
 
-  // Login states
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [loginErrors, setLoginErrors] = useState({});
@@ -18,7 +17,6 @@ export default function LoginModal({ isOpen, onClose }) {
   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState('');
 
-  // Register states (updated)
   const [regFirstName, setRegFirstName] = useState("");
   const [regLastName, setRegLastName] = useState("");
   const [regEmail, setRegEmail] = useState("");

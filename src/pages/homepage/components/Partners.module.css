@@ -63,7 +63,6 @@ display: block;
   max-width: 600px;
 }
 
-/* شبكة اللوجوز (يدعم repeat(4) ويصبح 2 على موبايل) */
 .logos,
 .partnersGrid {
   display: grid;
@@ -73,7 +72,6 @@ display: block;
   justify-items: center;
 }
 
-/* بطاقة شريك احتياطية (لو استخدمت wrapper .partnerCard) */
 .partnerCard {
   width: 100%;
   display: flex;
@@ -117,7 +115,6 @@ display: block;
   transform: translateY(-2px);
 }
 
-/* لو بتحب تعرض لوجو كنص داخل دائرة بدل صورة */
 .partnerLogo {
   width: 60px;
   height: 60px;
@@ -132,7 +129,6 @@ display: block;
   margin: 0 auto 16px;
 }
 
-/* اسم الشريك (لو محتاجه مع .partnerCard) */
 .partnerName {
   font-size: 14px;
   font-weight: 600;

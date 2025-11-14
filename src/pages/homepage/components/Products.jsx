@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./Products.module.css";
 
-// Swiper Imports
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { EffectCoverflow, Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -9,7 +9,6 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/effect-coverflow";
 
-// Products Data
 const products = [
   { id: 1, name: "Aspirin 100mg", price: "$12.99", image: "/aspirin.jpg", description: "Pain relief and anti-inflammatory", rating: 4.5 },
   { id: 2, name: "Paracetamol 500mg", price: "$8.99", image: "/paracetamol.jpg", description: "Fever reducer and pain relief", rating: 4 },
@@ -33,7 +32,7 @@ export default function Products() {
           effect="coverflow"
           grabCursor={true}
           centeredSlides={true}
-          slidesPerView={3}  // عرض 3 كروت في نفس الوقت
+          slidesPerView={3} 
           spaceBetween={30}
           coverflowEffect={{
             rotate: 0,
@@ -68,7 +67,6 @@ export default function Products() {
                 <div className={styles.productInfo}>
                   <h3 className={styles.productName}>{product.name}</h3>
 
-                  {/* ⭐ Rating */}
                   <div className={styles.rating}>
                     {Array.from({ length: 5 }).map((_, i) => (
                       <span
