@@ -1,13 +1,12 @@
-/* Hero.module.css */
 .hero {
   position: relative;
-  padding: 0 0 80px; /* شيلنا البادينج العلوي */
-  text-align: center;
+  padding: 0;
   overflow: hidden;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
   justify-content: center;
+  
 }
 
 .container {
@@ -15,31 +14,33 @@
   margin: 0 auto;
   padding: 0 20px;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 24px;
+  justify-content: space-between;
+  gap: 40px;
+  perspective: 1200px;
 }
 
 .content {
-  animation: fadeInUp 0.8s ease-out;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 16px;
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .title {
   font-size: 48px;
   font-weight: 700;
   color: #1e293b;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   line-height: 1.2;
 }
 
 .description {
   font-size: 18px;
   color: #64748b;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
   line-height: 1.6;
   max-width: 720px;
 }
@@ -48,7 +49,6 @@
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .primaryButton {
@@ -61,13 +61,6 @@
   font-size: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 14px rgba(1, 137, 148, 0.3);
-}
-
-.primaryButton:hover {
-  background: #016b73;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(1, 137, 148, 0.4);
 }
 
 .secondaryButton {
@@ -82,13 +75,7 @@
   transition: all 0.3s ease;
 }
 
-.secondaryButton:hover {
-  background: #018994;
-  color: white;
-  transform: translateY(-2px);
-}
-
-/* تعديل وضع السهم */
+/* Scroll arrow */
 .scrollWrapper {
   display: flex;
   justify-content: center;
@@ -100,7 +87,6 @@
   height: 48px;
   border-radius: 50%;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   border: 1px solid rgba(2, 24, 43, 0.06);
   cursor: pointer;
   display: flex;
@@ -113,9 +99,56 @@
   color: #018994;
 }
 
+/* Image Wrapper */
+.heroImageWrapper {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.heroImageWrapper img {
+  width: 100%;
+  width: 700px;  
+   margin-right: 1px;
+  object-fit: contain;
+  transition: transform 0.25s ease-out;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-40px); }
+  100% { transform: translateY(0); }
+}
+
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .content {
+    align-items: center;
+  }
+
+  .heroImageWrapper img {
+    max-width: 500px;  
+    height: auto;
+    margin-top: -20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -123,10 +156,13 @@
   .description { font-size: 16px; }
   .ctaButtons { flex-direction: column; }
 }
+
 @media (max-width: 480px) {
   .title { font-size: 28px; }
   .description { font-size: 14px; }
-  .primaryButton, .secondaryButton {
+  
+  .primaryButton,
+  .secondaryButton {
     width: 100%;
     text-align: center;
   }

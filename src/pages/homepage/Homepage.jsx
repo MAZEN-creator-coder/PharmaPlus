@@ -7,7 +7,6 @@ import Partners from "./components/Partners";
 import Footer from "./components/Footer";
 import CursorEffect from "./components/CursorEffect";
 import styles from "./Homepage.module.css";
-
 export default function Homepage() {
   const x = localStorage.getItem('pharmaplus_token');
   console.log(x);

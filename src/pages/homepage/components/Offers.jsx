@@ -33,29 +33,37 @@ export default function Offers() {
   ];
 
   return (
-    <section id="offers" className={styles.offers}>
-      <div className={styles.container}>
-        <h2 className={styles.sectionTitle}>Special Offers</h2>
-        <div className={styles.offersGrid}>
-          {offers.map(offer => (
-            <article 
-              key={offer.id} 
-              className={`${styles.offerCard} ${offer.gradientClass}`}
+   <section id="offers" className={styles.offers}>
+  <div className={styles.container}>
+    <h2 className={styles.sectionTitle}>Special Offers</h2>
+    <div className={styles.offersGrid}>
+      {offers.map(offer => (
+        <article 
+          key={offer.id} 
+          className={`${styles.offerCard} ${offer.gradientClass}`}
+        >
+          <div className={styles.offerContent}>
+            <h3>{offer.title}</h3>
+            <p>{offer.description}</p>
+            <a 
+              href={offer.btnLink} 
+              className={`${styles.btn} ${styles.small} ${styles.white}`}
             >
-              <div className={styles.offerContent}>
-                <h3>{offer.title}</h3>
-                <p>{offer.description}</p>
-                <a 
-                  href={offer.btnLink} 
-                  className={`${styles.btn} ${styles.small} ${styles.white}`}
-                >
-                  {offer.btnText}
-                </a>
-              </div>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
+              {offer.btnText}
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+
+ 
+  <div className={styles.marqueeWrapper}>
+    <div className={styles.marquee}>
+      <p>Free Shipping on First Order!</p>
+    </div>
+  </div>
+</section>
+
   );
 }
