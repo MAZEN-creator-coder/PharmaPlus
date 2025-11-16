@@ -4,33 +4,45 @@ import { ProductContext } from "../../../context/productContext";
 import { SlLocationPin } from "react-icons/sl";
 
 const MedicineCard = ({ medicine }) => {
-  const { selectedProducts, toggleProduct ,getSelectedCount} = useContext(ProductContext);
+  console.log(medicine);
+  const { selectedProducts, toggleProduct, getSelectedCount } = useContext(ProductContext);
 
-  const isAdded = selectedProducts.some(p => p.id === medicine.id);
+  // استخدام _id من API بدلاً من id
+  const medicineId = medicine._id || medicine.id;
+  const isAdded = selectedProducts.some(p => (p._id || p.id) === medicineId);
+
+  const handleAddToCart = (e) => {
+    e.stopPropagation(); // منع تمرير الحدث للأعلى
+    e.preventDefault();
+    toggleProduct({
+      ...medicine,
+      id: medicineId, // تأكد من وجود id للتوافق
+    });
+  };
 
   return (
     <div className={styles.medicineCard}>
       <div className={styles.header}>
-  <div className={styles.medicineDetails}>
-    <img
-      src={medicine.medicineImage}
-      alt={medicine.name}
-      className={styles.medicineImage}
-    />
-    <div>
-      <p>{medicine.name}</p>
-      <p className={styles.category}>{medicine.category}</p>
-    </div>
-  </div>
+        <div className={styles.medicineDetails}>
+          <img
+            src={`http://localhost:3000/${medicine.medicineImage}`}
+            alt={medicine.name}
+            className={styles.medicineImage}
+          />
+          <div>
+            <p>{medicine.name}</p>
+            <p className={styles.category}>{medicine.category}</p>
+          </div>
+        </div>
 
-  <button
-    className={styles.addToCartButton}
-    onClick={() => toggleProduct(medicine)}
-  >
-    {isAdded ? "Added" : "Add to Cart"}
-  </button>
-</div>
-
+        <button
+          className={styles.addToCartButton}
+          onClick={handleAddToCart}
+          onMouseDown={(e) => e.preventDefault()} // منع التحديد
+        >
+          {isAdded ? "Added" : "Add to Cart"}
+        </button>
+      </div>
 
       <div className={styles.medicineInfo}>
         <div className={styles.inventory}>
@@ -39,7 +51,7 @@ const MedicineCard = ({ medicine }) => {
         </div>
         <span className={styles.distance}>
           <SlLocationPin />
-          {medicine.distance}
+          {medicine.distance ? `${medicine.distance.toFixed(2)} m` : "N/A"}
         </span>
       </div>
     </div>

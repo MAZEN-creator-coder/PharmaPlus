@@ -1,76 +1,158 @@
 /* FOR GENERAL LAY OUT  */
 .container{
     display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    padding: 20px;
-    max-width: 90%;
-    height: 100vh;
+    align-items: stretch;
+    justify-content: space-between;
+    padding: 30px 20px;
+    max-width: 100%;
+    min-height: calc(100vh - 80px);
     margin: 0 auto;
-    gap : 20px;
-
+    gap: 30px;
+    background-color: #f9f9f9;
 }
 
 .sidebar{
-    width: 30%;
-    /* background-color: #4CAF50;  لون أخضر */
+    width: 25%;
+    background-color: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+    overflow-y: auto;
+    max-height: calc(100vh - 130px);
 }
+
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background: #018994;
+    border-radius: 10px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+    background: #016b76;
+}
+
 .main{
-    /* background-color: rgb(255, 0, 251); */
-    width: 70%;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 /* أضف الكود ده في آخر ملف SearchMedicine.module.css */
 
 /* ===== MEDIA QUERIES ===== */
 
-
 /* شاشات متوسطة كبيرة - Small Laptops & Large Tablets (900px to 1024px) */
 @media screen and (max-width: 1024px) {
     .container{
-        flex-direction: column;;
+        flex-direction: column;
+        padding: 20px 15px;
+        gap: 20px;
     }
     .sidebar{
         width: 100%;
+        position: static;
+        max-height: none;
+        padding: 15px;
     }
     .main{
         width: 100%;
     }
-    
 }
 
 /* Tablets - Portrait Mode (768px to 900px) */
 @media screen and (max-width: 900px) {
-    
-}
-
-/* شاشات صغيرة - Tablets Small (600px to 768px) */
-@media screen and (max-width: 768px) {
-     .container{
+    .container{
         flex-direction: column;
-        max-width: 100%;
-     
+        padding: 20px 15px;
+        gap: 20px;
     }
     .sidebar{
         width: 100%;
+        position: static;
+        max-height: none;
     }
     .main{
         width: 100%;
     }
-    
+}
+
+/* شاشات صغيرة - Tablets Small (600px to 768px) */
+@media screen and (max-width: 768px) {
+    .container{
+        flex-direction: column;
+        padding: 15px 10px;
+        gap: 15px;
+        min-height: auto;
+    }
+    .sidebar{
+        width: 100%;
+        position: static;
+        max-height: none;
+        padding: 12px;
+    }
+    .main{
+        width: 100%;
+        gap: 15px;
+    }
 }
 
 /* Mobile Large (480px to 600px) */
 @media screen and (max-width: 600px) {
-  
-    
+    .container{
+        flex-direction: column;
+        padding: 12px 8px;
+        gap: 12px;
+        min-height: auto;
+    }
+    .sidebar{
+        width: 100%;
+        padding: 10px;
+    }
+    .main{
+        width: 100%;
+        gap: 12px;
+    }
 }
 
 /* شاشات صغيرة جداً - Mobile (أقل من 480px) */
 @media screen and (max-width: 480px) {
-    
+    .container{
+        flex-direction: column;
+        padding: 10px 5px;
+        gap: 10px;
+        min-height: auto;
+    }
+    .sidebar{
+        width: 100%;
+        padding: 8px;
+    }
+    .main{
+        width: 100%;
+        gap: 10px;
+    }
 }
 
 /* شاشات صغيرة جداً جداً - Mobile Small (أقل من 375px) */
 @media screen and (max-width: 375px) {
-    
+    .container{
+        padding: 8px 5px;
+        gap: 8px;
+    }
+    .sidebar{
+        padding: 6px;
+    }
+    .main{
+        gap: 8px;
+    }
 }

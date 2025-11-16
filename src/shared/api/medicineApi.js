@@ -22,13 +22,19 @@ export async function getAllMedicines(page = 1, limit = 10, token = null) {
   }
 }
 
-// Search medicines by name
-export async function searchMedicines(name, lat, lng, token = null) {
+// Search medicines by name with pagination and geolocation
+export async function searchMedicines(name, lat, lng, limit = 10, page = 1, token = null) {
   try {
+    const params = new URLSearchParams({
+      name,
+      lat,
+      lng,
+      limit,
+      page
+    });
+    
     const res = await apiFetch(
-      `/medicines/search?name=${encodeURIComponent(
-        name
-      )}&lat=${lat}&lng=${lng}`,
+      `/medicines/search?${params.toString()}`,
       {
         method: "GET",
         token,
@@ -40,6 +46,35 @@ export async function searchMedicines(name, lat, lng, token = null) {
     throw error;
   }
 }
+
+/**
+ * Get current user location using Geolocation API
+ * @returns {Promise} { lat, lng }
+ */
+export const getUserLocation = () => {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('Geolocation is not supported in this browser'));
+    }
+    
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        resolve({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        });
+      },
+      (error) => {
+        reject(error);
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 5000,
+        maximumAge: 0
+      }
+    );
+  });
+};
 
 // Get single medicine by ID
 export async function getMedicineById(id, token = null) {

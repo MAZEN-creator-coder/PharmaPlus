@@ -5,9 +5,11 @@ import { FaStore } from 'react-icons/fa';
 import styles from './CartItem.module.css';
 
 export default function CartItem({ item, onQuantityChange, onRemove, onSelect }) {
+  const itemId = item._id || item.id;
+  
   const handleQuantityChange = (newQuantity) => {
     if (newQuantity >= 1) {
-      onQuantityChange(item.id, newQuantity);
+      onQuantityChange(itemId, newQuantity);
     }
   };
 
@@ -35,13 +37,13 @@ export default function CartItem({ item, onQuantityChange, onRemove, onSelect })
         <input
           type="checkbox"
           checked={item.selected}
-          onChange={() => onSelect(item.id)}
+          onChange={() => onSelect(itemId)}
           className={styles.checkbox}
         />
         
         <div className={styles.productImageContainer}>
           <img 
-            src={item.medicineImage} 
+            src={`http://localhost:3000/${item.medicineImage}`}
             alt={item.name}
             className={styles.productImage}
           />
@@ -64,11 +66,11 @@ export default function CartItem({ item, onQuantityChange, onRemove, onSelect })
             <div className={styles.pharmacyInfo}>
               <div className={styles.pharmacyDetail}>
                 <FaStore className={styles.detailIcon} />
-                <span>{item.pharmacy}</span>
+                <span>{item.pharmacy?.name || 'N/A'}</span>
               </div>
               <div className={styles.distanceDetail}>
                 <MdLocationOn className={styles.detailIcon} />
-                <span>{item.distance}</span>
+                <span>{typeof item.distance === 'number' ? `${item.distance.toFixed(2)} m` : 'N/A'}</span>
               </div>
             </div>
           </div>
@@ -97,7 +99,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onSelect })
         </div>
         
         <button 
-          onClick={() => onRemove(item.id)}
+          onClick={() => onRemove(itemId)}
           className={styles.removeBtn}
           title="Remove from cart"
         >

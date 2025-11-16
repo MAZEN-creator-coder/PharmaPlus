@@ -7,18 +7,19 @@ export function ProductProvider({ children }) {
 
   // Product operations
   const toggleProduct = (product) => {
-    const exists = selectedProducts.find((p) => p.id === product.id);
+    const productId = product._id || product.id;
+    const exists = selectedProducts.find((p) => (p._id || p.id) === productId);
 
     if (exists) {
-      setSelectedProducts((prev) => prev.filter((p) => p.id !== product.id));
-      setCartItems((items) => items.filter((item) => item.id !== product.id));
+      setSelectedProducts((prev) => prev.filter((p) => (p._id || p.id) !== productId));
+      setCartItems((items) => items.filter((item) => (item._id || item.id) !== productId));
     } else {
       setSelectedProducts((prev) => [...prev, product]);
       setCartItems((items) => [
         ...items,
         {
           ...product,
-          id: product.id,
+          id: productId,
           quantity: 1,
           selected: true,
         },
@@ -30,18 +31,18 @@ export function ProductProvider({ children }) {
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
     setCartItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
+      items.map((item) => ((item._id || item.id) === id ? { ...item, quantity: newQuantity } : item))
     );
   };
 
   const removeFromCart = (id) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-    setSelectedProducts((prev) => prev.filter((p) => p.id !== id));
+    setCartItems((items) => items.filter((item) => (item._id || item.id) !== id));
+    setSelectedProducts((prev) => prev.filter((p) => (p._id || p.id) !== id));
   };
 
   const toggleItemSelected = (id) => {
     setCartItems((items) =>
-      items.map((item) => (item.id === id ? { ...item, selected: !item.selected } : item))
+      items.map((item) => ((item._id || item.id) === id ? { ...item, selected: !item.selected } : item))
     );
   };
 
@@ -50,10 +51,10 @@ export function ProductProvider({ children }) {
   };
 
   const deleteSelectedItems = () => {
-    const toDeleteIds = new Set(cartItems.filter((i) => i.selected).map((i) => i.id));
+    const toDeleteIds = new Set(cartItems.filter((i) => i.selected).map((i) => i._id || i.id));
     if (toDeleteIds.size === 0) return;
-    setCartItems((items) => items.filter((item) => !toDeleteIds.has(item.id)));
-    setSelectedProducts((prev) => prev.filter((p) => !toDeleteIds.has(p.id)));
+    setCartItems((items) => items.filter((item) => !toDeleteIds.has(item._id || item.id)));
+    setSelectedProducts((prev) => prev.filter((p) => !toDeleteIds.has(p._id || p.id)));
   };
 
   const clearCart = () => {

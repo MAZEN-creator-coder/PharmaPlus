@@ -43,7 +43,7 @@ export default function CartItems({
       <div className={styles.itemsList}>
         {items.map(item => (
           <CartItem
-            key={item.id}
+            key={item._id || item.id}
             item={item}
             onQuantityChange={onQuantityChange}
             onRemove={onRemove}

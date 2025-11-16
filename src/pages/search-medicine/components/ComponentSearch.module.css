@@ -144,17 +144,34 @@
 
 /* === end of recent searches === */
 
+/* Search Results Section */
+.searchResults {
+    width: 100%;
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.text1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 /* ===medicine card */
 .medicineGrid {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
-    width: 100%;
     width: 100%;
     overflow: hidden;
     margin-top: 20px;
-    padding: 10px;
-    
+    padding: 0;
 }
 
 .medicineCard {
@@ -275,11 +292,46 @@
         justify-content: center;
         align-items: center;
     }
+    
+    .medicineGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .emptyGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        min-height: 350px;
+    }
+    
+    .emptyGridItem {
+        grid-column: 1 / -1;
+    }
+    
+    .searchResults {
+        padding: 20px;
+    }
 }
 
 /* Tablets - Portrait Mode (768px to 900px) */
 @media screen and (max-width: 900px) {
+    .medicineGrid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
     
+    .emptyGrid {
+        grid-template-columns: 1fr;
+        min-height: 300px;
+    }
+    
+    .emptyGridItem {
+        grid-column: 1 / -1;
+    }
+    
+    .searchResults {
+        padding: 15px;
+    }
 }
 
 /* شاشات صغيرة - Tablets Small (600px to 768px) */
@@ -309,17 +361,178 @@
     
 }
 
+/* Empty Grid - Fixed size for 4 items */
+.emptyGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    padding: 0;
+    min-height: 450px;
+}
+
+.emptyGridItem {
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #f0f0f0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 40px 20px;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+.emptyGridItem p {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+    line-height: 1.5;
+}
+
+/* Pagination Controls */
+.paginationContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+    padding: 20px;
+}
+
+.paginationBtn {
+    padding: 10px 20px;
+    background-color: var(--brand-bg);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.paginationBtn:hover:not(:disabled) {
+    background-color: #016b76;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(1, 137, 148, 0.3);
+}
+
+.paginationBtn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+
+.pageInfo {
+    font-size: 14px;
+    color: #666;
+    font-weight: 600;
+    min-width: 150px;
+    text-align: center;
+}
+
 /* Mobile Large (480px to 600px) */
 @media screen and (max-width: 600px) {
- 
+    .medicineGrid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .emptyGrid {
+        grid-template-columns: 1fr;
+        min-height: 250px;
+    }
+    
+    .emptyGridItem {
+        grid-column: 1;
+        padding: 30px 15px;
+    }
+    
+    .paginationContainer {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    
+    .paginationBtn {
+        width: 100%;
+        padding: 8px 15px;
+        font-size: 13px;
+    }
+    
+    .searchResults {
+        padding: 12px;
+    }
 }
 
 /* شاشات صغيرة جداً - Mobile (أقل من 480px) */
 @media screen and (max-width: 480px) {
+    .medicineGrid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
     
+    .emptyGrid {
+        grid-template-columns: 1fr;
+        min-height: 200px;
+        gap: 10px;
+    }
+    
+    .emptyGridItem {
+        grid-column: 1;
+        padding: 25px 12px;
+    }
+    
+    .paginationContainer {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 15px;
+        padding: 10px 0;
+    }
+    
+    .paginationBtn {
+        width: 100%;
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .pageInfo {
+        font-size: 12px;
+    }
+    
+    .text1 {
+        font-size: 18px;
+    }
+    
+    .searchResults {
+        padding: 10px;
+    }
 }
 
 /* شاشات صغيرة جداً جداً - Mobile Small (أقل من 375px) */
 @media screen and (max-width: 375px) {
+    .medicineGrid {
+        gap: 8px;
+    }
     
+    .emptyGrid {
+        min-height: 200px;
+    }
+    
+    .text1 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .paginationContainer {
+        gap: 6px;
+    }
+    
+    .paginationBtn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
 }
