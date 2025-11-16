@@ -56,6 +56,7 @@ export const currentUser = {
     {
       id: "ORD-001",
       name: "Aisha Sharma",
+      email: "aisha@example.com",
       date: "2024-07-28",
       status: "Delivered",
       total: "₹1,250.00",
