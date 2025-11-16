@@ -40,7 +40,7 @@
 
 .iconBtn {
   border: 0;
-  background: rgba(14,165,233,0.08);
+  background: rgba(14, 165, 233, 0.08);
   padding: 8px;
   border-radius: 8px;
   display: inline-flex;
@@ -52,12 +52,12 @@
 }
 
 .iconBtn:hover {
-  background: rgba(14,165,233,0.12);
+  background: rgba(14, 165, 233, 0.12);
 }
 
 .iconBtnDanger {
   border: 0;
-  background: rgba(239,68,68,0.08);
+  background: rgba(239, 68, 68, 0.08);
   padding: 8px;
   border-radius: 8px;
   display: inline-flex;
@@ -69,5 +69,5 @@
 }
 
 .iconBtnDanger:hover {
-  background: rgba(239,68,68,0.12);
+  background: rgba(239, 68, 68, 0.12);
 }

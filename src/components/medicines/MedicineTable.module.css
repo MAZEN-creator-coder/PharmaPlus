@@ -38,6 +38,7 @@
 }
 
 .iconBtn {
+  font-size: 17px;
   padding: 0.5rem;
   margin-right: 0.5rem;
   background: none;
@@ -52,6 +53,7 @@
 }
 
 .iconBtnDanger {
+  font-size: 17px;
   padding: 0.5rem;
   background: none;
   border: none;

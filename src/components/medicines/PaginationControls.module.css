@@ -1,0 +1,31 @@
+.wrap {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 16px;
+}
+.btn {
+  background: transparent;
+  border: 1px solid var(--brand-bg);
+  padding: 10px 16px;
+  border-radius: 10px;
+  color: var(--brand-bg);
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btn:hover {
+  background: rgba(1, 137, 148, 0.05);
+}
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.info {
+  min-width: 140px;
+  text-align: center;
+}

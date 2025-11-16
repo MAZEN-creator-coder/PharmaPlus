@@ -6,26 +6,30 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 export default function MedicineCard({ medicine, onEdit, onDelete }) {
   return (
     <article className={styles.card}>
-      <img src={medicine.image} alt={medicine.name} className={styles.thumb} />
+      <img
+        src={medicine.medicineImage || "/placeholder.png"}
+        alt={medicine.name}
+        className={styles.thumb}
+      />
       <div className={styles.content}>
         <div className={styles.header}>
           <strong>{medicine.name}</strong>
-          <StatusBadge stock={medicine.stock} />
+          <StatusBadge stock={medicine.stock} status={medicine.status} />
         </div>
         <div className={styles.meta}>
-          {medicine.category} • ${medicine.price.toFixed(2)}
+          {medicine.category} • ${(medicine.price || 0).toFixed(2)}
         </div>
         <div className={styles.actions}>
-          <button 
-            className={styles.iconBtn} 
+          <button
+            className={styles.iconBtn}
             onClick={() => onEdit(medicine)}
             title="Edit medicine"
           >
             <FaEdit />
           </button>
-          <button 
-            className={styles.iconBtnDanger} 
-            onClick={() => onDelete(medicine.id)}
+          <button
+            className={styles.iconBtnDanger}
+            onClick={() => onDelete(medicine._id || medicine.id)}
             title="Delete medicine"
           >
             <FaTrash />

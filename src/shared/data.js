@@ -48,15 +48,9 @@ export const data = [
   },
 ]; // Will be populated from API
 
-
-//NOHA 
-// Admin page medicine data
-export const medicines = [
-  { id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
-  { id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
-  { id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
-  {  id: 101, name: "Paracetamol 500mg", medicineImage: "https://placehold.co/400x400/8b5cf6/ffffff?text=P", category: "Pain Relief", stock: 120, price: 5.99, description: "Effective fever reducer.", status: "Available"},
- ];
+//NOHA
+// Admin page medicine data - REMOVED - Using real API data instead
+// See /src/shared/api/medicineApi.js for backend integration
 
 // super admin page pharmacy data
 export const pharmaciesData = [
@@ -134,12 +128,13 @@ export const pharmaciesData = [
     categorys: ["Category I", "Category J"],
     description: "Description for Pharmacy E",
     email: "pharmacy-e@example.com",
-},
+  },
 ];
 
-
 // Backwards compatibility for all importers
-export default { medicines, data, pharmaciesData };
+// Keep an empty `medicines` array so other modules importing the
+// default object won't break after we removed the mock admin data.
+export default { medicines: [], data, pharmaciesData };
 
 // // Cart data for shopping cart page
 // export const cartData = [
@@ -180,21 +175,126 @@ export const mapData = [
   { id: 3, name: "Nutraxx", price: "$5.29", position: [31.2001, 29.9187] },
 ];
 
-//data used for ordersmanagement 
+//data used for ordersmanagement
 export const ordersData = [
-      { id: "ORD-001", name: "Aisha Sharma", email: "aisha@example.com", date: "2024-07-28", status: "Delivered", total: "₹1,250.00" },
-      { id: "ORD-002", name: "Rajesh Kumar", email: "rajesh@example.com", date: "2024-07-27", status: "Shipped", total: "₹899.50" },
-      { id: "ORD-003", name: "Mazen Ahmed", email: "mazen@example.com", date: "2024-07-26", status: "Pending", total: "₹2,100.00" },
-      { id: "ORD-004", name: "Lina Ali", email: "lina@example.com", date: "2024-07-25", status: "Processing", total: "₹700.00" },
-      { id: "ORD-005", name: "Omar Khaled", email: "omar@example.com", date: "2024-07-24", status: "Delivered", total: "₹1,050.00" },
-      { id: "ORD-006", name: "Sarah Mohamed", email: "sarah@example.com", date: "2024-07-23", status: "Cancelled", total: "₹1,200.00" },
-      { id: "ORD-007", name: "Kareem Nabil", email: "kareem@example.com", date: "2024-07-22", status: "Processing", total: "₹880.00" },
-      { id: "ORD-008", name: "Hana Youssef", email: "hana@example.com", date: "2024-07-21", status: "Pending", total: "₹960.00" },
-      { id: "ORD-009", name: "Tarek Hassan", email: "tarek@example.com", date: "2024-07-20", status: "Delivered", total: "₹1,400.00" },
-      { id: "ORD-010", name: "Layla Ibrahim", email: "layla@example.com", date: "2024-07-19", status: "Shipped", total: "₹1,300.00" },
-      { id: "ORD-011", name: "Noor Samir", email: "noor@example.com", date: "2024-07-18", status: "Delivered", total: "₹1,700.00" },
-      { id: "ORD-012", name: "Ahmed Saleh", email: "ahmed@example.com", date: "2024-07-17", status: "Processing", total: "₹1,050.00" },
-      { id: "ORD-013", name: "Reem Adel", email: "reem@example.com", date: "2024-07-16", status: "Pending", total: "₹1,180.00" },
-      { id: "ORD-014", name: "Nourhan Ali", email: "nourhan@example.com", date: "2024-07-15", status: "Cancelled", total: "₹900.00" },
-      { id: "ORD-015", name: "Mina Fady", email: "mina@example.com", date: "2024-07-14", status: "Shipped", total: "₹1,250.00" },
-    ];
+  {
+    id: "ORD-001",
+    name: "Aisha Sharma",
+    email: "aisha@example.com",
+    date: "2024-07-28",
+    status: "Delivered",
+    total: "₹1,250.00",
+  },
+  {
+    id: "ORD-002",
+    name: "Rajesh Kumar",
+    email: "rajesh@example.com",
+    date: "2024-07-27",
+    status: "Shipped",
+    total: "₹899.50",
+  },
+  {
+    id: "ORD-003",
+    name: "Mazen Ahmed",
+    email: "mazen@example.com",
+    date: "2024-07-26",
+    status: "Pending",
+    total: "₹2,100.00",
+  },
+  {
+    id: "ORD-004",
+    name: "Lina Ali",
+    email: "lina@example.com",
+    date: "2024-07-25",
+    status: "Processing",
+    total: "₹700.00",
+  },
+  {
+    id: "ORD-005",
+    name: "Omar Khaled",
+    email: "omar@example.com",
+    date: "2024-07-24",
+    status: "Delivered",
+    total: "₹1,050.00",
+  },
+  {
+    id: "ORD-006",
+    name: "Sarah Mohamed",
+    email: "sarah@example.com",
+    date: "2024-07-23",
+    status: "Cancelled",
+    total: "₹1,200.00",
+  },
+  {
+    id: "ORD-007",
+    name: "Kareem Nabil",
+    email: "kareem@example.com",
+    date: "2024-07-22",
+    status: "Processing",
+    total: "₹880.00",
+  },
+  {
+    id: "ORD-008",
+    name: "Hana Youssef",
+    email: "hana@example.com",
+    date: "2024-07-21",
+    status: "Pending",
+    total: "₹960.00",
+  },
+  {
+    id: "ORD-009",
+    name: "Tarek Hassan",
+    email: "tarek@example.com",
+    date: "2024-07-20",
+    status: "Delivered",
+    total: "₹1,400.00",
+  },
+  {
+    id: "ORD-010",
+    name: "Layla Ibrahim",
+    email: "layla@example.com",
+    date: "2024-07-19",
+    status: "Shipped",
+    total: "₹1,300.00",
+  },
+  {
+    id: "ORD-011",
+    name: "Noor Samir",
+    email: "noor@example.com",
+    date: "2024-07-18",
+    status: "Delivered",
+    total: "₹1,700.00",
+  },
+  {
+    id: "ORD-012",
+    name: "Ahmed Saleh",
+    email: "ahmed@example.com",
+    date: "2024-07-17",
+    status: "Processing",
+    total: "₹1,050.00",
+  },
+  {
+    id: "ORD-013",
+    name: "Reem Adel",
+    email: "reem@example.com",
+    date: "2024-07-16",
+    status: "Pending",
+    total: "₹1,180.00",
+  },
+  {
+    id: "ORD-014",
+    name: "Nourhan Ali",
+    email: "nourhan@example.com",
+    date: "2024-07-15",
+    status: "Cancelled",
+    total: "₹900.00",
+  },
+  {
+    id: "ORD-015",
+    name: "Mina Fady",
+    email: "mina@example.com",
+    date: "2024-07-14",
+    status: "Shipped",
+    total: "₹1,250.00",
+  },
+];

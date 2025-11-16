@@ -21,29 +21,33 @@ export default function MedicineTable({ medicines, onEdit, onDelete }) {
         </thead>
         <tbody>
           {medicines.map((medicine) => (
-            <tr key={medicine.id}>
+            <tr key={medicine._id || medicine.id}>
               <td>
-                <img src={medicine.image} alt={medicine.name} className={styles.thumb} />
+                <img
+                  src={medicine.medicineImage || "/placeholder.png"}
+                  alt={medicine.name}
+                  className={styles.thumb}
+                />
               </td>
               <td>{medicine.name}</td>
               <td>{medicine.category}</td>
               <td>{medicine.stock}</td>
-              <td>${medicine.price.toFixed(2)}</td>
+              <td>${(medicine.price || 0).toFixed(2)}</td>
               <td>{medicine.description}</td>
               <td>
-                <StatusBadge stock={medicine.stock} />
+                <StatusBadge stock={medicine.stock} status={medicine.status} />
               </td>
               <td>
-                <button 
-                  className={styles.iconBtn} 
+                <button
+                  className={styles.iconBtn}
                   onClick={() => onEdit(medicine)}
                   title="Edit medicine"
                 >
                   <FaEdit />
                 </button>
-                <button 
-                  className={styles.iconBtnDanger} 
-                  onClick={() => onDelete(medicine.id)}
+                <button
+                  className={styles.iconBtnDanger}
+                  onClick={() => onDelete(medicine._id || medicine.id)}
                   title="Delete medicine"
                 >
                   <FaTrash />
