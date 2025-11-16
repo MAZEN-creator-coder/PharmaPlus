@@ -41,3 +41,21 @@ export async function updateProfile(token, id, data) {
   return body.data.user;
 }
 export default { getProfile, updateProfile };
+
+export async function getOrdersByUser(token, userId, page = 1, limit = 5) {
+  if (!token) throw new Error('Missing auth token');
+  if (!userId) throw new Error('Missing user id');
+
+  const url = `http://localhost:3000/api/orders/user/${encodeURIComponent(userId)}?limit=${encodeURIComponent(limit)}&page=${encodeURIComponent(page)}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  const body = await res.json();
+  if (!res.ok || body?.status !== 'success') {
+    const msg = body?.data?.msg || body?.message || 'Failed to fetch orders';
+    const err = new Error(msg);
+    err.response = body;
+    throw err;
+  }
+  return body.data.orders;
+}

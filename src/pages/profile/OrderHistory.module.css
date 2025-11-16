@@ -85,6 +85,11 @@
   color: #4338ca;
 }
 
+.statusPending {
+  background-color: #fef3c7; /* light yellow */
+  color: #92400e; /* dark yellow/brown text for contrast */
+}
+
 .statusCancelled {
   background-color: #fee2e2;
   color: #991b1b;
@@ -163,6 +168,73 @@
 .viewDetailsButton:hover {
   color: #018994;
   background: #f9fafb;
+}
+
+/* Pagination controls */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* center in the page */
+  gap: 0.75rem;
+  margin: 1.5rem 0 2rem 0;
+}
+
+.pageButton {
+  padding: 0.75rem 1rem;
+  background-color: #018994;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  min-width: 88px;
+}
+
+.pageButton:disabled {
+  background-color: #e6f3f2;
+  color: #8aa7a5;
+  cursor: default;
+}
+
+.pageButton:hover:not(:disabled) { background-color: #017a85; }
+
+.pageInfo {
+  font-size: 0.95rem;
+  color: #1f2937;
+  font-weight: 600;
+  padding: 0 0.5rem;
+}
+
+/* Centered loading state */
+.loadingCenter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* occupy most of the viewport so spinner sits visually centered on the page */
+  height: calc(100vh - 140px);
+  min-height: 320px;
+}
+
+.spinner {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 6px solid #e6eef0;
+  border-top-color: #018994;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .loadingCenter {
+    height: calc(100vh - 120px);
+  }
 }
 
 /* Tablet */
