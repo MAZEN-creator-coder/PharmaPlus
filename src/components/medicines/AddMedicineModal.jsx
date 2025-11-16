@@ -9,6 +9,7 @@ export default function AddMedicineModal({
   medicine,
   onUpdate,
 }) {
+  console.log("Rendering AddMedicineModal with medicine:", medicine);
   const [name, setName] = useState(medicine?.name || "");
   const [category, setCategory] = useState(medicine?.category || "");
   const [stock, setStock] = useState(medicine?.stock || 0);
@@ -17,7 +18,7 @@ export default function AddMedicineModal({
   const [threshold, setThreshold] = useState(medicine?.threshold || 10);
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(
-    medicine?.medicineImage || null
+    medicine?.medicineImage ? `http://localhost:3000/${medicine.medicineImage}` : null
   );
   const fileRef = useRef(null);
   const isEditing = Boolean(medicine);
@@ -30,7 +31,7 @@ export default function AddMedicineModal({
       setPrice(medicine.price || 0);
       setDescription(medicine.description || "");
       setThreshold(medicine.threshold || 10);
-      setImagePreview(medicine.medicineImage || null);
+      setImagePreview(  medicine?.medicineImage ? `http://localhost:3000/${medicine.medicineImage}` : null);
       setImageFile(null);
     } else if (!isOpen) {
       setName("");

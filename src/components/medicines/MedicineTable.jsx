@@ -4,6 +4,7 @@ import StatusBadge from "./StatusBadge";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function MedicineTable({ medicines, onEdit, onDelete }) {
+  console.log("Rendering MedicineTable with medicines:", medicines);
   return (
     <div className={styles.tableWrap}>
       <table className={styles.table}>
@@ -24,7 +25,7 @@ export default function MedicineTable({ medicines, onEdit, onDelete }) {
             <tr key={medicine._id || medicine.id}>
               <td>
                 <img
-                  src={medicine.medicineImage || "/placeholder.png"}
+                  src={`http://localhost:3000/${medicine.medicineImage}`}
                   alt={medicine.name}
                   className={styles.thumb}
                 />

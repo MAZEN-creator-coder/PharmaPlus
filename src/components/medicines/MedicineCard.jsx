@@ -4,10 +4,11 @@ import StatusBadge from "./StatusBadge";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function MedicineCard({ medicine, onEdit, onDelete }) {
-  return (
+  console.log("Rendering MedicineCard with medicine:", medicine);
+    return (
     <article className={styles.card}>
       <img
-        src={medicine.medicineImage || "/placeholder.png"}
+        src={`http://localhost:3000/${medicine.medicineImage}`}
         alt={medicine.name}
         className={styles.thumb}
       />
