@@ -1,58 +1,34 @@
 import React, { useState } from "react";
 import styles from "./OrdersTable.module.css";
-import EditModal from "../EditModal/EditModal";
-import CancelModal from "../CancelModal/CancelModal";
 import OrdersHeader from "../OrdersHeader/OrdersHeader";
-import { ordersData } from "../../../../shared/data";
 
-export default function OrdersTable() {
-  const [orders, setOrders] = useState(ordersData);
-
+export default function OrdersTable({ orders, onEdit, onDelete }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState(null);
-  const [showEdit, setShowEdit] = useState(false);
-  const [showCancel, setShowCancel] = useState(false);
 
   const filteredOrders = orders.filter((o) => {
+    const customerName = o.userData?.name || "";
     const matchesSearch =
-      o.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      o.id.toLowerCase().includes(searchQuery.toLowerCase());
+      customerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      o._id.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesFilter = filterStatus ? o.status === filterStatus : true;
     return matchesSearch && matchesFilter;
   });
 
-  const handleEdit = (order) => {
-    setSelectedOrder(order);
-    setShowEdit(true);
-  };
-
-  const handleCancel = (order) => {
-    setSelectedOrder(order);
-    setShowCancel(true);
-  };
-
-  const handleSaveEdit = (updatedOrder) => {
-    setOrders((prev) =>
-      prev.map((o) => (o.id === updatedOrder.id ? updatedOrder : o))
-    );
-    setShowEdit(false);
-  };
-
-  
-  const handleConfirmCancel = (id) => {
-    setOrders((prev) => prev.filter((o) => o.id !== id));
-    setShowCancel(false);
-  };
-
   const getStatusClass = (status) => {
     switch (status) {
-      case "Delivered": return styles.delivered;
-      case "Shipped": return styles.shipped;
-      case "Processing": return styles.processing;
-      case "Pending": return styles.pending;
-      case "Cancelled": return styles.cancelled;
-      default: return "";
+      case "Delivered":
+        return styles.delivered;
+      case "Shipped":
+        return styles.shipped;
+      case "Processing":
+        return styles.processing;
+      case "Pending":
+        return styles.pending;
+      case "Cancelled":
+        return styles.cancelled;
+      default:
+        return "";
     }
   };
 
@@ -83,24 +59,33 @@ export default function OrdersTable() {
             </thead>
             <tbody>
               {filteredOrders.map((o) => (
-                <tr key={o.id}>
-                  <td>{o.id}</td>
+                <tr key={o._id}>
+                  <td>{o._id}</td>
                   <td>
                     <div className={styles.customer}>
-                      <strong>{o.name}</strong>
-                      <div className={styles.email}>{o.email}</div>
+                      <strong>{o.userData?.name || "Loading..."}</strong>
+                      <div className={styles.email}>{o.userData?.email || ""}</div>
                     </div>
                   </td>
-                  <td>{o.date}</td>
+
+                  <td>
+                    {o.date
+                      ? new Date(o.date).toLocaleDateString()
+                      : "N/A"}
+                  </td>
                   <td>
                     <span className={`${styles.status} ${getStatusClass(o.status)}`}>
-                      {o.status}
+                      {o.status || "Unknown"}
                     </span>
                   </td>
-                  <td>{o.total}</td>
+                  <td>{o.total ? `${o.total} EGP` : "N/A"}</td>
                   <td>
-                    <button className={styles.editBtn} onClick={() => handleEdit(o)}>Edit</button>
-                    <button className={styles.cancelBtn} onClick={() => handleCancel(o)}>Cancel</button>
+                    <button className={styles.editBtn} onClick={() => onEdit(o)}>
+                      Edit
+                    </button>
+                    <button className={styles.cancelBtn} onClick={() => onDelete(o)}>
+                      Cancel
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -108,22 +93,6 @@ export default function OrdersTable() {
           </table>
         )}
       </div>
-
-      {showEdit && (
-        <EditModal
-          order={selectedOrder}
-          onClose={() => setShowEdit(false)}
-          onSave={handleSaveEdit}
-        />
-      )}
-
-      {showCancel && (
-        <CancelModal
-          order={selectedOrder}
-          onClose={() => setShowCancel(false)}
-          onConfirm={() => handleConfirmCancel(selectedOrder.id)}
-        />
-      )}
     </div>
   );
 }

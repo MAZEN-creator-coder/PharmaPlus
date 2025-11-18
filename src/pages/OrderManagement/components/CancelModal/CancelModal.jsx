@@ -6,10 +6,16 @@ export default function CancelModal({ order, onClose, onConfirm }) {
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h3>Cancel Order</h3>
-        <p>Are you sure you want to cancel order <strong>{order.id}</strong>?</p>
+        <p>
+          Are you sure you want to cancel order <strong>{order._id}</strong>?
+        </p>
         <div className={styles.buttons}>
-          <button className={styles.confirm} onClick={onConfirm}>Cancel</button>
-          <button className={styles.close} onClick={onClose}>No</button>
+          <button className={styles.confirm} onClick={() => onConfirm(order._id)}>
+            Cancel
+          </button>
+          <button className={styles.close} onClick={onClose}>
+            No
+          </button>
         </div>
       </div>
     </div>

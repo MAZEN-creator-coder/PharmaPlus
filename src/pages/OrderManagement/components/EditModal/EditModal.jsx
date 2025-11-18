@@ -1,25 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./EditModal.module.css";
 
 export default function EditModal({ order, onClose, onSave }) {
-  const [form, setForm] = useState({ ...order });
+  const [status, setStatus] = useState(order?.status || "");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
+  useEffect(() => {
+    setStatus(order?.status || "");
+  }, [order]);
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
         <h3>Edit Order</h3>
-        <label>
-          Customer Name:
-          <input name="name" value={form.name} onChange={handleChange} />
-        </label>
+
         <label>
           Status:
-          <select name="status" value={form.status} onChange={handleChange}>
+          <select
+            name="status"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+          >
             <option>Pending</option>
             <option>Processing</option>
             <option>Shipped</option>
@@ -27,13 +27,17 @@ export default function EditModal({ order, onClose, onSave }) {
             <option>Cancelled</option>
           </select>
         </label>
-        <label>
-          Total:
-          <input name="total" value={form.total} onChange={handleChange} />
-        </label>
+
         <div className={styles.buttons}>
-          <button className={styles.save} onClick={() => onSave(form)}>Save</button>
-          <button className={styles.cancel} onClick={onClose}>Close</button>
+          <button
+            className={styles.save}
+            onClick={() => onSave(status)} 
+          >
+            Save
+          </button>
+          <button className={styles.cancel} onClick={onClose}>
+            Close
+          </button>
         </div>
       </div>
     </div>
