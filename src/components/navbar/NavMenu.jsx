@@ -7,6 +7,7 @@ import styles from "./Navbar.module.css";
 // Define the links for each role
 const USER_LINKS = [
   { to: "/", label: "Home" },
+  { to: "/products", label: "Products" },
   { to: "/search-medicine", label: "Search Medicine" },
   { to: "/upload-prescription", label: "Upload Prescription" },
 ];
@@ -34,7 +35,7 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
   const x = useSpring(0, { stiffness: 140, damping: 28, mass: 1 });
   const w = useSpring(0, { stiffness: 160, damping: 32, mass: 1 });
 
-  const normalizedRole = (userRole || '').toLowerCase();
+  const normalizedRole = (userRole || "").toLowerCase();
   const visibleLinks =
     normalizedRole === "admin"
       ? ADMIN_LINKS
@@ -73,14 +74,14 @@ export default function NavMenu({ isOpen, setIsOpen, userRole, onOpenLogin }) {
     <Motion.nav
       initial={{
         opacity: 0,
-        scaleX: 0
+        scaleX: 0,
       }}
       animate={{
         opacity: 1,
         scaleX: 1,
-        transition: { type: 'spring', stiffness: 150, damping: 25  }
+        transition: { type: "spring", stiffness: 150, damping: 25 },
       }}
-      style={{ transformOrigin: 'center center' }}
+      style={{ transformOrigin: "center center" }}
       aria-label="Primary"
       className={`${styles.navMenu} ${isOpen ? styles.open : ""}`}
     >

@@ -1,0 +1,29 @@
+.block {
+  background: #fff;
+  padding: 14px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.title {
+  margin: 0;
+  font-size: 18px;
+}
+.meta {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+}
+.small {
+  font-size: 12px;
+  color: #999;
+}
+.subheader {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  color: #555;
+}

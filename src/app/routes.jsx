@@ -13,23 +13,47 @@ import SuperAdminDashboard from "../pages/super/SuperAdminDashboard.jsx";
 import { RequireAuth, RequireRole } from "../routes/guards.jsx";
 import MedicineManagement from "../pages/admin/MedicineManagement.jsx";
 import ChatInterface from "../pages/chat/ChatInterface.jsx";
-import OrderManagement from "../pages/OrderManagement/OrderManagement.jsx"
+import OrderManagement from "../pages/OrderManagement/OrderManagement.jsx";
 import PharmacyManagement from "../pages/super/pharmacies-management/PharmacyManagement.jsx";
 import PharmacyDashboard from "../pages/Super Admin Global Analytics/GlobalPharmacyDashboard.jsx";
 import ReportsOverview from "../pages/reportsoverview/reportsoverview.jsx";
 import PublicNotAdmin from "./PublicNotAdmin.jsx";
+import PharmaciesPage from "../pages/pharmacies/PharmaciesPage.jsx";
 export default function RoutesComponent({ onOpenLogin }) {
   return (
     <Routes>
       <Route element={<MainLayout onOpenLogin={onOpenLogin} />}>
         {/* Public routes */}
         <Route path="/" element={<Homepage />} />
-        <Route path="/search-medicine" element={ <PublicNotAdmin > <SearchMedicine /> </PublicNotAdmin>} />
-        <Route path="/upload-prescription" element={ <PublicNotAdmin > <UploadPrescription /> </PublicNotAdmin>} />
-       
+        <Route
+          path="/search-medicine"
+          element={
+            <PublicNotAdmin>
+              {" "}
+              <SearchMedicine />{" "}
+            </PublicNotAdmin>
+          }
+        />
+        <Route
+          path="/upload-prescription"
+          element={
+            <PublicNotAdmin>
+              {" "}
+              <UploadPrescription />{" "}
+            </PublicNotAdmin>
+          }
+        />
+        <Route
+          path="/products"
+          element={
+            <PublicNotAdmin>
+              <PharmaciesPage />
+            </PublicNotAdmin>
+          }
+        />
 
         {/* Protected for regular users only */}
-        <Route element={<RequireRole allowed={['user']} />}>
+        <Route element={<RequireRole allowed={["user"]} />}>
           <Route path="/cart" element={<CartPage />} />
         </Route>
 
@@ -40,18 +64,27 @@ export default function RoutesComponent({ onOpenLogin }) {
         </Route>
 
         {/* Admin-only */}
-        <Route element={<RequireRole allowed={['admin']} />}>
+        <Route element={<RequireRole allowed={["admin"]} />}>
           <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/medicine-management" element={<MedicineManagement />} />
+          <Route
+            path="/admin/medicine-management"
+            element={<MedicineManagement />}
+          />
           <Route path="/admin/orders" element={<OrderManagement />} />
         </Route>
 
         {/* SuperAdmin-only */}
-        <Route element={<RequireRole allowed={['superadmin']} />}>
+        <Route element={<RequireRole allowed={["superadmin"]} />}>
           <Route path="/super" element={<SuperAdminDashboard />} />
-          <Route path="/super/pharmacies-management" element={<PharmacyManagement />} />
+          <Route
+            path="/super/pharmacies-management"
+            element={<PharmacyManagement />}
+          />
           <Route path="/super/reports" element={<ReportsOverview />} />
-          <Route path="/super/global-analytics" element={<PharmacyDashboard />} />
+          <Route
+            path="/super/global-analytics"
+            element={<PharmacyDashboard />}
+          />
         </Route>
       </Route>
 

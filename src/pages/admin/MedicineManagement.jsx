@@ -19,7 +19,7 @@ import {
   updateMedicine,
 } from "../../shared/api/medicineApi";
 import PaginationControls from "../../components/medicines/PaginationControls";
-import Toast from "../../components/medicines/Toast";
+import Toast from "../../components/common/Toast";
 import ConfirmDialog from "../../components/common/ConfirmDialog";
 
 export default function MedicineManagement() {

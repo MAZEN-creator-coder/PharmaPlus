@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import CartItems from "./CartItems";
 import OrderSummary from "./OrderSummary";
-import Toast from "../../components/medicines/Toast";
+import Toast from "../../components/common/Toast";
 import styles from "./ShoppingCart.module.css";
 import { ProductContext } from "../../context/productContext";
 

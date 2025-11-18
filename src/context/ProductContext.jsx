@@ -11,9 +11,21 @@ export function ProductProvider({ children }) {
     const exists = selectedProducts.find((p) => (p._id || p.id) === productId);
 
     if (exists) {
-      setSelectedProducts((prev) => prev.filter((p) => (p._id || p.id) !== productId));
-      setCartItems((items) => items.filter((item) => (item._id || item.id) !== productId));
+      setSelectedProducts((prev) =>
+        prev.filter((p) => (p._id || p.id) !== productId)
+      );
+      setCartItems((items) =>
+        items.filter((item) => (item._id || item.id) !== productId)
+      );
     } else {
+      // Prevent adding if there's no stock
+      if (product.stock != null && product.stock < 1) {
+        console.warn(
+          `Product ${productId} is out of stock; cannot add to cart.`
+        );
+        return;
+      }
+
       setSelectedProducts((prev) => [...prev, product]);
       setCartItems((items) => [
         ...items,
@@ -31,18 +43,36 @@ export function ProductProvider({ children }) {
   const updateQuantity = (id, newQuantity) => {
     if (newQuantity < 1) return;
     setCartItems((items) =>
-      items.map((item) => ((item._id || item.id) === id ? { ...item, quantity: newQuantity } : item))
+      items.map((item) => {
+        if ((item._id || item.id) !== id) return item;
+        // If the item has a stock property, enforce the maximum
+        if (item.stock != null) {
+          const capped = Math.min(newQuantity, item.stock);
+          if (capped !== newQuantity) {
+            // Optionally, you could show a toast in the UI when this happens.
+            return { ...item, quantity: capped };
+          }
+          return { ...item, quantity: capped };
+        }
+        return { ...item, quantity: newQuantity };
+      })
     );
   };
 
   const removeFromCart = (id) => {
-    setCartItems((items) => items.filter((item) => (item._id || item.id) !== id));
+    setCartItems((items) =>
+      items.filter((item) => (item._id || item.id) !== id)
+    );
     setSelectedProducts((prev) => prev.filter((p) => (p._id || p.id) !== id));
   };
 
   const toggleItemSelected = (id) => {
     setCartItems((items) =>
-      items.map((item) => ((item._id || item.id) === id ? { ...item, selected: !item.selected } : item))
+      items.map((item) =>
+        (item._id || item.id) === id
+          ? { ...item, selected: !item.selected }
+          : item
+      )
     );
   };
 
@@ -51,10 +81,16 @@ export function ProductProvider({ children }) {
   };
 
   const deleteSelectedItems = () => {
-    const toDeleteIds = new Set(cartItems.filter((i) => i.selected).map((i) => i._id || i.id));
+    const toDeleteIds = new Set(
+      cartItems.filter((i) => i.selected).map((i) => i._id || i.id)
+    );
     if (toDeleteIds.size === 0) return;
-    setCartItems((items) => items.filter((item) => !toDeleteIds.has(item._id || item.id)));
-    setSelectedProducts((prev) => prev.filter((p) => !toDeleteIds.has(p._id || p.id)));
+    setCartItems((items) =>
+      items.filter((item) => !toDeleteIds.has(item._id || item.id))
+    );
+    setSelectedProducts((prev) =>
+      prev.filter((p) => !toDeleteIds.has(p._id || p.id))
+    );
   };
 
   const clearCart = () => {
@@ -63,18 +99,25 @@ export function ProductProvider({ children }) {
   };
 
   // Derivations
-  const selectedItems = useMemo(() => cartItems.filter((i) => i.selected), [cartItems]);
+  const selectedItems = useMemo(
+    () => cartItems.filter((i) => i.selected),
+    [cartItems]
+  );
   const allSelected = useMemo(
     () => cartItems.length > 0 && cartItems.every((i) => i.selected),
     [cartItems]
   );
   const subtotal = useMemo(
-    () => selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+    () =>
+      selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
     [selectedItems]
   );
   const discount = useMemo(() => Math.round(subtotal * 0.2), [subtotal]);
   const deliveryFee = 15;
-  const total = useMemo(() => subtotal - discount + deliveryFee, [subtotal, discount]);
+  const total = useMemo(
+    () => subtotal - discount + deliveryFee,
+    [subtotal, discount]
+  );
 
   const getSelectedCount = () => selectedProducts.length;
 
