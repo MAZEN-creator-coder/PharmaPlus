@@ -23,8 +23,16 @@ const AdminDashboard = () => {
 
   const [stats, setStats] = useState(null);
   
-  const [loading, setLoading] = useState(false);
+  const [statsLoading, setStatsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [childLoadingCount, setChildLoadingCount] = useState(0);
+
+  const onChildLoadingChange = (isLoading) => {
+    setChildLoadingCount((c) => {
+      if (isLoading) return c + 1;
+      return Math.max(0, c - 1);
+    });
+  };
   
 
   useEffect(() => {
@@ -34,7 +42,7 @@ const AdminDashboard = () => {
 
     let mounted = true;
     (async () => {
-      setLoading(true);
+      setStatsLoading(true);
       setError(null);
       try {
         const data = await getCustomerAnalytics(token, pharmacyId);
@@ -45,7 +53,7 @@ const AdminDashboard = () => {
         console.error('AdminDashboard: stats fetch error', err);
         if (mounted) setError(err.message || 'Failed to load stats');
       } finally {
-        if (mounted) setLoading(false);
+        if (mounted) setStatsLoading(false);
       }
     })();
 
@@ -54,11 +62,19 @@ const AdminDashboard = () => {
     };
   }, [token, user && user.pharmacyId]);
 
+  const anyLoading = statsLoading || childLoadingCount > 0;
+
   return (
     <div className={styles.container}>
-      
-      
-      <main className={styles.mainContent}>
+      {anyLoading && (
+        <div className={styles.loadingScreen}>
+          <div className={styles.loadingBox}>
+            <div className={styles.spinner} aria-hidden="true"></div>
+            <div style={{ marginLeft: 12 }}>Loading dashboard…</div>
+          </div>
+        </div>
+      )}
+      <main className={styles.mainContent} style={{ display: anyLoading ? 'none' : undefined }}>
         <div className={styles.header}>
           <h1 className={styles.title}>Pharmacy Admin Dashboard</h1>
           <p className={styles.subtitle}>Welcome back! Here's what's happening with your pharmacy today.</p>
@@ -101,22 +117,21 @@ const AdminDashboard = () => {
             Failed to load analytics: {String(error)}
           </div>
         )}
-        {!loading && !stats && !error && (
+        {!statsLoading && !stats && !error && (
           <div style={{ color: 'var(--muted)', marginTop: 12 }}>
             No analytics available for this pharmacy.
           </div>
         )}
 
-        {/* Debug UI removed per request - only using controller analytics */}
 
         <div className={styles.chartsGrid}>
-          <MonthlySalesChart />
-          <SalesCategoryChart />
+          <MonthlySalesChart onLoadingChange={onChildLoadingChange} />
+          <SalesCategoryChart onLoadingChange={onChildLoadingChange} />
         </div>
 
         <div className={styles.tablesGrid}>
-          <RecentOrdersTable />
-          <LowStockAlerts />
+          <RecentOrdersTable onLoadingChange={onChildLoadingChange} />
+          <LowStockAlerts onLoadingChange={onChildLoadingChange} />
         </div>
       </main>
     </div>

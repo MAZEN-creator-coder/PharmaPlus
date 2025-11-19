@@ -14,7 +14,7 @@ function monthLabelFromYYYYMM(yyyymm) {
   return MONTH_NAMES[monthIndex] || yyyymm;
 }
 
-const MonthlySalesChart = () => {
+const MonthlySalesChart = ({ onLoadingChange }) => {
   const [data, setData] = useState([]);
   const { token, user } = (() => {
     try { return useAuth(); } catch { return { token: null, user: null }; }
@@ -28,6 +28,7 @@ const MonthlySalesChart = () => {
     let mounted = true;
     (async () => {
       try {
+        if (onLoadingChange) onLoadingChange(true);
         const analytics = await getCustomerAnalytics(token, pharmacyId);
         if (!mounted) return;
         // analytics.last7MonthsSales might be an array of { month: 'YYYY-MM', sales: number }
@@ -37,6 +38,8 @@ const MonthlySalesChart = () => {
       } catch (err) {
         console.error('MonthlySalesChart fetch error', err);
         setData([]);
+      } finally {
+        if (onLoadingChange) onLoadingChange(false);
       }
     })();
 

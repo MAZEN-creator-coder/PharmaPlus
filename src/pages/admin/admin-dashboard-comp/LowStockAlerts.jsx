@@ -4,7 +4,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { getLowStockAlerts } from "../../../shared/api/adminData";
 import { useNavigate } from "react-router-dom";
 
-const LowStockAlerts = () => {
+const LowStockAlerts = ({ onLoadingChange }) => {
   const { token, user } = useAuth();
   const [alerts, setAlerts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,6 +19,7 @@ const LowStockAlerts = () => {
     let mounted = true;
     (async () => {
       setLoading(true);
+      if (onLoadingChange) onLoadingChange(true);
       setError(null);
       try {
         const data = await getLowStockAlerts(token, pharmacyId);
@@ -32,6 +33,7 @@ const LowStockAlerts = () => {
         console.error(err);
         if (mounted) setError('Failed to load low stock alerts');
       } finally {
+        if (onLoadingChange) onLoadingChange(false);
         if (mounted) setLoading(false);
       }
     })();

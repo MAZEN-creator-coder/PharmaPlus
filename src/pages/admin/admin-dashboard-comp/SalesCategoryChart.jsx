@@ -15,7 +15,7 @@ const COLOR_PALETTE = [
   "#06b6d4",
 ];
 
-const SalesCategoryChart = () => {
+const SalesCategoryChart = ({ onLoadingChange }) => {
   const { token, user } = useAuth();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -27,6 +27,7 @@ const SalesCategoryChart = () => {
     let mounted = true;
     (async () => {
       setLoading(true);
+      if (onLoadingChange) onLoadingChange(true);
       try {
         const payload = await getSalesByCategory(token, pharmacyId);
         if (!mounted) return;
@@ -42,6 +43,7 @@ const SalesCategoryChart = () => {
         console.error('getSalesByCategory fetch error', err);
         setData([]);
       } finally {
+        if (onLoadingChange) onLoadingChange(false);
         if (mounted) setLoading(false);
       }
     })();

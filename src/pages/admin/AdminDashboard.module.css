@@ -4,7 +4,9 @@
   background-color: #f8f9fa;
   /* Prevent horizontal overflow from children */
   overflow-x: hidden;
+  position: relative;
 }
+
 
 .mainContent {
   flex: 1;
@@ -91,4 +93,38 @@
 
 .tableCell, .tableHeader {
   overflow-wrap: anywhere;
+}
+
+/* Full-page loading overlay used while dashboard data loads */
+.loadingScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  background: #ffffff; /* page-level loading background */
+}
+
+.loadingBox {
+  display: inline-flex;
+  align-items: center;
+  background: white;
+  padding: 18px 22px;
+  border-radius: 8px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  font-weight: 600;
+  color: #374151;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 3px solid rgba(3,105,161,0.15);
+  border-top-color: #0891b2;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }

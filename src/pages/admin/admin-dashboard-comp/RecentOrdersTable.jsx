@@ -5,7 +5,7 @@ import { useAuth } from "../../../hooks/useAuth";
 import { getOrdersByPharmacy } from "../../../shared/api/adminData";
 import apiFetch from "../../../shared/api/apiFetch";
 
-const RecentOrdersTable = () => {
+const RecentOrdersTable = ({ onLoadingChange }) => {
   const navigate = useNavigate();
   const { token, user } = useAuth();
   const [orders, setOrders] = useState([]);
@@ -23,6 +23,7 @@ const RecentOrdersTable = () => {
     let mounted = true;
     (async () => {
       setLoading(true);
+      if (onLoadingChange) onLoadingChange(true);
       try {
         const fetched = await getOrdersByPharmacy(token, pharmacyId, 5);
         if (!mounted) return;
@@ -62,6 +63,7 @@ const RecentOrdersTable = () => {
         console.error('RecentOrdersTable fetch error', err);
         setOrders([]);
       } finally {
+        if (onLoadingChange) onLoadingChange(false);
         if (mounted) setLoading(false);
       }
     })();
