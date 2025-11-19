@@ -5,25 +5,27 @@ import EditModal from "./components/EditModal/EditModal";
 import DeleteModal from "./components/CancelModal/CancelModal";
 import { AuthContext } from "../../context/AuthContext";
 
-
 export default function OrderManagement() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
   const limit = 10;
 
   const { token } = useContext(AuthContext);
   const pharmacyId = "6917a140e7415398de86478b";
+  const totalPages = 5;
+
 
   useEffect(() => {
     const fetchOrders = async () => {
       if (!token) {
-        console.log("No token found! Please log in.");
         return;
       }
-
+      setIsLoading(true);
       try {
         const res = await fetch(
           `http://localhost:3000/api/orders/pharmacy/${pharmacyId}?limit=${limit}&page=${page}`,
@@ -42,20 +44,29 @@ export default function OrderManagement() {
         const ordersWithUser = await Promise.all(
           ordersData.map(async (order) => {
             let userData = { name: "Unknown", email: "" };
+
             if (order.userId) {
               try {
                 const userRes = await fetch(
                   `http://localhost:3000/api/users/${order.userId}`,
                   { headers: { Authorization: "Bearer " + token } }
                 );
+
                 if (userRes.ok) {
                   const userJson = await userRes.json();
-                  userData = userJson?.data?.user || userData;
+                  const user = userJson?.data?.user;
+                  const fullName = `${user?.firstname || ""} ${user?.lastname || ""}`.trim();
+
+                  userData = {
+                    name: fullName || "Unknown",
+                    email: user?.email || "",
+                  };
                 }
               } catch (err) {
                 console.log("Failed to fetch user:", err);
               }
             }
+
             return { ...order, userData };
           })
         );
@@ -65,12 +76,14 @@ export default function OrderManagement() {
         console.log("Error fetching orders:", err);
         setOrders([]);
       }
+      finally{
+        setIsLoading(false);
+      }
     };
 
     fetchOrders();
   }, [page, token, pharmacyId]);
 
-  // ✅ تعريف الدوال اللي محتاجها
   const handleEdit = (order) => {
     setSelectedOrder(order);
     setEditModalOpen(true);
@@ -78,6 +91,7 @@ export default function OrderManagement() {
 
   const handleSave = async (updatedStatus) => {
     if (!selectedOrder) return;
+
     try {
       const res = await fetch(
         `http://localhost:3000/api/orders/${selectedOrder._id}/status`,
@@ -90,8 +104,11 @@ export default function OrderManagement() {
           body: JSON.stringify({ status: updatedStatus }),
         }
       );
+
       if (!res.ok) throw new Error("Failed to update status");
+
       const updatedOrder = await res.json();
+
       setOrders((prev) =>
         prev.map((o) =>
           o._id === updatedOrder.data.order._id
@@ -99,6 +116,7 @@ export default function OrderManagement() {
             : o
         )
       );
+
       setEditModalOpen(false);
       setSelectedOrder(null);
     } catch (err) {
@@ -117,8 +135,11 @@ export default function OrderManagement() {
         method: "DELETE",
         headers: { Authorization: "Bearer " + token },
       });
+
       if (!res.ok) throw new Error("Failed to delete order");
+
       setOrders((prev) => prev.filter((o) => o._id !== orderId));
+
       setDeleteModalOpen(false);
       setSelectedOrder(null);
     } catch (err) {
@@ -132,35 +153,71 @@ export default function OrderManagement() {
     setSelectedOrder(null);
   };
 
-  const handleNextPage = () => setPage((prev) => prev + 1);
-  const handlePrevPage = () => setPage((prev) => (prev > 1 ? prev - 1 : 1));
+  const handleNextPage = () => {
+    if (page < totalPages) setPage((prev) => prev + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (page > 1) setPage((prev) => prev - 1);
+  };
+if (isLoading) {
+  return (
+    <div className={styles.loadingPage}>
+      <h2>Loading...</h2>
+      <div className={styles.spinner}></div>
+    </div>
+  );
+}
 
   return (
     <div className={styles.container}>
       <div className={styles.mainContent}>
         <div className={styles.contentWrapper}>
-          <OrdersTable orders={orders} onEdit={handleEdit} onDelete={handleDelete} />
-
-          {/* Pagination */}
-          <div style={{ marginTop: "20px", display: "flex", justifyContent: "center", gap: "10px" }}>
-            <button onClick={handlePrevPage} disabled={page === 1}>
-              Previous
+          
+          <OrdersTable
+            orders={orders}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+          <div className={styles.wrap}>
+            <button
+              onClick={handlePrevPage}
+              disabled={page <= 1 || isLoading}
+              className={styles.btn}
+            >
+              ◀ Previous
             </button>
-            <span>Page {page}</span>
-            <button onClick={handleNextPage} disabled={orders.length < limit}>
-              Next
+
+            <div className={styles.info}>
+              Page {page} of {totalPages}
+            </div>
+
+            <button
+              onClick={handleNextPage}
+              disabled={page >= totalPages || isLoading}
+              className={styles.btn}
+            >
+              Next ▶
             </button>
           </div>
+
+          {isEditModalOpen && (
+            <EditModal
+              order={selectedOrder}
+              onClose={handleCloseModal}
+              onSave={handleSave}
+            />
+          )}
+
+          {isDeleteModalOpen && (
+            <DeleteModal
+              order={selectedOrder}
+              onClose={handleCloseModal}
+              onConfirm={handleConfirmDelete}
+            />
+          )}
         </div>
       </div>
-
-      {isEditModalOpen && (
-        <EditModal order={selectedOrder} onClose={handleCloseModal} onSave={handleSave} />
-      )}
-
-      {isDeleteModalOpen && (
-        <DeleteModal order={selectedOrder} onClose={handleCloseModal} onConfirm={handleConfirmDelete} />
-      )}
     </div>
   );
 }
