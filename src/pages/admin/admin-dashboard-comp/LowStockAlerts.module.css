@@ -12,6 +12,14 @@
 .header {
   padding: 1.5rem;
   padding-bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
@@ -76,6 +84,47 @@
   background-color: #ef4444;
   color: #ffffff;
   margin-left: auto;
+}
+
+/* Empty / loading / error states centered inside the content area */
+.empty,
+.loading,
+.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 160px; /* ensures vertical space to appear centered */
+  color: #6b7280;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.loading {
+  color: #018994;
+}
+
+.error {
+  color: #b91c1c;
+}
+
+/* footer with view all button */
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 0.5rem;
+}
+
+.viewAllButton {
+  background: transparent;
+  border: none;
+  color: #0891b2;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.viewAllButton:hover {
+  color: #0e7490;
 }
 
 @media (max-width: 480px) {

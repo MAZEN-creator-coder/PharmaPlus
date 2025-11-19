@@ -89,15 +89,6 @@
   font-weight: 500;
   text-transform: capitalize;
 }
-.badgeCompleted {
-  background-color: #10b981;
-  color: #ffffff;
-}
-
-.badgeProcessing {
-  background-color: #6366f1;
-  color: #ffffff;
-}
 
 .badgePending {
   background-color: #f59e0b;
@@ -106,6 +97,17 @@
 
 .badgeCancelled {
   background-color: #ef4444;
+  color: #ffffff;
+}
+
+/* Added shipped / delivered badges to match admin dashboard design */
+.badgeShipped {
+  background-color: #5b68b6; /* blue pill like attachment */
+  color: #ffffff;
+}
+
+.badgeDelivered {
+  background-color: #10b981; /* green for delivered */
   color: #ffffff;
 }
 @media (min-width: 769px) {

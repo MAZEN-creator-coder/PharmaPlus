@@ -69,15 +69,15 @@
 }
 
 .statusBadge {
-  padding: 0.375rem 0.875rem;
-  border-radius: 6px;
+  padding: 0.3125rem 0.75rem;
+  border-radius: 9999px; /* pill */
   font-size: 0.75rem;
   font-weight: 600;
 }
 
 .statusDelivered {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: #10B981;
+  color: #ffffff;
 }
 
 .statusProcessing {
@@ -86,8 +86,8 @@
 }
 
 .statusPending {
-  background-color: #fef3c7; /* light yellow */
-  color: #92400e; /* dark yellow/brown text for contrast */
+  background-color: #f59e0b; /* yellow pill */
+  color: #ffffff;
 }
 
 .statusCancelled {

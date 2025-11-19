@@ -1,25 +1,79 @@
 import styles from "./RecentOrdersTable.module.css";
 import { useNavigate } from "react-router-dom";
-
-const orders = [
-  { id: "MC2024001", customer: "Amr Tamer", total: "$750.00", status: "completed", date: "2024-07-28" },
-  { id: "MC2024002", customer: "Mazen Ahmed", total: "$1200.50", status: "processing", date: "2024-07-28" },
-  { id: "MC2024003", customer: "Noha Shehab", total: "$300.00", status: "pending", date: "2024-07-27" },
-  { id: "MC2024004", customer: "Mariam Riad", total: "$980.25", status: "completed", date: "2024-07-27" },
-  { id: "MC2024005", customer: "Tamer EL-Gayar", total: "$520.00", status: "cancelled", date: "2024-07-26" },
-];
+import { useEffect, useState } from "react";
+import { useAuth } from "../../../hooks/useAuth";
+import { getOrdersByPharmacy } from "../../../shared/api/adminData";
+import apiFetch from "../../../shared/api/apiFetch";
 
 const RecentOrdersTable = () => {
   const navigate = useNavigate();
+  const { token, user } = useAuth();
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const onViewAll = () => {
     navigate('/admin/orders');
   };
+
+  useEffect(() => {
+    if (!token || !user) return;
+    const pharmacyId = user.pharmacyId || user.pharmacy || user._id;
+    if (!pharmacyId) return;
+
+    let mounted = true;
+    (async () => {
+      setLoading(true);
+      try {
+        const fetched = await getOrdersByPharmacy(token, pharmacyId, 5);
+        if (!mounted) return;
+
+        if (!fetched || fetched.length === 0) {
+          setOrders([]);
+          return;
+        }
+
+        // fetched orders may not include customer name; fetch user names in batch
+        const userIds = Array.from(new Set(fetched.map(o => String(o.userId))));
+        const userMap = {};
+        await Promise.all(userIds.map(async (id) => {
+          try {
+            const res = await apiFetch(`/users/${id}`, { token }); // returns { data: { user } }
+            if (res && res.data && res.data.user) {
+              const u = res.data.user;
+              userMap[id] = u.fullName || u.firstname || `${u.firstname || ''} ${u.lastname || ''}`.trim() || u.email || id;
+            } else {
+              userMap[id] = id;
+            }
+          } catch (e) {
+            userMap[id] = id;
+          }
+        }));
+
+        const mapped = fetched.map(o => ({
+          id: o._id || o.id,
+          customer: userMap[String(o.userId)] || String(o.userId),
+          total: o.total ? (typeof o.total === 'string' ? (o.total.startsWith('$') ? o.total : `$${o.total}`) : `$${Number(o.total).toFixed(2)}`) : '-',
+          status: (o.status || 'Pending').toLowerCase(),
+          date: o.date || (o.createdAt ? new Date(o.createdAt).toISOString().split('T')[0] : ''),
+        }));
+
+        setOrders(mapped);
+      } catch (err) {
+        console.error('RecentOrdersTable fetch error', err);
+        setOrders([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    })();
+
+    return () => { mounted = false; };
+  }, [token, user]);
+
   return (
     <div className={styles.card}>
       <div className={styles.header}>
-  <h3 className={styles.title}>Recent Orders</h3>
-  <button className={styles.viewAllButton} onClick={onViewAll}>View All</button>
+        <h3 className={styles.title}>Recent Orders</h3>
+        <button className={styles.viewAllButton} onClick={onViewAll}>View All</button>
       </div>
       <div className={styles.content}>
         <div className={styles.tableWrapper}>
