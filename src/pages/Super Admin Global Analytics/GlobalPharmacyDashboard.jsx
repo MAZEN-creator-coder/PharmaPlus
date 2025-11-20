@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   LineChart, 
   Line, 
@@ -15,66 +15,91 @@ import {
   Bar 
 } from 'recharts';
 import styles from './PharmacyDashboard.module.css';
+import { useAuth } from '../../hooks/useAuth';
+import getAnalyticsOfSuperAdmin from '../../shared/api/getanaylticsofsuperadmin';
 
 const PharmacyDashboard = () => {
+  const { token } = useAuth();
   const [selectedPharmacy, setSelectedPharmacy] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [filterStatus, setFilterStatus] = useState('all');
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // بيانات User Growth
-  const userGrowthData = [
-    { month: 'Feb', users: 3000 },
-    { month: 'Mar', users: 3500 },
-    { month: 'Apr', users: 4200 },
-    { month: 'May', users: 4800 },
-    { month: 'Jun', users: 5200 },
-    { month: 'Jul', users: 5800 },
-    { month: 'Aug', users: 6500 },
-    { month: 'Sep', users: 7200 },
-    { month: 'Oct', users: 8000 },
-    { month: 'Nov', users: 8800 },
-    { month: 'Dec', users: 9500 }
-  ];
-
-  // بيانات Revenue Distribution
-  const revenueData = [
-    { name: 'Prescription', value: 45 },
-    { name: 'OTC Products', value: 25 },
-    { name: 'Wellness & Supplements', value: 20 },
-    { name: 'Devices', value: 10 }
-  ];
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [pharmacyDetails, setPharmacyDetails] = useState([]);
+  const [userGrowthData, setUserGrowthData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
+  const [pharmaciesData, setPharmaciesData] = useState([]);
 
   // ألوان متناسقة مع اللون الرئيسي #008994
   const COLORS = ['#008994', '#00BCD4', '#4DD0E1', '#B2EBF2'];
 
-  // بيانات Top Pharmacies
-  const pharmaciesData = [
-    { name: 'Pharmacy A', sales: 95000 },
-    { name: 'Pharmacy B', sales: 88000 },
-    { name: 'Pharmacy C', sales: 82000 },
-    { name: 'Pharmacy D', sales: 75000 },
-    { name: 'Main St', sales: 68000 }
-  ];
+  // جلب البيانات من API
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        setLoading(true);
+        const data = await getAnalyticsOfSuperAdmin(token);
+        setAnalyticsData(data);
 
-  // بيانات الصيدليات التفصيلية
-  const [pharmacyDetails, setPharmacyDetails] = useState([
-    { id: 1, name: 'Medicare Pharmacy', location: 'New York, USA', status: 'Active', sales: 92000, served: 5005 },
-    { id: 2, name: 'City Center Drugs', location: 'Los Angeles, USA', status: 'Pending', sales: 85000, served: 4800 },
-    { id: 3, name: 'Pharmacare Supplies', location: 'London, UK', status: 'Active', sales: 78000, served: 4200 },
-    { id: 4, name: 'Green Rx Solutions', location: 'Berlin, DE', status: 'Pending', sales: 70000, served: 3850 },
-    { id: 5, name: 'Sunset Health', location: 'Sydney, AUS', status: 'Suspended', sales: 65000, served: 3400 }
-  ]);
+        if (data) {
+          // تعيين بيانات النمو
+          setUserGrowthData(data.userGrowth || []);
+
+          // تعيين بيانات توزيع الإيرادات وتحويل value من string لـ number
+          const revenueDistribution = (data.revenueDistribution || []).map(item => ({
+            name: item.name,
+            value: parseFloat(item.value)
+          }));
+          setRevenueData(revenueDistribution);
+
+          // تعيين بيانات أفضل الصيدليات
+          const topPharmacies = (data.topPharmacies || []).map(p => ({
+            name: p.name,
+            sales: p.sales
+          }));
+          setPharmaciesData(topPharmacies);
+
+          // تعيين تفاصيل الصيدليات
+          const pharmacies = (data.topPharmacies || []).map(p => ({
+            id: p.id,
+            name: p.name,
+            location: p.location || 'غير محدد',
+            status: p.status.charAt(0).toUpperCase() + p.status.slice(1),
+            sales: p.sales,
+            served: p.served,
+            stockValue: p.stockValue,
+            totalOrders: p.totalOrders
+          }));
+          setPharmacyDetails(pharmacies);
+        }
+
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching analytics:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (token) {
+      fetchAnalytics();
+    }
+  }, [token]);
 
   // إحصائيات محسوبة
-  const totalUsers = userGrowthData[userGrowthData.length - 1].users;
-  const previousUsers = userGrowthData[userGrowthData.length - 2].users;
-  const userGrowthPercentage = Math.round(((totalUsers - previousUsers) / previousUsers) * 100);
-
-  const totalRevenue = pharmacyDetails.reduce((sum, p) => sum + p.sales, 0);
-  const activePharmacies = pharmacyDetails.filter(p => p.status === 'Active').length;
-  const totalServed = pharmacyDetails.reduce((sum, p) => sum + p.served, 0);
-  const avgOrderValue = Math.round(totalRevenue / totalServed);
+  const totalUsers = analyticsData?.platformSummary?.totalUsers || 0;
+  const totalRevenue = analyticsData?.platformSummary?.totalRevenue || 0;
+  const activePharmacies = analyticsData?.platformSummary?.activePharmacies || 0;
+  const totalServed = analyticsData?.platformSummary?.totalServed || 0;
+  const avgOrderValue = analyticsData?.platformSummary?.avgOrderValue || 0;
+  
+  const userGrowthPercentage = userGrowthData.length > 1 
+    ? Math.round(((userGrowthData[userGrowthData.length - 1].users - userGrowthData[userGrowthData.length - 2].users) / userGrowthData[userGrowthData.length - 2].users) * 100)
+    : 0;
 
   // دالة التصدير
   const handleExport = () => {
@@ -220,21 +245,13 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
     });
   };
 
-  const handleViewDetails = (pharmacy) => {
-    setSelectedPharmacy(pharmacy);
-  };
-
-  const toggleStatus = (id) => {
-    setPharmacyDetails(pharmacyDetails.map(p => 
-      p.id === id ? { ...p, status: p.status === 'Active' ? 'Suspended' : 'Active' } : p
-    ));
-  };
-
   const getStatusColor = (status) => {
     switch(status) {
+      case 'active': return '#10B981';
       case 'Active': return '#10B981';
       case 'Pending': return '#F59E0B';
       case 'Suspended': return '#EF4444';
+      case 'inactive': return '#EF4444';
       default: return '#6B7280';
     }
   };
@@ -253,58 +270,29 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
 
   const filteredPharmacies = getFilteredPharmacies();
 
+  if (loading) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.loadingContainer}>
+          <div className={styles.spinner}></div>
+          <p className={styles.loadingText}>loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.errorContainer}>
+          <p className={styles.errorText}>Error: {error}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
-      {/* Modal للتفاصيل */}
-      {selectedPharmacy && (
-        <div className={styles.modalOverlay} onClick={() => setSelectedPharmacy(null)}>
-          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h2 className={styles.modalTitle}>{selectedPharmacy.name}</h2>
-            <div className={styles.modalContent}>
-              <div className={styles.modalRow}>
-                <strong>Location:</strong> {selectedPharmacy.location}
-              </div>
-              <div className={styles.modalRow}>
-                <strong>Status:</strong> 
-                <span 
-                  className={styles.badge}
-                  style={{
-                    backgroundColor: getStatusColor(selectedPharmacy.status),
-                    color: '#fff',
-                    marginLeft: '10px'
-                  }}
-                >
-                  {selectedPharmacy.status}
-                </span>
-              </div>
-              <div className={styles.modalRow}>
-                <strong>Total Sales:</strong> ${selectedPharmacy.sales.toLocaleString()}
-              </div>
-              <div className={styles.modalRow}>
-                <strong>Users Served:</strong> {selectedPharmacy.served.toLocaleString()}
-              </div>
-              <div className={styles.modalRow}>
-                <strong>Average per User:</strong> ${Math.round(selectedPharmacy.sales / selectedPharmacy.served)}
-              </div>
-            </div>
-            <div className={styles.modalActions}>
-              <button 
-                className={styles.toggleStatusBtn}
-                onClick={() => {
-                  toggleStatus(selectedPharmacy.id);
-                  setSelectedPharmacy(null);
-                }}
-              >
-                {selectedPharmacy.status === 'Active' ? 'Suspend' : 'Activate'}
-              </button>
-              <button className={styles.closeBtn} onClick={() => setSelectedPharmacy(null)}>
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Header */}
       <div className={styles.header}>
         <h1 className={styles.title}>Global Analytics Overview</h1>
@@ -331,7 +319,7 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
           <div className={styles.statCard}>
             <div className={styles.statLabel}>Total Revenue</div>
             <div className={styles.statSubLabel}>Total revenue generated</div>
-            <div className={styles.statValue}>${(totalRevenue / 1000000).toFixed(1)}M</div>
+            <div className={styles.statValue}>${(totalRevenue / 1000).toFixed(2)}K</div>
             <div className={styles.statChangeGreen}>+30% this month</div>
           </div>
           <div className={styles.statCard}>
@@ -387,16 +375,21 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
                   outerRadius={90}
                   paddingAngle={2}
                   dataKey="value"
+                  nameKey="name"
                 >
                   {revenueData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                   ))}
                 </Pie>
-                <Tooltip formatter={(value) => `${value}%`} />
+                <Tooltip 
+                  formatter={(value) => `${value}%`}
+                  labelFormatter={(name) => name}
+                />
                 <Legend 
                   iconType="circle"
                   wrapperStyle={{fontSize: '11px', paddingTop: '15px'}}
                   iconSize={8}
+                  dataKey="name"
                 />
               </PieChart>
             </ResponsiveContainer>
@@ -470,7 +463,6 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
                   <th className={styles.th} onClick={() => handleSort('served')}>
                     Users Served {sortConfig.key === 'served' && (sortConfig.direction === 'asc' ? '▲' : '▼')}
                   </th>
-                  <th className={styles.th}>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -489,19 +481,11 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
                       </td>
                       <td className={styles.td}>${pharmacy.sales.toLocaleString()}</td>
                       <td className={styles.td}>{pharmacy.served.toLocaleString()}</td>
-                      <td className={styles.td}>
-                        <button 
-                          className={styles.viewBtn}
-                          onClick={() => handleViewDetails(pharmacy)}
-                        >
-                          View Details
-                        </button>
-                      </td>
                     </tr>
                   ))
                 ) : (
                   <tr>
-                    <td colSpan="6" className={styles.td} style={{textAlign: 'center', padding: '30px', color: '#9CA3AF'}}>
+                    <td colSpan="5" className={styles.td} style={{textAlign: 'center', padding: '30px', color: '#9CA3AF'}}>
                       No pharmacies found matching your criteria
                     </td>
                   </tr>
