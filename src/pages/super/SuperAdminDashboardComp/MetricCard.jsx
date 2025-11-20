@@ -1,7 +1,7 @@
 import { DollarSign, ShoppingCart, Package, FileText } from 'lucide-react';
 import styles from './MetricCard.module.css';
 
-const MetricCard = ({ title, value, change, period, icon, positive }) => {
+const MetricCard = ({ title, value, change, period, icon }) => {
   const getIcon = () => {
     switch (icon) {
       case 'dollar':
@@ -26,10 +26,9 @@ const MetricCard = ({ title, value, change, period, icon, positive }) => {
         <div className={styles.title}>{title}</div>
         <div className={styles.value}>{value}</div>
         <div className={styles.change}>
-          <span className={positive ? styles.positive : styles.negative}>
+          <span className={styles.changeText}>
             {change}
           </span>
-          <span className={styles.period}>{period}</span>
         </div>
       </div>
     </div>

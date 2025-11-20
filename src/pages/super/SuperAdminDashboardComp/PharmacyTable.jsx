@@ -1,13 +1,9 @@
 import styles from './PharmacyTable.module.css';
 
-const PharmacyTable = () => {
-  const pharmacies = [
-    { id: 'PH001', name: 'MediConnect Downtown', sales: '$15,670', orders: 320, stock: '$50,200' },
-    { id: 'PH002', name: 'MediConnect Eastside', sales: '$12,340', orders: 280, stock: '$45,100' },
-    { id: 'PH003', name: 'MediConnect North', sales: '$10,950', orders: 250, stock: '$38,900' },
-    { id: 'PH004', name: 'MediConnect West', sales: '$9,870', orders: 200, stock: '$32,500' },
-    { id: 'PH005', name: 'MediConnect South', sales: '$8,540', orders: 180, stock: '$28,800' },
-  ];
+const PharmacyTable = ({ pharmacies = null }) => {
+  const rows = Array.isArray(pharmacies) && pharmacies.length
+    ? pharmacies.map(p => ({ id: p.id || p._id || p.name, name: p.name, sales: p.sales != null ? `$${Number(p.sales).toLocaleString()}` : (p.totalSales != null ? `$${Number(p.totalSales).toLocaleString()}` : '-'), orders: p.totalOrders || p.orders || p.served || '-', stock: p.stockValue != null ? `$${Number(p.stockValue).toLocaleString()}` : (p.stock || '-') }))
+    : null;
 
   return (
     <div className={styles.tableContainer}>
@@ -27,7 +23,7 @@ const PharmacyTable = () => {
             </tr>
           </thead>
           <tbody>
-            {pharmacies.map((pharmacy) => (
+            {rows ? rows.map((pharmacy) => (
               <tr key={pharmacy.id}>
                 <td>{pharmacy.id}</td>
                 <td className={styles.pharmacyName}>{pharmacy.name}</td>
@@ -35,7 +31,11 @@ const PharmacyTable = () => {
                 <td>{pharmacy.orders}</td>
                 <td>{pharmacy.stock}</td>
               </tr>
-            ))}
+            )) : (
+              <tr>
+                <td colSpan={5} style={{ padding: 18, color: 'var(--muted)' }}>No pharmacy performance data available.</td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
