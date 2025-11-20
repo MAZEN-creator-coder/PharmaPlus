@@ -7,11 +7,11 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 
-
 export default function Navbar({ onOpenLogin }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const navRef = useRef(null);
+  const [scrolled, setScrolled] = useState(false);
 
   // Close mobile menu when clicking outside the navbar/menu
   useEffect(() => {
@@ -24,28 +24,47 @@ export default function Navbar({ onOpenLogin }) {
       }
     }
 
-    document.addEventListener('mousedown', handleDocClick);
-    document.addEventListener('touchstart', handleDocClick);
+    document.addEventListener("mousedown", handleDocClick);
+    document.addEventListener("touchstart", handleDocClick);
     return () => {
-      document.removeEventListener('mousedown', handleDocClick);
-      document.removeEventListener('touchstart', handleDocClick);
+      document.removeEventListener("mousedown", handleDocClick);
+      document.removeEventListener("touchstart", handleDocClick);
     };
   }, [isOpen]);
 
+  // Listen for scroll to toggle transparency
+  useEffect(() => {
+    function onScroll() {
+      setScrolled(window.scrollY > 10);
+    }
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
-  <nav className={styles.navbar} ref={navRef}>
+    <nav
+      className={
+        scrolled ? `${styles.navbar} ${styles.scrolled}` : styles.navbar
+      }
+      ref={navRef}
+    >
       <div className={styles.container}>
         <Brand />
-
-  {/* Menu */}
-  <NavMenu isOpen={isOpen} setIsOpen={setIsOpen} userRole={user?.role} onOpenLogin={onOpenLogin} />
+        {/* Menu */}
+        <NavMenu
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          userRole={user?.role}
+          onOpenLogin={onOpenLogin}
+        />
         {/* RightControls Desktop */}
-        <RightControls 
-          className={styles.rightControls} 
-          isOpen={isOpen} 
-          setIsOpen={setIsOpen} 
-          onOpenLogin={onOpenLogin}  
-          userRole={user?.role} />
+        <RightControls
+          className={styles.rightControls}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          onOpenLogin={onOpenLogin}
+          userRole={user?.role}
+        />
         {/*Burger */}
         <button
           className={styles.burger}
@@ -55,8 +74,6 @@ export default function Navbar({ onOpenLogin }) {
         >
           {isOpen ? <FaTimes /> : <FaBarsStaggered />}
         </button>
-
-        
       </div>
     </nav>
   );

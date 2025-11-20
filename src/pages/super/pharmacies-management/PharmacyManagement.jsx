@@ -12,7 +12,6 @@ import {
   updatePharmacy as updatePharmacyApi,
   deletePharmacy as deletePharmacyApi,
 } from "../../../shared/api/pharmaciesApi";
-
 import PaginationControls from "./PaginationControls";
 
 export default function PharmacyManagement() {
@@ -182,7 +181,6 @@ export default function PharmacyManagement() {
       <header className={styles.header}>
         <h2>Pharmacies Management</h2>
       </header>
-
 
       <div className={styles.actions}>
         <div className={styles.searchWrap}>

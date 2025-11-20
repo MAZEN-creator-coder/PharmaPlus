@@ -27,7 +27,17 @@
   background-color: var(--brand-bg);
   color: var(--text);
   padding: 8px 0;
-  position: relative; /* anchor absolute mobile menu */
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(6px);
+  transition: background-color 0.3s;
+}
+
+.scrolled {
+  background-color: rgba(1, 137, 148, 0.85) !important;
 }
 /* brand */
 .brand {
@@ -316,7 +326,7 @@
     gap: 8px;
   }
 }
-  /* 📱 الموبايل (حتى 767px) */
+/* 📱 الموبايل (حتى 767px) */
 @media (max-width: 767px) {
   .indicator {
     display: none;
@@ -330,7 +340,7 @@
     align-items: center;
     justify-content: center;
   }
-  
+
   /* Show mobile auth UI, hide desktop dropdown */
   .mobileAuthContainer {
     display: flex !important;
@@ -341,7 +351,7 @@
   .dropdown {
     display: none !important;
   }
-  
+
   /* لما المنيو مفتوحة */
   .navMenu.open {
     display: flex;
@@ -379,7 +389,7 @@
     background: rgba(255, 255, 255, 0.1);
     border-radius: 8px;
   }
-  
+
   /* Mobile separator line */
   .mobileSeparator {
     width: 100%;
@@ -387,7 +397,7 @@
     background: rgba(255, 255, 255, 0.3);
     margin: 20px 0;
   }
-  
+
   /* Mobile right controls - EXACT copy of desktop styling */
   .mobileRightControls {
     display: flex;
@@ -397,25 +407,24 @@
     padding: 8px 4px;
     width: 100%;
   }
- 
-  
+
   .mobileRightControls .cartIcon {
     margin-right: 0;
     margin-top: 0;
     padding: 8px;
   }
-  
+
   .mobileRightControls .chatIcon {
     margin-top: 0;
     padding: 8px;
   }
-  
+
   .mobileRightControls .signupButton {
     margin-top: 0;
     padding: 8px 12px;
     min-height: 44px;
   }
-  
+
   .mobileRightControls .cartIcon:hover,
   .mobileRightControls .chatIcon:hover,
   .mobileRightControls .cartIcon:focus,
@@ -423,7 +432,7 @@
     outline: none;
     cursor: pointer;
   }
-  
+
   /* Mobile avatar styling - proper sizing */
   .mobileAuthContainer .avatar {
     width: 32px;
@@ -432,7 +441,6 @@
     object-fit: cover;
     flex-shrink: 0;
   }
-  
 }
 
 /* Hide mobile controls on desktop */
@@ -440,7 +448,7 @@
   .mobileRightControls {
     display: none !important;
   }
-  
+
   /* Show desktop dropdown, hide mobile auth UI */
   .mobileAuthContainer {
     display: none !important;
@@ -454,9 +462,16 @@
 }
 /* Tablet and small landscape devices use burger too */
 @media (max-width: 900px) {
-  .indicator { display: none; }
-  .navMenu, .rightControls { display: none; }
-  .burger { display: inline-flex; }
+  .indicator {
+    display: none;
+  }
+  .navMenu,
+  .rightControls {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+  }
   .navMenu.open {
     display: flex;
     flex-direction: column;
@@ -471,7 +486,13 @@
     z-index: 1000;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
-  .navbarMenu { flex-direction: column; gap: 16px; background: transparent; padding: 0; margin: 0; }
+  .navbarMenu {
+    flex-direction: column;
+    gap: 16px;
+    background: transparent;
+    padding: 0;
+    margin: 0;
+  }
 }
 @keyframes slideDown {
   from {
@@ -483,4 +504,3 @@
     opacity: 1;
   }
 }
-
