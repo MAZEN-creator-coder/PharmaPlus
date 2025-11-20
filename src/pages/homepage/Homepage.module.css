@@ -1,7 +1,6 @@
-
 .main {
   margin-top: 80px;
- 
+  padding-top: 64px; /* Prevent content under navbar, adjust if needed */
 }
 
 :root {
@@ -20,7 +19,7 @@
   --container: 1120px;
 }
 body {
-    background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+  background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
 }
 html {
   scroll-behavior: smooth;
@@ -31,7 +30,7 @@ html {
 }
 
 .container {
-    background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
+  background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
   width: 100%;
   max-width: var(--container);
   margin: 0 auto;
@@ -77,7 +76,7 @@ html {
   .main {
     margin-top: 70px;
   }
-  
+
   .section {
     padding: 60px 0;
   }
@@ -87,9 +86,8 @@ html {
   .container {
     padding: 0 12px;
   }
-  
+
   .section {
     padding: 40px 0;
   }
 }
-

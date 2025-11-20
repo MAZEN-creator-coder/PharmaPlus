@@ -11,7 +11,6 @@ async function safeJson(response) {
     return {};
   }
 }
-
 export default async function apiFetch(path, options = {}) {
   const { method = "GET", headers = {}, body, token, signal } = options;
 
@@ -19,8 +18,6 @@ export default async function apiFetch(path, options = {}) {
     typeof path === "string" && path.startsWith("/")
       ? `${API_BASE}${path}`
       : path;
-
-  // resolve token: prefer explicit token, otherwise try localStorage
   let auth = token;
   if (!auth) {
     try {
@@ -31,10 +28,17 @@ export default async function apiFetch(path, options = {}) {
   }
 
   const reqHeaders = { ...headers };
-  if (auth) reqHeaders["Authorization"] = `Bearer ${auth}`;
+  // Do not attach Authorization header to public auth endpoints (login/register)
+  const isAuthEndpoint =
+    typeof url === "string" &&
+    (url.endsWith("/users/login") ||
+      url.includes("/users/login") ||
+      url.endsWith("/users/register") ||
+      url.includes("/users/register"));
+  if (auth && !isAuthEndpoint) reqHeaders["Authorization"] = `Bearer ${auth}`;
 
   let reqBody = body;
-  // If body is a plain object (and not FormData / URLSearchParams), send JSON
+  // If body is a plain object, serialize as JSON
   const isPlainObject =
     body &&
     typeof body === "object" &&
@@ -70,6 +74,15 @@ export default async function apiFetch(path, options = {}) {
 
   // If unauthorized, redirect user to the Unauthorized page with an 'expired' flag.
   if (res.status === 401) {
+   
+    if (isAuthEndpoint) {
+      const message = payload?.message || payload?.error || `Unauthorized`;
+      const err = new Error(message);
+      err.status = res.status;
+      err.payload = payload;
+      throw err;
+    }
+
     try {
       localStorage.removeItem("pharmaplus_token");
     } catch {
@@ -82,8 +95,13 @@ export default async function apiFetch(path, options = {}) {
   }
 
   if (!res.ok) {
+    // Prefer backend-friendly shapes: payload.data.msg or payload.data.message
     const message =
-      payload?.message || payload?.error || `Request failed: ${res.status}`;
+      payload?.data?.msg ||
+      payload?.data?.message ||
+      payload?.message ||
+      payload?.error ||
+      `Request failed: ${res.status}`;
     const err = new Error(message);
     err.status = res.status;
     err.payload = payload;

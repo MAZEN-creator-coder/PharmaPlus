@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MedicineManagement.module.css";
 import responsive from "../../components/medicines/responsive.module.css";
-import {
-  FaPlus,
-  FaFileCsv,
-  FaHistory,
-  FaSearch,
-  FaFilter,
-} from "react-icons/fa";
+import { FaPlus, FaFileCsv, FaSearch, FaFilter } from "react-icons/fa";
 import AddMedicineModal from "../../components/medicines/AddMedicineModal.jsx";
 import SearchHeader from "../../components/medicines/SearchHeader";
 import MedicineTable from "../../components/medicines/MedicineTable";
@@ -26,6 +20,8 @@ export default function MedicineManagement() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [medicines, setMedicines] = useState([]);
+  const [showFilters, setShowFilters] = useState(false);
+  const [filterStatus, setFilterStatus] = useState("all");
   const [editingMedicine, setEditingMedicine] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
@@ -112,6 +108,9 @@ export default function MedicineManagement() {
         setPage(last.pagination?.page || lastPage);
       }
 
+      // show backend message if provided
+      if (newMedicine?._serverMessage)
+        setToast({ message: newMedicine._serverMessage, type: "success" });
       closeModal();
     } catch (err) {
       // Surface backend error message when available
@@ -138,6 +137,8 @@ export default function MedicineManagement() {
           (m._id || m.id) === (med._id || med.id) ? updatedMedicine : m
         )
       );
+      if (updatedMedicine?._serverMessage)
+        setToast({ message: updatedMedicine._serverMessage, type: "success" });
       closeModal();
     } catch (err) {
       const msg =
@@ -160,9 +161,14 @@ export default function MedicineManagement() {
 
     try {
       const token = localStorage.getItem("pharmaplus_token");
-      await deleteMedicine(id, token);
+      const res = await deleteMedicine(id, token);
       setMedicines((prev) => prev.filter((m) => (m._id || m.id) !== id));
-      setToast({ message: "Medicine deleted successfully", type: "success" });
+      const backendMsg =
+        res?.data?.msg ||
+        res?.message ||
+        res?.msg ||
+        "Medicine deleted successfully";
+      setToast({ message: backendMsg, type: "success" });
     } catch (err) {
       const msg =
         err?.message ||
@@ -180,6 +186,30 @@ export default function MedicineManagement() {
       (m.category || "").toLowerCase().includes(query.toLowerCase())
   );
 
+  // Apply status filter if selected
+  const applyStatusFilter = (items) => {
+    if (!filterStatus || filterStatus === "all") return items;
+    return items.filter((m) => {
+      const s = (m.status || "").toLowerCase();
+      if (filterStatus === "instock")
+        return (
+          s === "available" || s === "instock" || (m.stock && m.stock > 20)
+        );
+      if (filterStatus === "low")
+        return s === "lowstock" || (m.stock && m.stock > 0 && m.stock <= 20);
+      if (filterStatus === "out")
+        return (
+          s === "outofstock" ||
+          s === "outofstock" ||
+          m.stock === 0 ||
+          m.stock === undefined
+        );
+      return true;
+    });
+  };
+
+  const finalFiltered = applyStatusFilter(filtered);
+
   return (
     <div className={styles.page}>
       <header className={styles.header}>
@@ -194,20 +224,64 @@ export default function MedicineManagement() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button className={styles.filterBtn}>
+          <button
+            className={styles.filterBtn}
+            onClick={() => setShowFilters((s) => !s)}
+          >
             <FaFilter /> Filter
           </button>
+          {showFilters && (
+            <div className={styles.filterPanel} style={{ marginLeft: 12 }}>
+              <select
+                value={filterStatus}
+                onChange={(e) => setFilterStatus(e.target.value)}
+              >
+                <option value="all">All</option>
+                <option value="instock">In Stock</option>
+                <option value="low">Low Stock</option>
+                <option value="out">Out of Stock</option>
+              </select>
+            </div>
+          )}
         </div>
 
         <div className={styles.controls}>
           <button className={styles.primary} onClick={openModal}>
             <FaPlus /> Add New Medicine
           </button>
-          <button className={styles.secondary}>
-            <FaFileCsv /> Bulk Import
-          </button>
-          <button className={styles.secondary}>
-            <FaHistory /> Audit Log
+          <button
+            className={styles.secondary}
+            onClick={() => {
+              const csvContent = [
+                ["Name", "Category", "Price", "Stock", "Description", "Status"],
+                ...finalFiltered.map((m) => [
+                  m.name,
+                  m.category || "",
+                  m.price || "",
+                  m.stock || "",
+                  m.description || "",
+                  m.status || "",
+                ]),
+              ]
+                .map((row) => row.map((cell) => `"${cell}"`).join(","))
+                .join("\n");
+
+              const blob = new Blob([csvContent], {
+                type: "text/csv;charset=utf-8;",
+              });
+              const url = window.URL.createObjectURL(blob);
+              const link = document.createElement("a");
+              link.href = url;
+              link.download = `medicines-${
+                new Date().toISOString().split("T")[0]
+              }.csv`;
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+              window.URL.revokeObjectURL(url);
+            }}
+          >
+            <FaFileCsv /> Export Data
           </button>
         </div>
       </div>
@@ -219,13 +293,38 @@ export default function MedicineManagement() {
         </p>
 
         {error && <p style={{ color: "red" }}>{error}</p>}
-        {isLoading && <p>Loading medicines...</p>}
+
+        {/* Loading overlay above table, styled as a card */}
+        {isLoading && (
+          <div style={{
+            background: '#fff',
+            borderRadius: '12px',
+            boxShadow: '0 1px 4px rgba(15,23,42,0.08)',
+            padding: '32px',
+            textAlign: 'center',
+            marginBottom: '24px',
+            fontSize: '18px',
+            fontWeight: 500,
+            color: '#0891b2',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '16px',
+          }}>
+            <svg width="32" height="32" viewBox="0 0 100 100" style={{marginRight:8}}>
+              <circle cx="50" cy="50" r="32" stroke="#0891b2" strokeWidth="8" fill="none" strokeDasharray="50 50" strokeDashoffset="0">
+                <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1s" repeatCount="indefinite" />
+              </circle>
+            </svg>
+            Loading medicines...
+          </div>
+        )}
 
         <div className={responsive.responsiveContainer}>
           {/* Table view for larger screens */}
           <div className={responsive.tableView}>
             <MedicineTable
-              medicines={filtered}
+              medicines={finalFiltered}
               onEdit={openEditModal}
               onDelete={handleDeleteMedicine}
             />
@@ -233,7 +332,7 @@ export default function MedicineManagement() {
 
           {/* Card layout for small screens */}
           <div className={responsive.cardView}>
-            {filtered.map((medicine) => (
+            {finalFiltered.map((medicine) => (
               <MedicineCard
                 key={medicine._id || medicine.id}
                 medicine={medicine}

@@ -1,6 +1,5 @@
 import apiFetch from "./apiFetch";
-
-// Simple order creation - sends cart data to backend
+// Create a new order
 export async function createOrder(orderData, token = null) {
   try {
     const res = await apiFetch("/orders", {
@@ -8,7 +7,8 @@ export async function createOrder(orderData, token = null) {
       body: orderData,
       token,
     });
-    return res.data.order;
+    // return full response so callers can read messages and metadata
+    return res;
   } catch (error) {
     console.error("Error creating order:", error);
     console.error("Error message:", error.message);

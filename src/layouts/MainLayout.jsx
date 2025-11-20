@@ -6,7 +6,9 @@ export default function MainLayout({ onOpenLogin }) {
   return (
     <>
       <Navbar onOpenLogin={onOpenLogin} />
-      <Outlet />
+      <div style={{ marginTop: 80 }}>
+        <Outlet />
+      </div>
     </>
   );
 }

@@ -44,9 +44,6 @@ function ProductCard({
 
         <div className={styles.priceRow}>
           <div className={styles.price}>${(product.price || 0).toFixed(2)}</div>
-          {pharmacy?.rating > 0 && (
-            <div className={styles.rating}>⭐ {pharmacy.rating.toFixed(1)}</div>
-          )}
         </div>
 
         <div className={styles.stockInfo}>

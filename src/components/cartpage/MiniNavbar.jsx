@@ -36,7 +36,7 @@ export default function MiniNavbar({ currentStep, maxStep = 1, onStepClick }) {
         </motion.div>
       ))}
 
-      {/* خط السلايدر مع انيميشن */}
+    
       <motion.div
         className={styles.underline}
         initial={{ left: "0%", width: "0%" }}
