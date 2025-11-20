@@ -76,7 +76,9 @@ export default function LoginModal({ isOpen, onClose }) {
   useEffect(() => {
     if (!isOpen) {
       setLoginEmail(""); setLoginPassword(""); setLoginErrors({});
-      setRegFirstName(""); setRegLastName(""); setRegEmail(""); setRegPassword(""); setRegConfirm(""); setRegPhone(""); setRegErrors({});
+      setRegFirstName(""); setRegLastName(""); setRegEmail(""); setRegPassword(""); setRegConfirm(""); setRegPhone(""); 
+      setRegRole("user"); setRegDob(""); setRegAddress(""); setRegLicense(""); setRegLatitude(""); setRegLongitude("");
+      setRegErrors({});
       setLoginSuccess(false); setRegSuccess(false);
       setLoginError(''); setRegError('');
     }
@@ -204,6 +206,18 @@ export default function LoginModal({ isOpen, onClose }) {
       errs.confirm = "Passwords do not match";
     if (!regPhone) errs.phone = "Mobile number is required";
     else if (!validatePhone(regPhone)) errs.phone = "Please enter a valid phone number (7-15 digits, optional +)";
+    
+    // Common fields for user and admin
+    if (!regDob) errs.dob = "Date of birth is required";
+    if (!regAddress || regAddress.trim().length < 3) errs.address = "Address is required (at least 3 characters)";
+    
+    // Admin-specific fields
+    if (regRole === "admin") {
+      if (!regLicense || regLicense.trim().length < 3) errs.license = "License is required";
+      if (!regLatitude || regLatitude === "") errs.latitude = "Latitude is required - enable location access";
+      if (!regLongitude || regLongitude === "") errs.longitude = "Longitude is required - enable location access";
+    }
+    
     setRegErrors(errs);
     if (Object.keys(errs).length) return;
 
@@ -217,8 +231,33 @@ export default function LoginModal({ isOpen, onClose }) {
         form.append('lastname', regLastName.trim());
         form.append('email', regEmail.trim());
         form.append('password', regPassword);
-        form.append('role', 'user');
+        form.append('role', regRole);
         form.append('phone', regPhone.trim());
+        form.append('dob', regDob);
+        form.append('address', regAddress.trim());
+        
+        if (regRole === "admin") {
+          form.append('license', regLicense.trim());
+          form.append('latitude', regLatitude);
+          form.append('longitude', regLongitude);
+        }
+
+        // Debug: Log the form data
+        console.log('Sending registration data:', {
+          firstname: regFirstName.trim(),
+          lastname: regLastName.trim(),
+          email: regEmail.trim(),
+          password: '***',
+          role: regRole,
+          phone: regPhone.trim(),
+          dob: regDob,
+          address: regAddress.trim(),
+          ...(regRole === "admin" && {
+            license: regLicense.trim(),
+            latitude: regLatitude,
+            longitude: regLongitude
+          })
+        });
 
         const payload = await postUser(form);
         const token = payload?.data?.token;
@@ -454,6 +493,20 @@ export default function LoginModal({ isOpen, onClose }) {
                 </div>
               )}
               <form id="registerFormElement" onSubmit={onRegSubmit}>
+
+                {/* Role Selection Dropdown */}
+                <div className={styles.formGroup}>
+                  <label htmlFor="registerRole">Account Type</label>
+                  <select
+                    id="registerRole"
+                    className={styles.formInput}
+                    value={regRole}
+                    onChange={(e) => setRegRole(e.target.value)}
+                  >
+                    <option value="user">User (Customer)</option>
+                    <option value="admin">Admin (Pharmacy Owner)</option>
+                  </select>
+                </div>
 
                 <div className={styles.formGroup} style={{display: 'flex', gap: '12px'}}>
                   <div style={{flex: 1}}>
