@@ -152,9 +152,8 @@ Total Users Served:       ${totalServed.toLocaleString()}
 -------------------------------------------
 PHARMACY BREAKDOWN BY STATUS
 -------------------------------------------
-Active:                   ${pharmacyDetails.filter(p => p.status === 'Active').length}
-Pending:                  ${pharmacyDetails.filter(p => p.status === 'Pending').length}
-Suspended:                ${pharmacyDetails.filter(p => p.status === 'Suspended').length}
+Active:                   ${pharmacyDetails.filter(p => p.status.toLowerCase() === 'active').length}
+Inactive:                 ${pharmacyDetails.filter(p => p.status.toLowerCase() === 'inactive').length}
 
 -------------------------------------------
 TOP 5 PHARMACIES BY SALES
@@ -246,11 +245,8 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
   };
 
   const getStatusColor = (status) => {
-    switch(status) {
+    switch(status.toLowerCase()) {
       case 'active': return '#10B981';
-      case 'Active': return '#10B981';
-      case 'Pending': return '#F59E0B';
-      case 'Suspended': return '#EF4444';
       case 'inactive': return '#EF4444';
       default: return '#6B7280';
     }
@@ -439,8 +435,7 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
             >
               <option value="all">All Status</option>
               <option value="active">Active Only</option>
-              <option value="pending">Pending Only</option>
-              <option value="suspended">Suspended Only</option>
+              <option value="inactive">Inactive Only</option>
             </select>
           </div>
 
