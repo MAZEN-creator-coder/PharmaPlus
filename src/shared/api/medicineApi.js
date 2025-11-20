@@ -23,23 +23,27 @@ export async function getAllMedicines(page = 1, limit = 10, token = null) {
 }
 
 // Search medicines by name with pagination and geolocation
-export async function searchMedicines(name, lat, lng, limit = 10, page = 1, token = null) {
+export async function searchMedicines(
+  name,
+  lat,
+  lng,
+  limit = 10,
+  page = 1,
+  token = null
+) {
   try {
     const params = new URLSearchParams({
       name,
       lat,
       lng,
       limit,
-      page
+      page,
     });
-    
-    const res = await apiFetch(
-      `/medicines/search?${params.toString()}`,
-      {
-        method: "GET",
-        token,
-      }
-    );
+
+    const res = await apiFetch(`/medicines/search?${params.toString()}`, {
+      method: "GET",
+      token,
+    });
     return res.data.medicines || [];
   } catch (error) {
     console.error("Error searching medicines:", error);
@@ -54,14 +58,14 @@ export async function searchMedicines(name, lat, lng, limit = 10, page = 1, toke
 export const getUserLocation = () => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
-      reject(new Error('Geolocation is not supported in this browser'));
+      reject(new Error("Geolocation is not supported in this browser"));
     }
-    
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         resolve({
           lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lng: position.coords.longitude,
         });
       },
       (error) => {
@@ -70,7 +74,7 @@ export const getUserLocation = () => {
       {
         enableHighAccuracy: false,
         timeout: 5000,
-        maximumAge: 0
+        maximumAge: 0,
       }
     );
   });
@@ -112,7 +116,11 @@ export async function createMedicine(medicineData, token = null) {
       body: formData,
       token,
     });
-    return res.data.medicine;
+    const medicine = res.data?.medicine;
+    if (medicine) {
+      medicine._serverMessage = res.data?.msg || res?.message || null;
+    }
+    return medicine;
   } catch (error) {
     console.error("Error creating medicine:", error);
     throw error;
@@ -141,7 +149,11 @@ export async function updateMedicine(id, medicineData, token = null) {
       body: formData,
       token,
     });
-    return res.data.medicine;
+    const medicine = res.data?.medicine;
+    if (medicine) {
+      medicine._serverMessage = res.data?.msg || res?.message || null;
+    }
+    return medicine;
   } catch (error) {
     console.error("Error updating medicine:", error);
     throw error;
@@ -155,7 +167,8 @@ export async function deleteMedicine(id, token = null) {
       method: "DELETE",
       token,
     });
-    return res.message || "Medicine deleted successfully";
+    // return full response so callers can read backend message
+    return res;
   } catch (error) {
     console.error("Error deleting medicine:", error);
     throw error;

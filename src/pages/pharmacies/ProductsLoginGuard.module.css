@@ -1,0 +1,55 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f8fafc;
+  padding: 24px;
+}
+
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  text-align: center;
+  max-width: 400px;
+}
+
+.icon {
+  margin-bottom: 18px;
+}
+
+.title {
+  margin: 0 0 16px;
+  color: #1e293b;
+  font-size: 26px;
+  font-weight: 800;
+}
+
+.desc {
+  margin: 0 0 24px;
+  color: #64748b;
+  font-size: 16px;
+}
+
+.loginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #018994;
+  color: white;
+  border: 0;
+  padding: 12px 32px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(1,137,148,0.08);
+  transition: background 0.2s;
+}
+
+.loginBtn:hover {
+  background: #016b73;
+}

@@ -48,6 +48,31 @@ export default function PharmaciesPage() {
         </p>
       </header>
 
+      {/* Loading overlay above pharmacies list, styled as a card */}
+      {isLoading && (
+        <div style={{
+          background: '#fff',
+          borderRadius: '12px',
+          boxShadow: '0 1px 4px rgba(15,23,42,0.08)',
+          padding: '32px',
+          textAlign: 'center',
+          marginBottom: '24px',
+          fontSize: '18px',
+          fontWeight: 500,
+          color: '#0891b2',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '16px',
+        }}>
+          <svg width="32" height="32" viewBox="0 0 100 100" style={{marginRight:8}}>
+            <circle cx="50" cy="50" r="32" stroke="#0891b2" strokeWidth="8" fill="none" strokeDasharray="50 50" strokeDashoffset="0">
+              <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="1s" repeatCount="indefinite" />
+            </circle>
+          </svg>
+          Loading pharmacies...
+        </div>
+      )}
       <div className={styles.list}>
         {pharmacies.map((pharmacy) => (
           <PharmacyBlock

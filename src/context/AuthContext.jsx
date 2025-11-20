@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(() => {
     try { return localStorage.getItem('pharmaplus_token'); } catch { return null; }
   });
-  // Initialize `user` from localStorage if present
+
   const [user, setUser] = useState(() => {
     try {
       const saved = localStorage.getItem('pharmaplus_user');
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Initialize from token if present. Runs when `token` changes.
+
     (async () => {
       try {
         if (!token) return;

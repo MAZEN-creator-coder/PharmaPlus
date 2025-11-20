@@ -143,12 +143,15 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
       };
 
       // Create order via API
-      await createOrder(orderData, token);
+      const res = await createOrder(orderData, token);
 
       // Clear cart after successful order
       clearCart();
 
-      setToast({ message: "Order placed successfully!", type: "success" });
+      // Prefer backend message when available for better UX
+      const successMsg =
+        res?.data?.msg || res?.message || "Order placed successfully!";
+      setToast({ message: successMsg, type: "success" });
 
       // Navigate to success page after a short delay
       setTimeout(() => {

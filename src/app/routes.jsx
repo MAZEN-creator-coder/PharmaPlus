@@ -18,7 +18,7 @@ import PharmacyManagement from "../pages/super/pharmacies-management/PharmacyMan
 import PharmacyDashboard from "../pages/Super Admin Global Analytics/GlobalPharmacyDashboard.jsx";
 import ReportsOverview from "../pages/reportsoverview/reportsoverview.jsx";
 import PublicNotAdmin from "./PublicNotAdmin.jsx";
-import PharmaciesPage from "../pages/pharmacies/PharmaciesPage.jsx";
+import ProductsRoute from "../pages/pharmacies/ProductsRoute.jsx";
 export default function RoutesComponent({ onOpenLogin }) {
   return (
     <Routes>
@@ -45,11 +45,7 @@ export default function RoutesComponent({ onOpenLogin }) {
         />
         <Route
           path="/products"
-          element={
-            <PublicNotAdmin>
-              <PharmaciesPage />
-            </PublicNotAdmin>
-          }
+          element={<ProductsRoute onOpenLogin={onOpenLogin} />}
         />
 
         {/* Protected for regular users only */}

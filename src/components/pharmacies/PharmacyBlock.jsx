@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getMedicinesByPharmacy } from "../../shared/api/pharmaciesApi";
 import ProductSlider from "./ProductSlider";
 import styles from "./PharmacyBlock.module.css";
+import { FaStar } from "react-icons/fa";
 import { ProductContext } from "../../context/productContext";
 
 export default function PharmacyBlock({ pharmacy }) {
@@ -33,7 +34,17 @@ export default function PharmacyBlock({ pharmacy }) {
     <section className={styles.block}>
       <div className={styles.header}>
         <div>
-          <h3 className={styles.title}>{pharmacy.name}</h3>
+          <h3 className={styles.title}>
+            {pharmacy.name}
+            {typeof pharmacy.rating !== "undefined" && (
+              <span
+                className={styles.rating}
+                title={`Rating ${pharmacy.rating}`}
+              >
+                <FaStar className={styles.starIcon} /> {pharmacy.rating}
+              </span>
+            )}
+          </h3>
           <p className={styles.meta}>
             {pharmacy.position?.city || pharmacy.address || "No location"}
           </p>

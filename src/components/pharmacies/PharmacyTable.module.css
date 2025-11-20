@@ -64,30 +64,30 @@
 }
 
 .iconBtn {
+  font-size: 17px;
   padding: 0.5rem;
   margin-right: 0.5rem;
-  background: rgba(14,165,233,0.08);
+  background: none;
   border: none;
-  border-radius: 8px;
-  color: #0284c7;
+  color: #0d6efd;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.2s;
 }
 
 .iconBtn:hover {
-  background: rgba(14,165,233,0.12);
+  color: #0a58ca;
 }
 
 .iconBtnDanger {
+  font-size: 17px;
   padding: 0.5rem;
-  background: rgba(239,68,68,0.08);
+  background: none;
   border: none;
-  border-radius: 8px;
-  color: #ef4444;
+  color: #dc3545;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: color 0.2s;
 }
 
 .iconBtnDanger:hover {
-  background: rgba(239,68,68,0.12);
+  color: #bb2d3b;
 }
