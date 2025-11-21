@@ -8,7 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 2001;
 }
 
 .modal {
@@ -18,7 +18,7 @@
   max-width: 800px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .modalHeader {
@@ -123,7 +123,7 @@
 .formGroup textarea:focus {
   outline: none;
   border-color: #018994;
-  box-shadow: 0 0 0 2px rgba(1,137,148,0.1);
+  box-shadow: 0 0 0 2px rgba(1, 137, 148, 0.1);
 }
 
 .actions {

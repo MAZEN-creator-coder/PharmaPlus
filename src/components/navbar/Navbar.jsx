@@ -7,7 +7,7 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
 import { useAuth } from "../../hooks/useAuth";
 
-export default function Navbar({ onOpenLogin }) {
+export default function Navbar({ onOpenLogin, fixed = true }) {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const navRef = useRef(null);
@@ -43,9 +43,9 @@ export default function Navbar({ onOpenLogin }) {
 
   return (
     <nav
-      className={
-        scrolled ? `${styles.navbar} ${styles.scrolled}` : styles.navbar
-      }
+      className={`${fixed ? styles.navbar : styles.navbarStatic} ${
+        scrolled ? styles.scrolled : ""
+      }`}
       ref={navRef}
     >
       <div className={styles.container}>
