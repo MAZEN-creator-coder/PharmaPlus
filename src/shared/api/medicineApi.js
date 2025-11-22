@@ -22,6 +22,28 @@ export async function getAllMedicines(page = 1, limit = 10, token = null) {
   }
 }
 
+// Get medicines for a specific pharmacy with pagination
+export async function getMedicinesByPharmacy(pharmacyId, page = 1, limit = 10, token = null) {
+  try {
+    const res = await apiFetch(`/medicines/pharmacy/${pharmacyId}?page=${page}&limit=${limit}`, {
+      method: "GET",
+      token,
+    });
+    // Return both medicines and pagination metadata so frontend can paginate
+    const medicines = res?.data?.medicines || [];
+    const pagination = res?.data?.pagination || {
+      total: medicines.length,
+      page,
+      limit,
+      totalPages: 1,
+    };
+    return { medicines, pagination };
+  } catch (error) {
+    console.error("Error fetching pharmacy medicines:", error);
+    throw error;
+  }
+}
+
 // Search medicines by name with pagination and geolocation
 export async function searchMedicines(
   name,

@@ -19,7 +19,7 @@ export default function PharmacyTable({ pharmacies, onEdit, onDelete }) {
         </thead>
         <tbody>
           {pharmacies.map((pharmacy) => (
-            <tr key={pharmacy.id}>
+            <tr key={pharmacy._id || pharmacy.id}>
               <td>
                 {/* Resolve backend media URL for images (fallback to default path) */}
                 {(() => {

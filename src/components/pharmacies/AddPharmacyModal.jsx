@@ -129,6 +129,12 @@ export default function AddPharmacyModal({
         else
           fd.append(key, val === undefined || val === null ? "" : String(val));
       });
+      
+      // For update: append the ID so backend knows which record to update
+      if (pharmacy) {
+        fd.append("_id", pharmacy._id || pharmacy.id);
+      }
+      
       fd.append("img", imgFile);
 
       if (pharmacy) onUpdate(fd);
@@ -136,8 +142,17 @@ export default function AddPharmacyModal({
     } else {
 
       const payload = { ...formData };
+      
+      // For update: include the ID
+      if (pharmacy) {
+        payload._id = pharmacy._id || pharmacy.id;
+      }
+      
       // Remove preview URL if it is an object URL or absolute URL (backend expects file path only)
-      if (payload.img && payload.img.startsWith("blob:")) delete payload.img;
+      // Only send img if it's a backend path, not a preview URL
+      if (payload.img && (payload.img.startsWith("blob:") || payload.img.startsWith("http") || payload.img.startsWith("data:"))) {
+        delete payload.img;
+      }
 
       if (pharmacy) onUpdate(payload);
       else onAdd(payload);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./MedicineManagement.module.css";
 import responsive from "../../components/medicines/responsive.module.css";
 import { FaPlus, FaFileCsv, FaSearch, FaFilter } from "react-icons/fa";
@@ -7,7 +7,7 @@ import SearchHeader from "../../components/medicines/SearchHeader";
 import MedicineTable from "../../components/medicines/MedicineTable";
 import MedicineCard from "../../components/medicines/MedicineCard";
 import {
-  getAllMedicines,
+  getMedicinesByPharmacy,
   deleteMedicine,
   createMedicine,
   updateMedicine,
@@ -15,8 +15,10 @@ import {
 import PaginationControls from "../../components/medicines/PaginationControls";
 import Toast from "../../components/common/Toast";
 import ConfirmDialog from "../../components/common/ConfirmDialog";
+import { AuthContext } from "../../context/AuthContext";
 
 export default function MedicineManagement() {
+  const { user } = useContext(AuthContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [medicines, setMedicines] = useState([]);
@@ -34,19 +36,28 @@ export default function MedicineManagement() {
     medicineId: null,
   });
 
-  // Load medicines on component mount
+  // Load medicines on component mount and when page or user changes
   useEffect(() => {
     loadMedicines(page);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [page]);
+  }, [page, user?.pharmacyId]);
 
   const loadMedicines = async (p = 1) => {
     try {
       setIsLoading(true);
       setError("");
       const token = localStorage.getItem("pharmaplus_token");
-      const res = await getAllMedicines(p, limit, token);
-      // getAllMedicines now returns { medicines, pagination }
+      const pharmacyId = user?.pharmacyId;
+      
+      if (!pharmacyId) {
+        setError("Pharmacy ID not found. Please log in again.");
+        setMedicines([]);
+        setTotalPages(1);
+        return;
+      }
+      
+      const res = await getMedicinesByPharmacy(pharmacyId, p, limit, token);
+      // getMedicinesByPharmacy now returns { medicines, pagination }
       setMedicines(res.medicines || []);
       setTotalPages(res.pagination?.totalPages || 1);
       setPage(res.pagination?.page || p);
@@ -91,7 +102,7 @@ export default function MedicineManagement() {
       const newMedicine = await createMedicine(med, token);
 
       // Refresh pages and try to find which page contains the new medicine.
-      const refreshed = await getAllMedicines(page, limit, token);
+      const refreshed = await getMedicinesByPharmacy(med.pharmacy || user?.pharmacyId, page, limit, token);
       const foundOnCurrent = refreshed.medicines.some(
         (m) => (m._id || m.id) === (newMedicine._id || newMedicine.id)
       );
@@ -102,7 +113,7 @@ export default function MedicineManagement() {
       } else {
         // Not on current page: load last page (where new items often appear)
         const lastPage = refreshed.pagination?.totalPages || page;
-        const last = await getAllMedicines(lastPage, limit, token);
+        const last = await getMedicinesByPharmacy(med.pharmacy || user?.pharmacyId, lastPage, limit, token);
         setMedicines(last.medicines || []);
         setTotalPages(last.pagination?.totalPages || lastPage);
         setPage(last.pagination?.page || lastPage);

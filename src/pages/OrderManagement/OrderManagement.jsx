@@ -15,8 +15,8 @@ export default function OrderManagement() {
 
   const limit = 10;
 
-  const { token } = useContext(AuthContext);
-  const pharmacyId = "6917a140e7415398de86478b";
+  const { token,user } = useContext(AuthContext);
+  const pharmacyId = user.pharmacyId;
   const totalPages = 5;
 
 

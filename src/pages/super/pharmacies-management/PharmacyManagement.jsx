@@ -89,13 +89,50 @@ export default function PharmacyManagement() {
           (typeof pharmacy.id === "string" && pharmacy.id.length > 8))
       ) {
         const id = pharmacy._id || pharmacy.id;
+        console.log("[updatePharmacy] Updating pharmacy with id:", id, "data:", pharmacy);
         const updated = await updatePharmacyApi(id, pharmacy, token);
+        console.log("[updatePharmacy] Response:", updated);
+        
         const payload = updated?.pharmacy || updated || pharmacy;
-        setPharmacies((prev) =>
-          prev.map((p) =>
-            p._id === payload._id || p.id === payload.id ? payload : p
-          )
-        );
+        
+        // Validate payload has correct ID
+        if (!payload._id && !payload.id) {
+          console.error("[updatePharmacy] ERROR: payload has no ID!", payload);
+          setToast({
+            message: "Error: Invalid response from server",
+            type: "error",
+          });
+          return;
+        }
+        
+        // Extra validation: ensure we're only updating ONE pharmacy
+        const targetId = payload._id || payload.id;
+        const idToFind = id; // The ID we sent to the API
+        
+        if (String(targetId) !== String(idToFind)) {
+          console.error(`[updatePharmacy] ID mismatch! Sent: ${idToFind}, Got: ${targetId}`);
+          setToast({
+            message: "Error: Server returned wrong pharmacy",
+            type: "error",
+          });
+          return;
+        }
+        
+        setPharmacies((prev) => {
+          return prev.map((p) => {
+            const pId = String(p._id || p.id);
+            const targetIdStr = String(targetId);
+            const match = pId === targetIdStr;
+            
+            if (match) {
+              console.log(`[updatePharmacy] ✅ Updating pharmacy with ID: ${pId}`);
+              return payload;
+            } else {
+              console.log(`[updatePharmacy] Keeping pharmacy ${pId} unchanged`);
+              return p;
+            }
+          });
+        });
         const backendMsg =
           updated?.data?.msg || updated?.msg || updated?.message;
         setToast({
@@ -103,13 +140,14 @@ export default function PharmacyManagement() {
           type: "success",
         });
       } else {
+        console.warn("[updatePharmacy] No valid ID found");
         setPharmacies((prev) =>
           prev.map((p) => (p.id === pharmacy.id ? { ...pharmacy } : p))
         );
         setToast({ message: "Pharmacy updated (local)", type: "success" });
       }
     } catch (err) {
-      console.error(err);
+      console.error("[updatePharmacy] Error:", err);
       setToast({
         message: err?.message || "Failed to update pharmacy",
         type: "error",
@@ -150,7 +188,9 @@ export default function PharmacyManagement() {
       filterStatus === "all"
         ? true
         : (p.status || "").toLowerCase() === filterStatus
-    );
+    )
+    // Ensure all items have a valid unique ID for React keys
+    .filter((p) => !!(p._id || p.id));
 
   useEffect(() => {
     let mounted = true;
