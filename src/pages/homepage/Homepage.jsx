@@ -33,7 +33,7 @@ export default function Homepage() {
           <Partners />
         </section>
       </main>
-      <Footer />
+      
     </>
   );
 }

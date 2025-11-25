@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Products.module.css";
 
 
@@ -13,15 +14,16 @@ const products = [
   { id: 1, name: "Aspirin 100mg", price: "$12.99", image: "/aspirin.jpg", description: "Pain relief and anti-inflammatory", rating: 4.5 },
   { id: 2, name: "Paracetamol 500mg", price: "$8.99", image: "/paracetamol.jpg", description: "Fever reducer and pain relief", rating: 4 },
   { id: 3, name: "Vitamin C 1000mg", price: "$15.99", image: "/vitaminc.jpg", description: "Immune system support", rating: 5 },
-  { id: 4, name: "Ibuprofen 200mg", price: "$10.49", image: "/ibuprofen.jpg", description: "Reduces inflammation and pain", rating: 4 },
-  { id: 5, name: "Zinc Supplements", price: "$9.99", image: "/zinc.jpg", description: "Boosts immunity & improves skin health", rating: 4.5 },
-  { id: 6, name: "Omega 3 Fish Oil", price: "$18.50", image: "/omega3.jpg", description: "Supports heart & brain function", rating: 5 },
-  { id: 7, name: "Moisturizing Skin Cream", price: "$14.25", image: "/skincream.jpg", description: "Deep hydration for dry and sensitive skin", rating: 4 },
-  { id: 8, name: "Antibacterial Hand Gel", price: "$5.99", image: "/handgel.jpg", description: "Kills 99.9% of germs instantly", rating: 4 },
-  { id: 9, name: "Vitamin D3 5000IU", price: "$13.75", image: "/vitamind3.jpg", description: "Supports bone health and immune function", rating: 5 },
+  { id: 4, name: "Ibuprofen 200mg", price: "$10.49", image: "/Ibuprofen.png", description: "Reduces inflammation and pain", rating: 4 },
+  { id: 5, name: "Zinc Supplements", price: "$9.99", image: "/zinc.png", description: "Boosts immunity & improves skin health", rating: 4.5 },
+  { id: 6, name: "Omega 3 Fish Oil", price: "$18.50", image: "/omega3.png", description: "Supports heart & brain function", rating: 5 },
+  { id: 7, name: "Moisturizing Skin Cream", price: "$14.25", image: "/skincream.png", description: "Deep hydration for dry and sensitive skin", rating: 4 },
+  { id: 8, name: "Antibacterial Hand Gel", price: "$5.99", image: "/handgel.png", description: "Kills 99.9% of germs instantly", rating: 4 },
+  { id: 9, name: "Vitamin D3 5000IU", price: "$13.75", image: "/vitamind3.png", description: "Supports bone health and immune function", rating: 5 },
 ];
 
 export default function Products() {
+  const navigate = useNavigate();
   return (
     <section className={styles.products}>
       <div className={styles.container}>
@@ -86,7 +88,12 @@ export default function Products() {
 
                   <div className={styles.productFooter}>
                     <span className={styles.price}>{product.price}</span>
-                    <button className={styles.addToCartBtn}>Add to Cart</button>
+                    <button
+                      className={styles.addToCartBtn}
+                      onClick={() => navigate('/products')}
+                    >
+                      Details
+                    </button>
                   </div>
                 </div>
               </div>

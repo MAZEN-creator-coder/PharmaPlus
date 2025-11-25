@@ -17,6 +17,10 @@ import OrderManagement from "../pages/OrderManagement/OrderManagement.jsx";
 import PharmacyManagement from "../pages/super/pharmacies-management/PharmacyManagement.jsx";
 import PharmacyDashboard from "../pages/Super Admin Global Analytics/GlobalPharmacyDashboard.jsx";
 import ReportsOverview from "../pages/reportsoverview/reportsoverview.jsx";
+import PrivacyPolicy from "../pages/static/PrivacyPolicy.jsx";
+import TermsOfService from "../pages/static/TermsOfService.jsx";
+import FAQ from "../pages/static/FAQ.jsx";
+import HelpCenter from "../pages/static/HelpCenter.jsx";
 import PublicNotAdmin from "./PublicNotAdmin.jsx";
 import ProductsRoute from "../pages/pharmacies/ProductsRoute.jsx";
 export default function RoutesComponent({ onOpenLogin }) {
@@ -47,6 +51,10 @@ export default function RoutesComponent({ onOpenLogin }) {
           path="/products"
           element={<ProductsRoute onOpenLogin={onOpenLogin} />}
         />
+        <Route path="/privacy" element={<PrivacyPolicy />} />
+        <Route path="/terms" element={<TermsOfService />} />
+        <Route path="/faq" element={<FAQ />} />
+        <Route path="/help" element={<HelpCenter />} />
 
         {/* Protected for regular users only */}
         <Route element={<RequireRole allowed={["user"]} />}>
