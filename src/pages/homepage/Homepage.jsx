@@ -4,7 +4,6 @@ import Products from "./components/Products";
 import Offers from "./components/Offers";
 import About from "./components/About";
 import Partners from "./components/Partners";
-import Footer from "./components/Footer";
 import CursorEffect from "./components/CursorEffect";
 import styles from "./Homepage.module.css";
 export default function Homepage() {

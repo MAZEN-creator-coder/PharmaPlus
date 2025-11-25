@@ -1,4 +1,4 @@
-// Centralized site configuration for non-sensitive public URLs and settings
+
 export const siteConfig = {
   social: {
     facebook: "https://www.facebook.com/PharmaPlus",
