@@ -95,7 +95,10 @@ const PharmacyDashboard = () => {
   const totalRevenue = analyticsData?.platformSummary?.totalRevenue || 0;
   const activePharmacies = analyticsData?.platformSummary?.activePharmacies || 0;
   const totalServed = analyticsData?.platformSummary?.totalServed || 0;
-  const avgOrderValue = analyticsData?.platformSummary?.avgOrderValue || 0;
+  // around to 3 decimal places
+  
+  // const avgOrderValue = analyticsData?.platformSummary?.avgOrderValue || 0;
+  const avgOrderValue = analyticsData?.platformSummary?.avgOrderValue ? analyticsData.platformSummary.avgOrderValue.toFixed(3) : 0;
   
   const userGrowthPercentage = userGrowthData.length > 1 
     ? Math.round(((userGrowthData[userGrowthData.length - 1].users - userGrowthData[userGrowthData.length - 2].users) / userGrowthData[userGrowthData.length - 2].users) * 100)

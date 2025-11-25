@@ -11,6 +11,10 @@ export const SearchMedicineProvider = ({ children }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [filters, setFilters] = useState({
+    maxPrice: null,
+    maxDistance: null,
+  });
 
   // Get user location
   const fetchUserLocation = useCallback(async () => {
@@ -75,6 +79,8 @@ export const SearchMedicineProvider = ({ children }) => {
     userLocation,
     currentPage,
     limit,
+    filters,
+    setFilters,
     fetchUserLocation,
     handleSearch,
     handleSearchWithLocation,

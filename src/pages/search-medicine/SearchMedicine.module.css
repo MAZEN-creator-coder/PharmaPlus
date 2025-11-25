@@ -22,6 +22,9 @@
     top: 100px;
     overflow-y: auto;
     max-height: calc(100vh - 130px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .sidebar::-webkit-scrollbar {

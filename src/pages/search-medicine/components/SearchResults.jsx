@@ -4,16 +4,33 @@ import MedicineCard from './MedicineCard';
 import { useSearchMedicine } from '../../../hooks/useSearchMedicine';
 
 const SearchResults = () => {
-  const { medicines, loading, error, searchQuery } = useSearchMedicine();
+  const { medicines, loading, error, searchQuery, filters } = useSearchMedicine();
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
+  // Apply filters to medicines
+  const filteredMedicines = useMemo(() => {
+    return medicines.filter(medicine => {
+      // Filter by price
+      if (filters.maxPrice !== null && medicine.price > filters.maxPrice) {
+        return false;
+      }
+      
+      // Filter by distance
+      if (filters.maxDistance !== null && medicine.distance > filters.maxDistance) {
+        return false;
+      }
+      
+      return true;
+    });
+  }, [medicines, filters]);
+
   // Calculate pagination
   const paginationData = useMemo(() => {
-    const totalPages = Math.ceil(medicines.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredMedicines.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentMedicines = medicines.slice(startIndex, endIndex);
+    const currentMedicines = filteredMedicines.slice(startIndex, endIndex);
     
     return {
       currentMedicines,
@@ -21,7 +38,7 @@ const SearchResults = () => {
       startIndex,
       endIndex
     };
-  }, [medicines, currentPage]);
+  }, [filteredMedicines, currentPage]);
 
   const handleNextPage = () => {
     if (currentPage < paginationData.totalPages) {
@@ -87,9 +104,22 @@ const SearchResults = () => {
     );
   }
 
+  if (filteredMedicines.length === 0) {
+    return (
+      <div className={styles.searchResults}>
+        <h2 className={styles.text1}>Search Results</h2>
+        <div className={styles.emptyGrid}>
+          <div className={styles.emptyGridItem}>
+            <p>No medicines match your filters</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.searchResults}>
-      <h2 className={styles.text1}>Search Results ({medicines.length})</h2>
+      <h2 className={styles.text1}>Search Results ({filteredMedicines.length})</h2>
       
       {/* Grid with 4 items */}
       <div className={styles.medicineGrid}>
