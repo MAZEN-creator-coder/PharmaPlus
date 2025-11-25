@@ -415,10 +415,10 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
 
       {/* Detailed Pharmacy Data */}
       <div className={styles.section}>
-        <h2 className={styles.sectionTitle}>Detailed Pharmacy Data</h2>
+        <h2 className={styles.sectionTitle}>Detailed Top Pharmacies Data</h2>
         <div className={styles.tableCard}>
           <div className={styles.tableHeader}>
-            <h3 className={styles.chartTitle}>Pharmacy Details</h3>
+            <h3 className={styles.chartTitle}>Top Pharmacy Details</h3>
             <p className={styles.chartSubtitle}>Comprehensive information on all platform pharmacies.</p>
           </div>
           
