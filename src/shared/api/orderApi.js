@@ -16,3 +16,16 @@ export async function createOrder(orderData, token = null) {
     throw error;
   }
 }
+
+// Get an order by id
+export async function getOrderById(orderId, token = null) {
+  if (!orderId) throw new Error('Missing order id');
+  try {
+    const res = await apiFetch(`/orders/${encodeURIComponent(orderId)}`, { token });
+    // backend shape may be { data: { order: {...} } } or { data: {...} }
+    return res?.data ?? res;
+  } catch (err) {
+    console.error('getOrderById error', err);
+    throw err;
+  }
+}

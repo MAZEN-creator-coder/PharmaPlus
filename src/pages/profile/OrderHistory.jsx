@@ -4,6 +4,7 @@ import { Calendar, DollarSign, Package, ChevronRight } from 'lucide-react';
 import styles from './OrderHistory.module.css';
 import { useAuth } from '../../hooks/useAuth';
 import { getOrdersByUser } from '../../shared/api/users';
+import OrderDetailsModal from './OrderDetailsModal';
 
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
@@ -24,6 +25,8 @@ const OrderHistory = () => {
     user = null;
   }
   const navigate = useNavigate();
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -165,7 +168,11 @@ const OrderHistory = () => {
                 </ul>
               </div>
 
-              <button className={styles.viewDetailsButton}>
+              <button
+                className={styles.viewDetailsButton}
+                onClick={() => { setSelectedOrder(order); setModalOpen(true); }}
+                aria-label={`View details for order ${order.id || order._id}`}
+              >
                 View Details
                 <ChevronRight size={16} />
               </button>
@@ -173,6 +180,12 @@ const OrderHistory = () => {
           ))}
         </div>
       )}
+        <OrderDetailsModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          orderData={selectedOrder}
+          orderId={selectedOrder?.id || selectedOrder?._id}
+        />
       {/* pagination controls */}
       <div className={styles.pagination}>
         <button
