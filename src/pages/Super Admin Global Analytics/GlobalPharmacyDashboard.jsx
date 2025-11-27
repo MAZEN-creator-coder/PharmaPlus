@@ -15,6 +15,7 @@ import {
   Bar 
 } from 'recharts';
 import styles from './PharmacyDashboard.module.css';
+import adminStyles from '../admin/AdminDashboard.module.css';
 import { useAuth } from '../../hooks/useAuth';
 import getAnalyticsOfSuperAdmin from '../../shared/api/getanaylticsofsuperadmin';
 
@@ -272,9 +273,11 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
   if (loading) {
     return (
       <div className={styles.container}>
-        <div className={styles.loadingContainer}>
-          <div className={styles.spinner}></div>
-          <p className={styles.loadingText}>loading...</p>
+        <div className={adminStyles.loadingScreen}>
+          <div className={adminStyles.loadingBox}>
+            <div className={adminStyles.spinner} aria-hidden="true"></div>
+            <div style={{ marginLeft: 12 }}>Loading analytics…</div>
+          </div>
         </div>
       </div>
     );
