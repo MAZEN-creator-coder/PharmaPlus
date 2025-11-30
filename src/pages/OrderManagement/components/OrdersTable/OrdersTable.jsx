@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./OrdersTable.module.css";
 import OrdersHeader from "../OrdersHeader/OrdersHeader";
 
-export default function OrdersTable({ orders, onEdit, onDelete }) {
+export default function OrdersTable({ orders, onEdit, onDelete, onView }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
 
@@ -80,6 +80,9 @@ export default function OrdersTable({ orders, onEdit, onDelete }) {
                   </td>
                   <td>{o.total ? `${o.total} EGP` : "N/A"}</td>
                   <td>
+                    <button className={styles.viewBtn} onClick={() => onView?.(o)}>
+                      View
+                    </button>
                     <button className={styles.editBtn} onClick={() => onEdit(o)}>
                       Edit
                     </button>

@@ -65,7 +65,17 @@ html {
   box-shadow: var(--shadow-md);
 }
 
-/* Responsive design */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 @media (max-width: 1024px) {
   .container {
     padding: 0 16px;

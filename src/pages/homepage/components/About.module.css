@@ -1,6 +1,5 @@
 .aboutTitle {
   text-align: center;
-  justify-content: center;
   font-size: 45px;
   font-weight: 800;
   margin: 0 auto 48px;
@@ -15,7 +14,6 @@ display: block;
   animation: fadeInUp 1s ease forwards, titleGlow 3s ease-in-out infinite;
   transition: all 0.4s ease;
 }
-
 .aboutTitle::after {
   content: "";
   position: absolute;
@@ -28,7 +26,6 @@ display: block;
   border-radius: 4px;
   animation: lineGrow 1.6s ease forwards 0.7s;
 }
-
 .aboutTitle:hover {
   transform: scale(1.07);
   text-shadow: 0 0 18px rgba(255,255,255,0.55);
@@ -46,7 +43,6 @@ display: block;
   padding: 80px 20px;
   background: linear-gradient(135deg, #f9f9f9, #e0f7fa);
 }
-
 .aboutContainer {
   display: flex;
   align-items: center;
@@ -56,14 +52,13 @@ display: block;
   margin: 0 auto;
   flex-wrap: wrap;
 }
-
 .aboutImageContainer {
+  /* flex-grow | flex-shrink | flex-basis */
   flex: 1 1 45%;
   overflow: hidden;
   border-radius: 20px;
   animation: fadeInLeft 1.2s ease forwards;
 }
-
 .aboutImage {
   width: 100%;
   height: auto;
@@ -71,29 +66,24 @@ display: block;
   border-radius: 20px;
   transition: transform 0.5s ease;
 }
-
 .aboutImage:hover {
   transform: scale(1.05);
 }
-
 .aboutContent {
   flex: 1 1 50%;
   animation: fadeInRight 1.2s ease forwards;
 }
-
 .aboutLead {
   font-size: 18px;
   color: #555;
   line-height: 1.6;
   margin-bottom: 40px;
 }
-
 .aboutGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
-
 .aboutItem {
   background: rgba(255, 255, 255, 0.15); 
   backdrop-filter: blur(12px); 
@@ -104,24 +94,20 @@ display: block;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05); 
   transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
 }
-
 .aboutItem:hover {
   transform: translateY(-6px);
   box-shadow: 0 12px 35px rgba(0, 0, 0, 0.1);
   background: rgba(255, 255, 255, 0.25); 
 }
-
 .icon {
   font-size: 32px;
   margin-bottom: 10px;
 }
-
 .aboutSubtitle {
   font-size: 20px;
   font-weight: 700;
   margin-bottom: 8px;
 }
-
 .aboutItem p {
   font-size: 16px;
   color: #777;

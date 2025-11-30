@@ -4,6 +4,8 @@ import adminStyles from "../admin/AdminDashboard.module.css";
 import OrdersTable from "./components/OrdersTable/OrdersTable";
 import EditModal from "./components/EditModal/EditModal";
 import DeleteModal from "./components/CancelModal/CancelModal";
+import DetailsModal from "./components/DetailsModal/DetailsModal";
+import { getOrderById } from "../../shared/api/orderApi";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function OrderManagement() {
@@ -11,6 +13,9 @@ export default function OrderManagement() {
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [isEditModalOpen, setEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [isDetailModalOpen, setDetailModalOpen] = useState(false);
+  const [detailOrder, setDetailOrder] = useState(null);
+  const [isDetailLoading, setIsDetailLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -130,6 +135,24 @@ export default function OrderManagement() {
     setDeleteModalOpen(true);
   };
 
+  const handleView = async (order) => {
+    if (!token || !order?._id) return;
+    setDetailOrder(null);
+    setIsDetailLoading(true);
+    try {
+      const payload = await getOrderById(order._id, token);
+      // `getOrderById` returns payload shape matching the API; find order object
+      const orderDetails = payload?.order ?? payload;
+      setDetailOrder(orderDetails || null);
+      setDetailModalOpen(true);
+    } catch (err) {
+      console.log("Error fetching details:", err);
+      setDetailOrder(null);
+    } finally {
+      setIsDetailLoading(false);
+    }
+  };
+
   const handleConfirmDelete = async (orderId) => {
     try {
       const res = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
@@ -181,6 +204,7 @@ if (isLoading) {
             orders={orders}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onView={handleView}
           />
           <div className={styles.wrap}>
             <button
@@ -209,6 +233,17 @@ if (isLoading) {
               order={selectedOrder}
               onClose={handleCloseModal}
               onSave={handleSave}
+            />
+          )}
+
+          {isDetailModalOpen && (
+            <DetailsModal
+              order={detailOrder}
+              onClose={() => {
+                setDetailModalOpen(false);
+                setDetailOrder(null);
+              }}
+              isLoading={isDetailLoading}
             />
           )}
 

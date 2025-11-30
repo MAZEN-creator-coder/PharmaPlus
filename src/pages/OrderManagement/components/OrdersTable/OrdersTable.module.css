@@ -126,6 +126,23 @@
   transition: all 0.3s ease;
 }
 
+.viewBtn {
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #e8f5e9;
+  color: #2e7d32;
+  margin-right: 8px;
+}
+
+.viewBtn:hover {
+  background: #c8e6c9;
+}
+
 .editBtn {
   background: #e3f2fd;
   color: #1976d2;
