@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import styles from "./OrderManagement.module.css";
+import adminStyles from "../admin/AdminDashboard.module.css";
 import OrdersTable from "./components/OrdersTable/OrdersTable";
 import EditModal from "./components/EditModal/EditModal";
 import DeleteModal from "./components/CancelModal/CancelModal";
@@ -162,9 +163,11 @@ export default function OrderManagement() {
   };
 if (isLoading) {
   return (
-    <div className={styles.loadingPage}>
-      <h2>Loading...</h2>
-      <div className={styles.spinner}></div>
+    <div className={adminStyles.loadingScreen}>
+      <div className={adminStyles.loadingBox}>
+        <div className={adminStyles.spinner} aria-hidden="true"></div>
+        <div style={{ marginLeft: 12 }}>Loading orders…</div>
+      </div>
     </div>
   );
 }
