@@ -19,7 +19,7 @@ const MedicineCard = ({ medicine }) => {
       id: medicineId, // تأكد من وجود id للتوافق
     });
   };
-
+console.log('Selected Products:', medicine);
   return (
     <div className={styles.medicineCard}>
       <div className={styles.header}>
