@@ -474,6 +474,7 @@ export default function LoginModal({ isOpen, onClose }) {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
+                    if (typeof onClose === "function") onClose();
                     navigate("/forgot-password");
                   }}
                 >

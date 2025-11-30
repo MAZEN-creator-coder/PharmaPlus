@@ -60,31 +60,51 @@ export default function EmailVerificationPending() {
     <div className={styles.wrapper}>
       <div className={styles.card} role="main">
         <div className={styles.iconContainer} aria-hidden>
-          {/* Simple envelope SVG */}
+          {/* Envelope SVG, visually centered and lines colored green */}
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="64"
-            height="64"
-            viewBox="0 0 24 24"
+            width="72"
+            height="72"
+            viewBox="0 0 48 48"
             fill="none"
-            stroke="#2d8cf0"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
           >
-            <path d="M22 12v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7" />
-            <path d="M22 7L12 13 2 7" />
-            <path d="M22 7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2" />
+            <rect width="48" height="48" rx="24" fill="#eaf6ff" />
+            {/* envelope body */}
+            <rect
+              x="10"
+              y="14"
+              width="28"
+              height="20"
+              rx="2"
+              stroke="#018994"
+              strokeWidth="2"
+              fill="none"
+            />
+            {/* flap */}
+            <path
+              d="M10 14L24 26L38 14"
+              stroke="#018994"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              fill="none"
+            />
           </svg>
         </div>
 
-        <h1 className={styles.title}>Check your email</h1>
-        <p className={styles.subtitle}>We sent a verification link to</p>
-        <div className={styles.email}>{email || "(no email)"}</div>
+        <h2 className={styles.title} style={{ color: "#018994" }}>
+          Check your email
+        </h2>
+        <div className={styles.subtitle}>We sent a verification link to</div>
+        <div className={styles.email} style={{ color: "#018994" }}>
+          {email || "(no email)"}
+        </div>
 
         <div className={styles.stepsBox}>
-          <div className={styles.stepsTitle}>Verification steps:</div>
-          <ol>
+          <div className={styles.stepsTitle} style={{ color: "#018994" }}>
+            Verification steps:
+          </div>
+          <ol style={{ margin: 0, paddingLeft: 18 }}>
             <li>Open your email inbox.</li>
             <li>Look for an email from PharmaPlus and open it.</li>
             <li>
@@ -93,11 +113,11 @@ export default function EmailVerificationPending() {
           </ol>
         </div>
 
-        <p style={{ color: "#475569", marginTop: 10 }}>
+        <div style={{ color: "#475569", fontSize: "0.98rem", marginBottom: 8 }}>
           You received this email because you (or someone using your email)
           created an account on PharmaPlus. The link helps verify it's your
           email and activate your account.
-        </p>
+        </div>
 
         {message && <div className={styles.success}>{message}</div>}
         {error && <div className={styles.error}>{error}</div>}
@@ -108,7 +128,7 @@ export default function EmailVerificationPending() {
             onClick={handleResend}
             disabled={loading}
           >
-            {loading ? "Sending..." : "Resend verification email"}
+            {loading ? "Resending..." : "Resend verification email"}
           </button>
           <button className={styles.backBtn} onClick={() => navigate("/")}>
             Go to homepage

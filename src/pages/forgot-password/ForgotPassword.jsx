@@ -44,7 +44,12 @@ export default function ForgotPassword() {
           Enter your email and we will send you a link to reset your password.
         </p>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label htmlFor="forgotEmail">Email</label>
+          <label
+            htmlFor="forgotEmail"
+            style={{ fontWeight: 600, color: "#018994" }}
+          >
+            Email
+          </label>
           <input
             id="forgotEmail"
             type="email"
@@ -54,15 +59,23 @@ export default function ForgotPassword() {
             placeholder="email@example.com"
             required
           />
-          <button className={styles.submitBtn} type="submit" disabled={loading}>
-            {loading ? "Sending..." : "Send reset link"}
-          </button>
+          <div className={styles.formActions}>
+            <button
+              className={styles.submitBtn}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Sending..." : "Send reset link"}
+            </button>
+            <button
+              type="button"
+              className={styles.backBtn}
+              onClick={() => navigate("/")}
+            >
+              Back to homepage
+            </button>
+          </div>
         </form>
-        <div style={{ marginTop: 10 }}>
-          <button className={styles.backBtn} onClick={() => navigate("/")}>
-            Back to homepage
-          </button>
-        </div>
       </div>
       {toast && (
         <Toast

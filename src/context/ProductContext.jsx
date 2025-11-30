@@ -114,10 +114,8 @@ export function ProductProvider({ children }) {
   );
   const discount = useMemo(() => Math.round(subtotal * 0.2), [subtotal]);
   const deliveryFee = 15;
-  const total = useMemo(
-    () => subtotal - discount + deliveryFee,
-    [subtotal, discount]
-  );
+  // Calculate total as shipping + subtotal (no discount applied in total by default)
+  const total = useMemo(() => subtotal + deliveryFee, [subtotal, deliveryFee]);
 
   const getSelectedCount = () => selectedProducts.length;
 

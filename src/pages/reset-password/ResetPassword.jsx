@@ -50,7 +50,12 @@ export default function ResetPassword() {
         <h2 className={styles.title}>Reset password</h2>
         <p className={styles.subtitle}>Set a new password for your account.</p>
         <form onSubmit={handleSubmit} className={styles.form}>
-          <label htmlFor="newPass">New password</label>
+          <label
+            htmlFor="newPass"
+            style={{ fontWeight: 600, color: "#018994" }}
+          >
+            New password
+          </label>
           <input
             id="newPass"
             type="password"
@@ -60,7 +65,12 @@ export default function ResetPassword() {
             placeholder="Enter new password"
             required
           />
-          <label htmlFor="confirmPass">Confirm password</label>
+          <label
+            htmlFor="confirmPass"
+            style={{ fontWeight: 600, color: "#018994" }}
+          >
+            Confirm password
+          </label>
           <input
             id="confirmPass"
             type="password"
@@ -71,15 +81,23 @@ export default function ResetPassword() {
             required
           />
 
-          <button className={styles.submitBtn} type="submit" disabled={loading}>
-            {loading ? "Saving..." : "Save new password"}
-          </button>
+          <div className={styles.formActions}>
+            <button
+              className={styles.submitBtn}
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? "Saving..." : "Save new password"}
+            </button>
+            <button
+              type="button"
+              className={styles.backBtn}
+              onClick={() => navigate("/")}
+            >
+              Back to homepage
+            </button>
+          </div>
         </form>
-        <div style={{ marginTop: 10 }}>
-          <button className={styles.backBtn} onClick={() => navigate("/")}>
-            Back to homepage
-          </button>
-        </div>
       </div>
       {toast && (
         <Toast

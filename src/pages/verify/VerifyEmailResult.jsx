@@ -65,15 +65,8 @@ export default function VerifyEmailResult() {
               }}
             >
               <div
-                style={{
-                  width: 88,
-                  height: 88,
-                  borderRadius: 999,
-                  background: "#ecfdf3",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className={styles.iconContainer}
+                style={{ background: "#ecfdf3" }}
               >
                 <svg
                   width="44"
@@ -98,38 +91,36 @@ export default function VerifyEmailResult() {
               }}
             >
               <div
-                style={{
-                  width: 88,
-                  height: 88,
-                  borderRadius: 999,
-                  background: "#fff1f2",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className={styles.iconContainer}
+                style={{ background: "#fff1f2" }}
               >
-                <svg
-                  width="44"
-                  height="44"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="#dc2626"
-                  strokeWidth="1.5"
-                >
-                  <path d="M12 9v4" />
-                  <path d="M12 17h.01" />
+                <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
+                  <circle
+                    cx={12}
+                    cy={12}
+                    r={10}
+                    fill="#fff1f2"
+                    stroke="#fca5a5"
+                  />
+                  <path
+                    d="M12 8v6"
+                    stroke="#dc2626"
+                    strokeWidth={1.6}
+                    strokeLinecap="round"
+                  />
+                  <circle cx="12" cy="17" r="0.8" fill="#dc2626" />
                 </svg>
               </div>
               <h1 className={styles.title}>Verification failed</h1>
             </div>
           )}
         </div>
-        <p style={{ color: "#475569" }}>
+        <p className={styles.subtitle}>
           {status.loading
             ? "Please wait while we verify your email..."
             : status.message}
         </p>
-        <div style={{ marginTop: 14 }}>
+        <div className={styles.actions}>
           {status.success ? (
             <button className={styles.resendBtn} onClick={() => navigate("/")}>
               Back to homepage
@@ -171,17 +162,9 @@ export default function VerifyEmailResult() {
           )}
         </div>
         {!status.loading && !status.success && (
-          <div
-            style={{
-              marginTop: 18,
-              background: "#fffbeb",
-              borderRadius: 8,
-              padding: 12,
-              color: "#92400e",
-            }}
-          >
-            <strong>Possible reasons:</strong>
-            <ul style={{ marginTop: 6, marginBottom: 0 }}>
+          <div className={styles.reasonBox}>
+            <div className={styles.reasonTitle}>Possible reasons:</div>
+            <ul className={styles.reasonList}>
               <li>Link expired (more than 24 hours)</li>
               <li>Link already used</li>
               <li>Invalid link</li>
