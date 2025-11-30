@@ -1,7 +1,77 @@
-import React from "react";
+import React, { useEffect, useState, useContext, useMemo, useRef } from "react";
 import styles from "./DetailsModal.module.css";
+import { getMedicineById } from "../../../../shared/api/medicineApi";
+import { AuthContext } from "../../../../context/AuthContext";
 
 export default function DetailsModal({ order, onClose, isLoading }) {
+  const [itemsWithMed, setItemsWithMed] = useState([]);
+  const [loadingMeds, setLoadingMeds] = useState(false);
+  const auth = useContext(AuthContext) || {};
+  const { token } = auth;
+  const items = useMemo(() => order?.items || [], [order?.items]);
+  const medCache = useRef(new Map());
+
+  useEffect(() => {
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      setItemsWithMed([]);
+      return;
+    }
+    let mounted = true;
+    const fetchMeds = async () => {
+      setLoadingMeds(true);
+      try {
+        const results = await Promise.all(
+          items.map(async (it) => {
+            // it.medicine may be an id or a nested object
+            try {
+              let med = null;
+              if (it.medicine && typeof it.medicine === "object") med = it.medicine;
+              else {
+                const cached = medCache.current.get(it.medicine);
+                if (cached) med = cached;
+                else {
+                  med = await getMedicineById(it.medicine, token);
+                  medCache.current.set(it.medicine, med);
+                }
+              }
+              if (!mounted) return null;
+              return {
+                id: it._id || null,
+                medicineId: (med && med._id) || (typeof it.medicine === "string" ? it.medicine : null),
+                name: med?.name || String(it.medicine),
+                price: Number(med?.price ?? med?.cost ?? med?.unitPrice ?? 0),
+                quantity: Number(it.quantity ?? 1),
+              };
+            } catch (err) {
+              console.error("Error while fetching med:", err);
+              return {
+                id: it._id || null,
+                medicineId: typeof it.medicine === "string" ? it.medicine : (it.medicine && it.medicine._id) || null,
+                name: (it.medicine && typeof it.medicine === "object") ? it.medicine.name || it.medicine._id : String(it.medicine),
+                price: Number(it.price ?? 0),
+                quantity: Number(it.quantity ?? 1),
+              };
+            }
+          })
+        );
+        if (!mounted) {
+          // component unmounted; ignore
+        } else {
+          setItemsWithMed(results.filter(Boolean));
+        }
+      } catch (err) {
+        console.error("DetailsModal fetchMeds error:", err);
+        if (mounted) setItemsWithMed([]);
+      } finally {
+        if (mounted) setLoadingMeds(false);
+      }
+    };
+    fetchMeds();
+    return () => {
+      mounted = false;
+    };
+  }, [items, token]);
+
   if (isLoading) {
     return (
       <div className={styles.overlay}>
@@ -14,7 +84,7 @@ export default function DetailsModal({ order, onClose, isLoading }) {
 
   if (!order) return null;
 
-  const { date, status, paymentMethod, address, items } = order;
+  const { date, status, paymentMethod, address } = order;
 
   return (
     <div className={styles.overlay}>
@@ -60,21 +130,29 @@ export default function DetailsModal({ order, onClose, isLoading }) {
         <table className={styles.itemsTable}>
           <thead>
             <tr>
-              <th>Medicine ID</th>
+              <th>Medicine</th>
+              <th>Unit Price</th>
               <th>Quantity</th>
+              <th>Line total</th>
             </tr>
           </thead>
           <tbody>
-            {items?.length > 0 ? (
-              items.map((it) => (
-                <tr key={it._id || it.medicine}>
-                  <td>{it.medicine}</td>
+            {loadingMeds ? (
+              <tr>
+                <td colSpan={4}>Loading items…</td>
+              </tr>
+            ) : itemsWithMed?.length > 0 ? (
+              itemsWithMed.map((it) => (
+                <tr key={it.id || it.medicineId}>
+                  <td>{it.name}</td>
+                  <td>{(Number(it.price) || 0).toFixed(2)} EGP</td>
                   <td>{it.quantity}</td>
+                  <td>{((Number(it.price) || 0) * Number(it.quantity || 1)).toFixed(2)} EGP</td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={2}>No items</td>
+                <td colSpan={4}>No items</td>
               </tr>
             )}
           </tbody>
