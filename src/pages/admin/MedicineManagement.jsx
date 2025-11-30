@@ -49,14 +49,14 @@ export default function MedicineManagement() {
       setError("");
       const token = localStorage.getItem("pharmaplus_token");
       const pharmacyId = user?.pharmacyId;
-      
+
       if (!pharmacyId) {
         setError("Pharmacy ID not found. Please log in again.");
         setMedicines([]);
         setTotalPages(1);
         return;
       }
-      
+
       const res = await getMedicinesByPharmacy(pharmacyId, p, limit, token);
       // getMedicinesByPharmacy now returns { medicines, pagination }
       setMedicines(res.medicines || []);
@@ -103,7 +103,12 @@ export default function MedicineManagement() {
       const newMedicine = await createMedicine(med, token);
 
       // Refresh pages and try to find which page contains the new medicine.
-      const refreshed = await getMedicinesByPharmacy(med.pharmacy || user?.pharmacyId, page, limit, token);
+      const refreshed = await getMedicinesByPharmacy(
+        med.pharmacy || user?.pharmacyId,
+        page,
+        limit,
+        token
+      );
       const foundOnCurrent = refreshed.medicines.some(
         (m) => (m._id || m.id) === (newMedicine._id || newMedicine.id)
       );
@@ -114,7 +119,12 @@ export default function MedicineManagement() {
       } else {
         // Not on current page: load last page (where new items often appear)
         const lastPage = refreshed.pagination?.totalPages || page;
-        const last = await getMedicinesByPharmacy(med.pharmacy || user?.pharmacyId, lastPage, limit, token);
+        const last = await getMedicinesByPharmacy(
+          med.pharmacy || user?.pharmacyId,
+          lastPage,
+          limit,
+          token
+        );
         setMedicines(last.medicines || []);
         setTotalPages(last.pagination?.totalPages || lastPage);
         setPage(last.pagination?.page || lastPage);
@@ -203,17 +213,26 @@ export default function MedicineManagement() {
     if (!filterStatus || filterStatus === "all") return items;
     return items.filter((m) => {
       const s = (m.status || "").toLowerCase();
+      const numericStock =
+        m.stock !== undefined && m.stock !== null ? Number(m.stock) : NaN;
+      const th = !Number.isNaN(Number(m.threshold)) ? Number(m.threshold) : 10;
       if (filterStatus === "instock")
         return (
-          s === "available" || s === "instock" || (m.stock && m.stock > 20)
+          s === "available" ||
+          s === "instock" ||
+          (!Number.isNaN(numericStock) && numericStock > th)
         );
       if (filterStatus === "low")
-        return s === "lowstock" || (m.stock && m.stock > 0 && m.stock <= 20);
+        return (
+          s === "lowstock" ||
+          (!Number.isNaN(numericStock) &&
+            numericStock > 0 &&
+            numericStock <= th)
+        );
       if (filterStatus === "out")
         return (
-          s === "outofstock" ||
-          s === "outofstock" ||
-          m.stock === 0 ||
+          s.includes("out") ||
+          (!Number.isNaN(numericStock) && numericStock <= 0) ||
           m.stock === undefined
         );
       return true;

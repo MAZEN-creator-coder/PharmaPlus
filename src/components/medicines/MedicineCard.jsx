@@ -5,7 +5,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function MedicineCard({ medicine, onEdit, onDelete }) {
   console.log("Rendering MedicineCard with medicine:", medicine);
-    return (
+  return (
     <article className={styles.card}>
       <img
         src={`http://localhost:3000/${medicine.medicineImage}`}
@@ -15,7 +15,11 @@ export default function MedicineCard({ medicine, onEdit, onDelete }) {
       <div className={styles.content}>
         <div className={styles.header}>
           <strong>{medicine.name}</strong>
-          <StatusBadge stock={medicine.stock} status={medicine.status} />
+          <StatusBadge
+            stock={medicine.stock}
+            status={medicine.status}
+            threshold={medicine.threshold}
+          />
         </div>
         <div className={styles.meta}>
           {medicine.category} • ${(medicine.price || 0).toFixed(2)}

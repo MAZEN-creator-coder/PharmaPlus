@@ -36,7 +36,11 @@ export default function MedicineTable({ medicines, onEdit, onDelete }) {
               <td>${(medicine.price || 0).toFixed(2)}</td>
               <td>{medicine.description}</td>
               <td>
-                <StatusBadge stock={medicine.stock} status={medicine.status} />
+                <StatusBadge
+                  stock={medicine.stock}
+                  status={medicine.status}
+                  threshold={medicine.threshold}
+                />
               </td>
               <td>
                 <button
