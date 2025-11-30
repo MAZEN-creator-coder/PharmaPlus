@@ -3,7 +3,7 @@ import styles from "./LoginModal.module.css";
 import { useAuth } from "../../../hooks/useAuth";
 import postLogin from "../../../shared/api/postLogin";
 import postUser from "../../../shared/api/postUser";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Toast from "../../../components/common/Toast";
 
 export default function LoginModal({ isOpen, onClose }) {
@@ -38,6 +38,7 @@ export default function LoginModal({ isOpen, onClose }) {
 
   // Navigation hooks
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Redirect handled by AuthProvider via `loginWithToken` (role is derived from the JWT payload)
 
@@ -75,12 +76,26 @@ export default function LoginModal({ isOpen, onClose }) {
 
   useEffect(() => {
     if (!isOpen) {
-      setLoginEmail(""); setLoginPassword(""); setLoginErrors({});
-      setRegFirstName(""); setRegLastName(""); setRegEmail(""); setRegPassword(""); setRegConfirm(""); setRegPhone(""); 
-      setRegRole("user"); setRegDob(""); setRegAddress(""); setRegLicense(""); setRegLatitude(""); setRegLongitude("");
+      setLoginEmail("");
+      setLoginPassword("");
+      setLoginErrors({});
+      setRegFirstName("");
+      setRegLastName("");
+      setRegEmail("");
+      setRegPassword("");
+      setRegConfirm("");
+      setRegPhone("");
+      setRegRole("user");
+      setRegDob("");
+      setRegAddress("");
+      setRegLicense("");
+      setRegLatitude("");
+      setRegLongitude("");
       setRegErrors({});
-      setLoginSuccess(false); setRegSuccess(false);
-      setLoginError(''); setRegError('');
+      setLoginSuccess(false);
+      setRegSuccess(false);
+      setLoginError("");
+      setRegError("");
     }
   }, [isOpen]);
 
@@ -205,19 +220,25 @@ export default function LoginModal({ isOpen, onClose }) {
     else if (regPassword !== regConfirm)
       errs.confirm = "Passwords do not match";
     if (!regPhone) errs.phone = "Mobile number is required";
-    else if (!validatePhone(regPhone)) errs.phone = "Please enter a valid phone number (7-15 digits, optional +)";
-    
+    else if (!validatePhone(regPhone))
+      errs.phone =
+        "Please enter a valid phone number (7-15 digits, optional +)";
+
     // Common fields for user and admin
     if (!regDob) errs.dob = "Date of birth is required";
-    if (!regAddress || regAddress.trim().length < 3) errs.address = "Address is required (at least 3 characters)";
-    
+    if (!regAddress || regAddress.trim().length < 3)
+      errs.address = "Address is required (at least 3 characters)";
+
     // Admin-specific fields
     if (regRole === "admin") {
-      if (!regLicense || regLicense.trim().length < 3) errs.license = "License is required";
-      if (!regLatitude || regLatitude === "") errs.latitude = "Latitude is required - enable location access";
-      if (!regLongitude || regLongitude === "") errs.longitude = "Longitude is required - enable location access";
+      if (!regLicense || regLicense.trim().length < 3)
+        errs.license = "License is required";
+      if (!regLatitude || regLatitude === "")
+        errs.latitude = "Latitude is required - enable location access";
+      if (!regLongitude || regLongitude === "")
+        errs.longitude = "Longitude is required - enable location access";
     }
-    
+
     setRegErrors(errs);
     if (Object.keys(errs).length) return;
 
@@ -227,27 +248,27 @@ export default function LoginModal({ isOpen, onClose }) {
     (async () => {
       try {
         const form = new FormData();
-        form.append('firstname', regFirstName.trim());
-        form.append('lastname', regLastName.trim());
-        form.append('email', regEmail.trim());
-        form.append('password', regPassword);
-        form.append('role', regRole);
-        form.append('phone', regPhone.trim());
-        form.append('dob', regDob);
-        form.append('address', regAddress.trim());
-        
+        form.append("firstname", regFirstName.trim());
+        form.append("lastname", regLastName.trim());
+        form.append("email", regEmail.trim());
+        form.append("password", regPassword);
+        form.append("role", regRole);
+        form.append("phone", regPhone.trim());
+        form.append("dob", regDob);
+        form.append("address", regAddress.trim());
+
         if (regRole === "admin") {
-          form.append('license', regLicense.trim());
-          form.append('latitude', regLatitude);
-          form.append('longitude', regLongitude);
+          form.append("license", regLicense.trim());
+          form.append("latitude", regLatitude);
+          form.append("longitude", regLongitude);
         }
 
         // Debug: Log the form data
-        console.log('Sending registration data:', {
+        console.log("Sending registration data:", {
           firstname: regFirstName.trim(),
           lastname: regLastName.trim(),
           email: regEmail.trim(),
-          password: '***',
+          password: "***",
           role: regRole,
           phone: regPhone.trim(),
           dob: regDob,
@@ -255,28 +276,46 @@ export default function LoginModal({ isOpen, onClose }) {
           ...(regRole === "admin" && {
             license: regLicense.trim(),
             latitude: regLatitude,
-            longitude: regLongitude
-          })
+            longitude: regLongitude,
+          }),
         });
 
         const payload = await postUser(form);
         const token = payload?.data?.token;
-        if (!token) throw new Error("No token returned from server");
 
-        // Delegate token handling to AuthContext
-        await loginWithToken(token);
-
-        const msg =
-          payload?.data?.msg || payload?.message || "Registration successful!";
-        setToast({ message: msg, type: "success" });
-
-        setRegLoading(false);
-        setRegSuccess(true);
-
-        setTimeout(() => {
-          setRegSuccess(false);
-          onClose();
-        }, 600);
+        if (token) {
+          // delegate token handling to AuthContext
+          await loginWithToken(token);
+          const msg =
+            payload?.data?.msg ||
+            payload?.message ||
+            "Registration successful!";
+          setToast({ message: msg, type: "success" });
+          setRegLoading(false);
+          setRegSuccess(true);
+          setTimeout(() => {
+            setRegSuccess(false);
+            onClose();
+          }, 600);
+        } else {
+          // No token returned (email verification required) -> redirect to verification page
+          const emailToShow = payload?.data?.user?.email || regEmail;
+          setToast({
+            message:
+              payload?.data?.msg ||
+              payload?.message ||
+              "Registration successful. Please verify your email.",
+            type: "info",
+          });
+          setRegLoading(false);
+          setRegSuccess(true);
+          // Navigate to the verification page while preserving the user's email in query string
+          setTimeout(() => {
+            setRegSuccess(false);
+            onClose();
+            navigate(`/verify-email?email=${encodeURIComponent(emailToShow)}`);
+          }, 400);
+        }
       } catch (error) {
         setRegLoading(false);
         const { message, fieldErrors } = parseApiError(error);
@@ -435,7 +474,7 @@ export default function LoginModal({ isOpen, onClose }) {
                   href="#"
                   onClick={(e) => {
                     e.preventDefault();
-                    alert("Forgot password flow");
+                    navigate("/forgot-password");
                   }}
                 >
                   Forgot your password?
@@ -493,7 +532,6 @@ export default function LoginModal({ isOpen, onClose }) {
                 </div>
               )}
               <form id="registerFormElement" onSubmit={onRegSubmit}>
-
                 {/* Role Selection Dropdown */}
                 <div className={styles.formGroup}>
                   <label htmlFor="registerRole">Account Type</label>
@@ -508,8 +546,11 @@ export default function LoginModal({ isOpen, onClose }) {
                   </select>
                 </div>
 
-                <div className={styles.formGroup} style={{display: 'flex', gap: '12px'}}>
-                  <div style={{flex: 1}}>
+                <div
+                  className={styles.formGroup}
+                  style={{ display: "flex", gap: "12px" }}
+                >
+                  <div style={{ flex: 1 }}>
                     <label htmlFor="registerFirstName">First Name</label>
                     <input
                       id="registerFirstName"
@@ -721,37 +762,67 @@ export default function LoginModal({ isOpen, onClose }) {
                   <label htmlFor="registerDob">Date of Birth</label>
                   <input
                     id="registerDob"
-                    className={`${styles.formInput} ${regErrors.dob ? styles.error : ""}`}
+                    className={`${styles.formInput} ${
+                      regErrors.dob ? styles.error : ""
+                    }`}
                     type="date"
                     value={regDob}
-                    onChange={(e)=>setRegDob(e.target.value)}
-                    onBlur={()=>{
+                    onChange={(e) => setRegDob(e.target.value)}
+                    onBlur={() => {
                       if (!regDob)
-                        setRegErrors(p=>({...p,dob:"Date of birth is required"}));
+                        setRegErrors((p) => ({
+                          ...p,
+                          dob: "Date of birth is required",
+                        }));
                       else
-                        setRegErrors(p=>{ const c={...p}; delete c.dob; return c; });
+                        setRegErrors((p) => {
+                          const c = { ...p };
+                          delete c.dob;
+                          return c;
+                        });
                     }}
                   />
-                  <div className={`${styles.errorMessage} ${regErrors.dob ? styles.show : ""}`}>{regErrors.dob}</div>
+                  <div
+                    className={`${styles.errorMessage} ${
+                      regErrors.dob ? styles.show : ""
+                    }`}
+                  >
+                    {regErrors.dob}
+                  </div>
                 </div>
 
                 <div className={styles.formGroup}>
                   <label htmlFor="registerAddress">Address</label>
                   <input
                     id="registerAddress"
-                    className={`${styles.formInput} ${regErrors.address ? styles.error : ""}`}
+                    className={`${styles.formInput} ${
+                      regErrors.address ? styles.error : ""
+                    }`}
                     type="text"
                     value={regAddress}
-                    onChange={(e)=>setRegAddress(e.target.value)}
-                    onBlur={()=>{
+                    onChange={(e) => setRegAddress(e.target.value)}
+                    onBlur={() => {
                       if (regAddress && regAddress.trim().length < 3)
-                        setRegErrors(p=>({...p,address:"Address must be at least 3 characters"}));
+                        setRegErrors((p) => ({
+                          ...p,
+                          address: "Address must be at least 3 characters",
+                        }));
                       else
-                        setRegErrors(p=>{ const c={...p}; delete c.address; return c; });
+                        setRegErrors((p) => {
+                          const c = { ...p };
+                          delete c.address;
+                          return c;
+                        });
                     }}
                     placeholder="Enter your full address"
                   />
-                  <div className={`${styles.errorMessage} ${regErrors.address ? styles.show : ""}`}>{regErrors.address}</div>
+                  <div
+                    className={`${styles.errorMessage} ${
+                      regErrors.address ? styles.show : ""
+                    }`}
+                  >
+                    {regErrors.address}
+                  </div>
                 </div>
 
                 {/* Admin-Only Fields */}
@@ -761,19 +832,34 @@ export default function LoginModal({ isOpen, onClose }) {
                       <label htmlFor="registerLicense">License Number</label>
                       <input
                         id="registerLicense"
-                        className={`${styles.formInput} ${regErrors.license ? styles.error : ""}`}
+                        className={`${styles.formInput} ${
+                          regErrors.license ? styles.error : ""
+                        }`}
                         type="text"
                         value={regLicense}
-                        onChange={(e)=>setRegLicense(e.target.value)}
-                        onBlur={()=>{
+                        onChange={(e) => setRegLicense(e.target.value)}
+                        onBlur={() => {
                           if (regLicense && regLicense.trim().length < 3)
-                            setRegErrors(p=>({...p,license:"License must be at least 3 characters"}));
+                            setRegErrors((p) => ({
+                              ...p,
+                              license: "License must be at least 3 characters",
+                            }));
                           else
-                            setRegErrors(p=>{ const c={...p}; delete c.license; return c; });
+                            setRegErrors((p) => {
+                              const c = { ...p };
+                              delete c.license;
+                              return c;
+                            });
                         }}
                         placeholder="Enter pharmacy license number"
                       />
-                      <div className={`${styles.errorMessage} ${regErrors.license ? styles.show : ""}`}>{regErrors.license}</div>
+                      <div
+                        className={`${styles.errorMessage} ${
+                          regErrors.license ? styles.show : ""
+                        }`}
+                      >
+                        {regErrors.license}
+                      </div>
                     </div>
 
                     {/* Hidden inputs for latitude and longitude - auto-filled, not shown to user */}

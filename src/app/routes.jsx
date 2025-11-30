@@ -8,6 +8,10 @@ import CartPage from "../pages/cart/CartPage.jsx";
 import UploadPrescription from "../pages/uploadPrescreption/PrescriptionUpload.jsx";
 import Homepage from "../pages/homepage/Homepage.jsx";
 import Unauthorized from "../pages/Unauthorized.jsx";
+import EmailVerificationPending from "../pages/verify/EmailVerificationPending.jsx";
+import VerifyEmailResult from "../pages/verify/VerifyEmailResult.jsx";
+import ForgotPassword from "../pages/forgot-password/ForgotPassword.jsx";
+import ResetPassword from "../pages/reset-password/ResetPassword.jsx";
 import AdminDashboard from "../pages/admin/AdminDashboard.jsx";
 import SuperAdminDashboard from "../pages/super/SuperAdminDashboard.jsx";
 import { RequireAuth, RequireRole } from "../routes/guards.jsx";
@@ -47,7 +51,7 @@ export default function RoutesComponent({ onOpenLogin }) {
           path="/products"
           element={<ProductsRoute onOpenLogin={onOpenLogin} />}
         />
-  
+
         {/* Protected for regular users only */}
         <Route element={<RequireRole allowed={["user"]} />}>
           <Route path="/cart" element={<CartPage />} />
@@ -87,6 +91,10 @@ export default function RoutesComponent({ onOpenLogin }) {
       {/* Pages without Navbar */}
       <Route element={<EmptyLayout />}>
         <Route path="/unauthorized" element={<Unauthorized />} />
+        <Route path="/verify-email" element={<EmailVerificationPending />} />
+        <Route path="/verify-email/:token" element={<VerifyEmailResult />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="*" element={<div>Not Found</div>} />
       </Route>
     </Routes>

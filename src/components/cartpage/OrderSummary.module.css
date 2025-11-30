@@ -69,6 +69,13 @@
   color: var(--text-secondary);
 }
 
+/* Disabled state for input */
+.couponInput:disabled,
+.couponInput[disabled] {
+  cursor: not-allowed;
+  color: var(--text-secondary);
+}
+
 .applyBtn {
   background: var(--brand-primary);
   color: white;
@@ -82,9 +89,18 @@
   transition: all 0.2s;
 }
 
-.applyBtn:hover {
+.applyBtn:not(:disabled):hover {
   background: #016b73;
   transform: translateY(-1px);
+}
+
+/* Disabled state styles */
+.applyBtn:disabled,
+.applyBtn[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
 .summaryDetails {
@@ -178,9 +194,16 @@
     max-width: 320px;
     padding: 20px;
   }
-  .title { font-size: 20px; }
-  .totalAmount { font-size: 24px; }
-  .checkoutBtn { padding: 14px 20px; font-size: 15px; }
+  .title {
+    font-size: 20px;
+  }
+  .totalAmount {
+    font-size: 24px;
+  }
+  .checkoutBtn {
+    padding: 14px 20px;
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -188,11 +211,11 @@
     padding: 20px;
     margin-top: 20px;
   }
-  
+
   .title {
     font-size: 18px;
   }
-  
+
   .totalAmount {
     font-size: 20px;
   }
