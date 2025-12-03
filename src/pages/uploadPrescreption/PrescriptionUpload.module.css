@@ -1,4 +1,4 @@
-/* Prescription Upload Component Styles - Light Theme */
+
 
 .prescriptionContainer {
   min-height: 100vh;
@@ -325,9 +325,9 @@
     padding: 2rem 1rem;
   }
 }
-/* ... (بقية الأنماط) ... */
 
-/* إضافة Spinner للتحميل */
+
+
 .loadingState {
   display: flex;
   flex-direction: column;
@@ -351,7 +351,7 @@
   100% { transform: rotate(360deg); }
 }
 
-/* قسم عرض نتائج الـ API */
+
 .apiResultsSection {
   margin-top: 2rem;
   padding-top: 1.5rem;
@@ -398,7 +398,7 @@
 }
 
 .errorText {
-  color: #dc2626; /* Red color */
+  color: #dc2626; 
   font-weight: 600;
   padding: 1rem;
   background: #fee2e2;
@@ -412,7 +412,7 @@
   margin-top: 0.5rem;
 }
 
-/* تصنيفات حالة الدواء */
+
 .statusBadge.found {
   background: #10b981;
   color: white;
@@ -435,15 +435,15 @@
     border-radius: 8px;
     text-align: center;
 }
-/* ... (بقية الأنماط) ... */
 
-/* حالات الـ History الجديدة */
+
+
 .statusBadge.success {
     background: #10b981;
     color: white;
 }
 .statusBadge.error {
-    background: #dc2626; /* أحمر للخطأ */
+    background: #dc2626;
     color: white;
 }
 .statusBadge.processing {
@@ -451,7 +451,6 @@
     color: white;
 }
 
-/* نمط History Details */
 .historyDetails {
     margin-top: 1rem;
     padding-top: 0.5rem;
