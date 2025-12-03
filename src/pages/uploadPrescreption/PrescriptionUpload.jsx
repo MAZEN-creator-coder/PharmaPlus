@@ -1,22 +1,22 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import phoneImage from "../../assets/phone-prescription.png";
 import styles from "./PrescriptionUpload.module.css";
 
-// 🔴 تم إزالة mockFiles الثابتة
+
 const API_UPLOAD_URL = "http://localhost:3000/api/prescription/upload"; 
-// تأكد من أن هذا هو الرابط الصحيح لنقطة النهاية (Endpoint) الخاصة بك
+
 
 const statusConfig = {
-  // حالات وهمية متبقية لتنسيق history
+ 
   reviewed: { label: "Reviewed" }, 
   processing: { label: "Processing" },
   pending: { label: "Pending Review" },
-  // حالات جديدة للنتائج الفعلية
+
   success: { label: "Analysis Complete", badgeClass: styles.statusSuccess },
   error: { label: "Upload Failed", badgeClass: styles.statusError },
 };
 
-// دالة مساعدة لتنسيق التاريخ
+
 const formatDate = (date) => {
     const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
     return new Date(date).toLocaleTimeString('en-US', options);
@@ -26,18 +26,18 @@ export default function PrescriptionUpload() {
   const [isDragging, setIsDragging] = useState(false);
   const [notification, setNotification] = useState(null);
   
-  // حالات جديدة
+ 
   const [isUploading, setIsUploading] = useState(false); 
   const [apiResults, setApiResults] = useState(null); 
   const [uploadError, setUploadError] = useState(null); 
-  const [uploadHistory, setUploadHistory] = useState([]); // ✅ حالة حفظ سجل الرفع
+  const [uploadHistory, setUploadHistory] = useState([]); 
 
   const showNotification = useCallback((title, description) => {
     setNotification({ title, description });
     setTimeout(() => setNotification(null), 3000);
   }, []);
   
-  // دالة مركزية للرفع باستخدام FETCH
+
   const uploadAndProcessFile = useCallback(async (file) => {
     if (!file) return;
 
@@ -58,27 +58,25 @@ export default function PrescriptionUpload() {
         errorMessage: null,
     };
 
-    // تحديث السجل بحالة "Processing"
+  
     setUploadHistory(prevHistory => [historyEntry, ...prevHistory.slice(0, 2)]);
     
     try {
       showNotification("Uploading...", `Sending ${file.name} for AI analysis.`);
 
-      // 🔴 استخدام Fetch بدلاً من Axios
+    
       const response = await fetch(
         API_UPLOAD_URL, 
         {
           method: 'POST',
           body: formData,
-          // لا نحتاج لـ 'Content-Type': 'multipart/form-data' مع FormData،
-          // المتصفح يضبطها تلقائيًا
         }
       );
 
       const data = await response.json();
       
       if (!response.ok || data.status === 'error') {
-          // ✅ معالجة حالات الخطأ القادمة من الباك إند (status: "error")
+         
           const errMsg = data.message || "Unknown error from server.";
           setUploadError(`Failed to process: ${errMsg}`);
           showNotification("Upload Failed", "Could not process the image.");
@@ -86,7 +84,7 @@ export default function PrescriptionUpload() {
           historyEntry = {...historyEntry, status: 'error', errorMessage: errMsg};
 
       } else {
-          // ✅ معالجة الاستجابة الناجحة
+       
           const results = data.data.medicinesFound;
           setApiResults(results);
           showNotification("Analysis Complete", `Found ${results.length} potential medications.`);
@@ -95,7 +93,7 @@ export default function PrescriptionUpload() {
       }
       
     } catch (err) {
-      // معالجة أخطاء الشبكة (CORS, Connection issues)
+ 
       console.error("Network or Fetch Error:", err);
       const networkErrMsg = "Network error: Could not connect to the server.";
       setUploadError(networkErrMsg);
@@ -106,7 +104,7 @@ export default function PrescriptionUpload() {
     } finally {
       setIsUploading(false);
       
-      // تحديث السجل بالنتيجة النهائية (نجاح/فشل)
+  
       setUploadHistory(prevHistory => prevHistory.map(item => 
           item.id === historyEntry.id ? historyEntry : item
       ));
@@ -148,7 +146,7 @@ export default function PrescriptionUpload() {
   }, [showNotification]);
 
 
-  // لتبديل عرض التفاصيل في الـ History
+ 
   const [expandedHistoryId, setExpandedHistoryId] = useState(null);
 
   const toggleHistoryDetails = useCallback((id) => {
@@ -158,7 +156,7 @@ export default function PrescriptionUpload() {
 
   return (
     <div className={styles.prescriptionContainer}>
-      {/* ... (عرض الـ notification) ... */}
+ 
       {notification && (
         <div style={{
           position: 'fixed',
@@ -179,9 +177,8 @@ export default function PrescriptionUpload() {
 
       <div className={styles.prescriptionWrapper}>
         
-        {/* Header Section remains unchanged */}
         <div className={styles.prescriptionHeader}>
-           {/* Left: Phone Image */}
+           
            <div className={styles.prescriptionImageContainer}>
              <img
                src={phoneImage}
@@ -189,7 +186,7 @@ export default function PrescriptionUpload() {
                className={styles.prescriptionPhoneImage}
              />
            </div>
-           {/* Right: Title and Description */}
+        
            <div className={styles.prescriptionTitleSection}>
              <h1 className={styles.prescriptionTitle}>
                Upload Your Prescription with AI OCR
@@ -204,7 +201,6 @@ export default function PrescriptionUpload() {
          </div>
 
 
-        {/* Upload Section */}
         <div className={styles.uploadCard}>
           <div
             onDragOver={handleDragOver}
@@ -212,7 +208,7 @@ export default function PrescriptionUpload() {
             onDrop={handleDrop}
             className={`${styles.uploadDropzone} ${isDragging ? styles.dragging : ""}`}
           >
-            {/* عرض حالة التحميل (Loading Spinner) */}
+        
             {isUploading ? (
               <div className={styles.loadingState}>
                 <div className={styles.spinner}></div>
@@ -221,7 +217,7 @@ export default function PrescriptionUpload() {
                 </p>
               </div>
             ) : (
-              // حالة الرفع العادية
+         
               <>
                 <svg className={styles.uploadIcon} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -264,7 +260,7 @@ export default function PrescriptionUpload() {
             We use AI-powered OCR to accurately scan and process your prescription details.
           </p>
 
-          {/* 5. عرض النتائج الحالية (API Results) */}
+        
           <div className={styles.apiResultsSection}>
             {uploadError && (
               <p className={styles.errorText}>
@@ -313,7 +309,7 @@ export default function PrescriptionUpload() {
           </div>
         </div>
 
-        {/* ✅ قسم Submissions المُعدّل لعرض history */}
+        
         <div className={styles.submissionsSection}>
           <h2 className={styles.submissionsTitle}>
             Review Upload History ({uploadHistory.length} most recent files).
@@ -335,7 +331,7 @@ export default function PrescriptionUpload() {
                         </div>
 
                         <div className={styles.fileStatusRow}>
-                            {/* استخدام الحالة الفعلية (success, error, processing) */}
+                          
                             <span className={`${styles.statusBadge} ${styles[file.status]}`}>
                                 {file.status === 'success' && statusConfig.success.label}
                                 {file.status === 'error' && statusConfig.error.label}
@@ -344,7 +340,7 @@ export default function PrescriptionUpload() {
                             <span className={styles.fileDate}>{formatDate(file.date)}</span>
                         </div>
 
-                        {/* ✅ عرض التفاصيل عند الضغط */}
+                  
                         {(file.status === 'success' || file.status === 'error') && (
                             <button 
                                 className={styles.viewDetailsLink} 
@@ -354,7 +350,7 @@ export default function PrescriptionUpload() {
                             </button>
                         )}
                         
-                        {/* عرض نتائج التحليل أو رسالة الخطأ */}
+                      
                         {expandedHistoryId === file.id && (
                             <div className={styles.historyDetails}>
                                 {file.status === 'error' ? (
