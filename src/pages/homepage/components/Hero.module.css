@@ -17,7 +17,6 @@
   align-items: center;
   justify-content: space-between;
   gap: 40px;
-  perspective: 1200px;
 }
 
 .content {
@@ -75,16 +74,19 @@
   transition: all 0.3s ease;
 }
 
-/* Scroll arrow */
 .scrollWrapper {
+  position: absolute;
+  left: 50%;
+  bottom: 28px;
+  transform: translateX(-50%);
   display: flex;
   justify-content: center;
-  margin-top: 10px;
+  z-index: 1100;
 }
 
 .scrollDown {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: #fff;
   border: 1px solid rgba(2, 24, 43, 0.06);
@@ -92,14 +94,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 6px 18px rgba(2,24,43,0.06);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  z-index: 1101;
 }
 
-.scrollDown span {
-  font-size: 20px;
-  color: #018994;
+.scrollDown:active,
+.scrollDown:focus {
+  transform: translateY(2px);
+  outline: none;
 }
 
-/* Image Wrapper */
+.scrollArrow {
+  width: 22px;
+  height: 22px;
+  display: block;
+  animation: scroll-bounce 1.6s infinite;
+}
+
 .heroImageWrapper {
   flex: 1;
   display: flex;
@@ -112,7 +124,6 @@
   width: 700px;  
    margin-right: 1px;
   object-fit: contain;
-  transition: transform 0.25s ease-out;
   animation: float 4s ease-in-out infinite;
 }
 
@@ -131,6 +142,13 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@keyframes scroll-bounce {
+  0% { transform: translateY(0); opacity: 0.95; }
+  30% { transform: translateY(6px); opacity: 1; }
+  60% { transform: translateY(0); opacity: 0.95; }
+  100% { transform: translateY(0); opacity: 0.95; }
 }
 
 @media (max-width: 900px) {

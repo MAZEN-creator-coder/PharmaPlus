@@ -3,6 +3,11 @@
   padding-top: 64px; /* Prevent content under navbar, adjust if needed */
 }
 
+/* Account for fixed navbar: ensure anchored sections are not hidden under it */
+.main > section {
+  scroll-margin-top: 88px; /* adjust to match navbar height */
+}
+
 :root {
   --color-bg: #f7fbff;
   --color-surface: #ffffff;

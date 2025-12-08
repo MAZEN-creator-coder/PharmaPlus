@@ -1,9 +1,7 @@
 import React from "react";
-import useScrollReveal from "../hooks/useScrollReveal";
 import styles from "./Partners.module.css"; 
 
 export default function Partners() {
-  useScrollReveal(`.${styles.logos} img`);
 
   const logos = [
     { id: 1, src: "https://dummyimage.com/160x60/ebf8ff/0b5d8f&text=MediCare", alt: "MediCare Logo" },

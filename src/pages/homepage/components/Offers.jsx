@@ -1,9 +1,7 @@
 import React from "react";
-import useScrollReveal from "../hooks/useScrollReveal";
 import styles from "./Offers.module.css";
 
 export default function Offers() {
-  useScrollReveal(`.${styles.offerCard}`);
 
   const offers = [
     {

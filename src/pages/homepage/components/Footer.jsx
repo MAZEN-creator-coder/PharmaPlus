@@ -8,8 +8,10 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   return (
     <footer className={styles.footer}>
+
       <div className={styles.container}>
         <div className={styles.footerContent}>
+
           <div className={styles.brandSection}>
             <div className={styles.logo}>
               <img src={logo} alt="PharmaPlus" />
@@ -31,7 +33,8 @@ export default function Footer() {
               <a
                 href={siteConfig.social.instagram}
                 target="_blank"
-                rel="noopener noreferrer"
+                // phishing attack
+                rel="noopener noreferrer" 
                 className={styles.socialLink}
                 aria-label="PharmaPlus Instagram (opens in new tab)"
                 title="PharmaPlus Instagram"
@@ -65,6 +68,7 @@ export default function Footer() {
             <div className={styles.linkColumn}>
               <h4 className={styles.linkTitle}>Quick Links</h4>
               <ul className={styles.linkList}>
+               
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/products">Products</Link></li>
                 <li>
@@ -73,6 +77,7 @@ export default function Footer() {
                 <li>
                   <Link to="/chat">Contact</Link>
                 </li>
+                
               </ul>
             </div>
             
@@ -108,7 +113,7 @@ export default function Footer() {
         
         <div className={styles.footerBottom}>
           <p className={styles.copyright}>
-            © 2024 PharmaPlus. All rights reserved.
+            © 2025 PharmaPlus. All rights reserved.
           </p>
         </div>
       </div>
