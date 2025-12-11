@@ -107,7 +107,7 @@ export default function CheckoutDetails({ onPlaceOrder, onBack }) {
 
       // Get the pharmacy from the first selected item
       const firstItem = selectedItems[0];
-      const pharmacyId = firstItem?.pharmacy || firstItem?.pharmacyId;
+      const pharmacyId = firstItem?.pharmacyId || firstItem?.pharmacy?._id || firstItem?.pharmacy;
 
       if (!pharmacyId) {
         setToast({

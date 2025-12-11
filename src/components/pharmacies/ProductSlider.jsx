@@ -128,7 +128,11 @@ export default function ProductSlider({
   };
 
   const handleAdd = (product) => {
-    const normalized = { ...product, id: product.id || product._id };
+    const normalized = { 
+      ...product, 
+      id: product.id || product._id,
+      pharmacyId: pharmacy._id || pharmacy.id, // Add pharmacyId from pharmacy object
+    };
     toggleProduct(normalized);
 
     setToast({

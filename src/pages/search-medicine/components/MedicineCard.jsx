@@ -17,6 +17,7 @@ const MedicineCard = ({ medicine }) => {
     toggleProduct({
       ...medicine,
       id: medicineId, // تأكد من وجود id للتوافق
+      pharmacyId: medicine.pharmacyId || (medicine.pharmacy?._id), // Add pharmacyId from API response
     });
   };
 console.log('Selected Products:', medicine);
@@ -31,7 +32,9 @@ console.log('Selected Products:', medicine);
           />
           <div>
             <p>{medicine.name}</p>
-            <p className={styles.category}>{medicine.category}</p>
+            <p className={styles.category}>
+              {medicine.pharmacy?.name || medicine.pharmacyName || "Unknown Pharmacy"}
+            </p>
           </div>
         </div>
 

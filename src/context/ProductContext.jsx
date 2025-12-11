@@ -26,6 +26,9 @@ export function ProductProvider({ children }) {
         return;
       }
 
+      // Store pharmacyId from the product or extract from pharmacy object
+      const pharmacyId = product.pharmacyId || product.pharmacy?._id || product.pharmacy;
+
       setSelectedProducts((prev) => [...prev, product]);
       setCartItems((items) => [
         ...items,
@@ -34,6 +37,7 @@ export function ProductProvider({ children }) {
           id: productId,
           quantity: 1,
           selected: true,
+          pharmacyId, // Ensure pharmacyId is stored in cart item
         },
       ]);
     }
