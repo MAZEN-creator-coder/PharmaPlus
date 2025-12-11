@@ -152,7 +152,6 @@
 .errorMessage {
   color: #ef4444;
   font-size: 12px;
-  /* margin-top: 4px; */
   opacity: 0;
   transition: opacity 0.3s ease;
 }
@@ -180,14 +179,13 @@
   transform: translateY(0);
 }
 
-/* Alert box for backend messages */
 .alertBox {
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 8px 12px; /* slightly smaller */
+  padding: 8px 12px; 
   border-radius: 10px;
-  margin: 4px 0; /* pull it closer to the title */
+  margin: 4px 0; 
   font-size: 14px;
   line-height: 1.3;
   box-shadow: 0 6px 18px rgba(2,6,23,0.08);
@@ -338,8 +336,6 @@
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
 }
-
-/* Responsive Adjustments */
 @media (max-width: 480px) {
   .modal {
     width: 95%;

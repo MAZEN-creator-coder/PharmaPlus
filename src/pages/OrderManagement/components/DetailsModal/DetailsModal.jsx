@@ -22,7 +22,6 @@ export default function DetailsModal({ order, onClose, isLoading }) {
       try {
         const results = await Promise.all(
           items.map(async (it) => {
-            // it.medicine may be an id or a nested object
             try {
               let med = null;
               if (it.medicine && typeof it.medicine === "object") med = it.medicine;

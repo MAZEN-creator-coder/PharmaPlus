@@ -101,8 +101,7 @@ export default function LoginModal({ isOpen, onClose }) {
 
   const validateEmail = (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
   const validatePassword = (v, min = 6) => v.length >= min;
-  const validatePhone = (v) => /^\+?[0-9]{7,15}$/.test(v); // يسمح بالـ + اختياريًا ثم 7-15 رقم
-
+  const validatePhone = (v) => /^\+?[0-9]{7,15}$/.test(v); 
   // Extract user-friendly message and optional field errors from API errors
   const parseApiError = (error) => {
     try {
@@ -481,9 +480,11 @@ export default function LoginModal({ isOpen, onClose }) {
                   Forgot your password?
                 </a>
               </div>
+
               <div className={styles.divider}>
-                <span>or continue with</span>
+                <span n>or continue with</span>
               </div>
+
               <div className={styles.socialLogin}>
                 <button
                   className={styles.socialBtn}
@@ -509,6 +510,7 @@ export default function LoginModal({ isOpen, onClose }) {
               id="registerForm"
             >
               <h2 className={styles.formTitle}>Create Account</h2>
+              
               <div
                 className={`${styles.successMessage} ${
                   regSuccess ? styles.show : ""
@@ -516,6 +518,7 @@ export default function LoginModal({ isOpen, onClose }) {
               >
                 Registration successful!
               </div>
+
               {regError && (
                 <div
                   className={`${styles.alertBox} ${styles.alertError}`}

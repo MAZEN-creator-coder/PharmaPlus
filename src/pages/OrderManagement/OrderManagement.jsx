@@ -20,11 +20,9 @@ export default function OrderManagement() {
   const [isLoading, setIsLoading] = useState(true);
 
   const limit = 10;
-
   const { token,user } = useContext(AuthContext);
   const pharmacyId = user.pharmacyId;
   const totalPages = 5;
-
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -141,7 +139,6 @@ export default function OrderManagement() {
     setIsDetailLoading(true);
     try {
       const payload = await getOrderById(order._id, token);
-      // `getOrderById` returns payload shape matching the API; find order object
       const orderDetails = payload?.order ?? payload;
       setDetailOrder(orderDetails || null);
       setDetailModalOpen(true);
