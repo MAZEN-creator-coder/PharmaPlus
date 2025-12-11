@@ -22,7 +22,7 @@ export default function OrderManagement() {
   const limit = 10;
   const { token,user } = useContext(AuthContext);
   const pharmacyId = user.pharmacyId;
-  const totalPages = 5;
+  const totalPages = 10;
 
   useEffect(() => {
     const fetchOrders = async () => {

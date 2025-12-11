@@ -76,20 +76,20 @@
 .status {
   display: inline-block;
   padding: 6px 12px;
-  border-radius: 9999px; /* pill */
+  border-radius: 9999px; 
   font-weight: 600;
   font-size: 0.85rem;
   text-transform: capitalize;
 }
 
 .delivered {
-  background: #10B981; /* green pill */
+  background: #10B981;
   color: #ffffff;
 }
 
 .shipped {
   color: #ffffff;
-  background: #5b68b6; /* blue pill */
+  background: #5b68b6; 
 }
 
 .processing {
@@ -99,7 +99,7 @@
 
 .pending {
    color: #ffffff;
-  background: #f59e0b; /* yellow pill */
+  background: #f59e0b; 
   border-color: transparent;
 }
 
@@ -174,7 +174,6 @@
 
 @media (max-width: 768px) {
   .tableContainer {
-    /* لو الشاشة صغيرة والجدول عريض → بيظهر scroll أفقي علشان الجدول ما يتكسرش. */
     overflow-x: auto;
   }
 
@@ -183,7 +182,6 @@
   }
 
   .table tbody tr {
-   /* بدل ما الصف يكون أفقي (زي الجدول العادي)، بيتحول لمربع أو card. */
     display: block;  
     margin-bottom: 12px;
     background: #fff;
@@ -197,7 +195,6 @@
     padding: 8px 0;
     font-size: 0.9rem;
   }
-/* خُد القيمة من الخاصية data-label اللي في العنصر نفسه. */
   .table td::before {
     content: attr(data-label);
     font-weight: 600;

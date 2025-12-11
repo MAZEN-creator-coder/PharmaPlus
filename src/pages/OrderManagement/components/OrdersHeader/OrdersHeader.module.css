@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: wrap; /* 🧩 عشان العناصر تتنقل تحت بعض لما الشاشة تصغر */
+  flex-wrap: wrap; 
   gap: 1rem;
   padding: 1.5rem;
   background: white;
@@ -53,8 +53,6 @@
   border-radius: 8px;
   border: 1px solid #ccc;
 }
-
-/* 📱 Responsive: لما الشاشة تبقى صغيرة */
 @media (max-width: 700px) {
   .header {
     flex-direction: column;

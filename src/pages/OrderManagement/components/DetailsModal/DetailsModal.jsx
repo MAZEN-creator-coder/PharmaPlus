@@ -92,7 +92,7 @@ export default function DetailsModal({ order, onClose, isLoading }) {
 
         <div className={styles.row}>
           <strong>Date:</strong>
-          <span>{date ? new Date(date).toLocaleString() : "N/A"}</span>
+          <span>{date ? new Date(date).toLocaleString() :  "N/A"}</span>
         </div>
 
         <div className={styles.row}>
