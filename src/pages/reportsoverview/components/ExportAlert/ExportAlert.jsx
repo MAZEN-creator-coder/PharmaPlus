@@ -6,7 +6,7 @@ export default function ExportAlert({ type = "success", message, onClose }) {
   useEffect(() => {
     const timer = setTimeout(() => {
       onClose();
-    }, 2500); // alert disappears after 2.5s
+    }, 2500); 
     return () => clearTimeout(timer);
   }, [onClose]);
 

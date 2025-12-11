@@ -32,6 +32,8 @@
 .completed { background: #e6f7f1; color: #28a745; }
 .review { background: #fff4e5; color: #ff9800; }
 .failed { background: #fdecea; color: #e53935; }
+/* Pending status styling (was missing) */
+.pending { background: rgba(0, 123, 255, 0.08); color: #007bff; }
 
 .iconBtn {
   border: none;

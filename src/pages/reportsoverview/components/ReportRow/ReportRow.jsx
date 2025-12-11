@@ -1,5 +1,3 @@
-// 
-// src/pages/reportsoverview/components/ReportRow/ReportRow.jsx
 import React from 'react';
 import styles from './ReportRow.module.css';
 
@@ -13,7 +11,6 @@ const ReportRow = ({ report }) => {
       default: return '';
     }
   };
-
   return (
     <tr className={styles.reportRow}>
       <td>{report.reportID}</td>
@@ -27,14 +24,6 @@ const ReportRow = ({ report }) => {
       </td>
       <td>{report.generatedBy}</td>
       <td className={styles.actionsColumn}>
-        {/* أيقونة العدسة المكبرة (بحث/عرض) */}
-        <button className={styles.actionButton} title="View">
-            <span className={styles.actionIcon}>🔎</span> 
-        </button>
-        {/* أيقونة التنزيل */}
-        <button className={styles.actionButton} title="Download">
-            <span className={styles.actionIcon}>⬇️</span>
-        </button>
       </td>
     </tr>
   );

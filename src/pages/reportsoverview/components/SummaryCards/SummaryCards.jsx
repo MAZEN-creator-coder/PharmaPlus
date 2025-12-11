@@ -2,16 +2,15 @@ import React from "react";
 import styles from "./SummaryCards.module.css";
 import { FileText, CheckCircle, Clock, AlertTriangle } from "lucide-react";
 
-export default function SummaryCards({ reports }) {
-  // 🧮 حساب القيم
+export default function SummaryCards({ reports }) {  
   const total = reports.length;
-  const pending = reports.filter(r => r.status === "Review").length;
+  const pending = reports.filter(r => r.status === "Review" || r.status === "Pending").length;
   const failed = reports.filter(r => r.status === "Failed").length;
-  const avgScore = 92; // مثال لقيمة ثابتة (تقدر تحسبها ديناميكي بعدين)
+  const avgScore = 92; 
 
   return (
     <div className={styles.cardsContainer}>
-      {/* 🧾 إجمالي التقارير */}
+
       <div className={`${styles.card} ${styles.total}`}>
         <FileText className={styles.icon} />
         <div>
@@ -21,7 +20,6 @@ export default function SummaryCards({ reports }) {
         </div>
       </div>
 
-      {/* ✅ متوسط النتائج */}
       <div className={`${styles.card} ${styles.success}`}>
         <CheckCircle className={styles.icon} />
         <div>
@@ -31,7 +29,6 @@ export default function SummaryCards({ reports }) {
         </div>
       </div>
 
-      {/* ⏳ التقارير المعلقة */}
       <div className={`${styles.card} ${styles.pending}`}>
         <Clock className={styles.icon} />
         <div>
@@ -40,8 +37,7 @@ export default function SummaryCards({ reports }) {
           <span>Reports awaiting action</span>
         </div>
       </div>
-
-      {/* ⚠️ التنبيهات المهمة */}
+      
       <div className={`${styles.card} ${styles.alert}`}>
         <AlertTriangle className={styles.icon} />
         <div>

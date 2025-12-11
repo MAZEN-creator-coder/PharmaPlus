@@ -12,8 +12,11 @@ export default function ReportsOverview() {
   const [filterType, setFilterType] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showAlert, setShowAlert] = useState(false);
+
   const handleSearch = (query) => setSearchQuery(query);
+
   const handleFilterChange = (value) => setFilterType(value);
+
   const filteredReports = reports.filter((r) => {
     const matchesFilter = filterType ? r.type === filterType : true;
     const matchesSearch =
@@ -21,10 +24,12 @@ export default function ReportsOverview() {
       r.pharmacy.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesFilter && matchesSearch;
   });
+
   const handleExportAll = () => {
     console.log("Exporting all reports...");
     setShowAlert(true); 
   };
+
   const handleDelete = (id) => {
     setReports((prev) => prev.filter((r) => r.id !== id));
   };
@@ -37,11 +42,13 @@ export default function ReportsOverview() {
         Generate and manage detailed reports on pharmacies, sales, and compliance across the MediConnect platform.
       </p>
       <SummaryCards reports={reports} />
+
       <ReportsFilter
         onSearch={handleSearch}
         onFilterChange={handleFilterChange}
         onExport={handleExportAll}
       />
+      
       <ReportsTable reports={filteredReports} onDelete={handleDelete} />
 
       {showAlert && (

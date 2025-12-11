@@ -1,11 +1,8 @@
-/* src/pages/reportsoverview/components/ReportRow/ReportRow.module.css */
-
-/* تعريف المتغيرات والألوان */
 :root {
   --success-color: #28aa62;
   --warning-color: #ffc107;
   --danger-color: #dc3545;
-  --pending-color: #007bff; /* الأزرق */
+  --pending-color: #007bff; 
   --row-text-color: #495057;
 }
 
@@ -15,7 +12,6 @@
   border-bottom: 1px solid #e9ecef;
   font-size: 14px;
   color: var(--row-text-color);
-  /* لمنع التفاف النص الذي قد يفسد عرض الجدول */
   white-space: nowrap; 
 }
 
