@@ -316,7 +316,7 @@ ${userGrowthData.map(d => `${d.month}:  ${d.users.toLocaleString()} users`).join
             <div className={styles.statLabel}>Total Users</div>
             <div className={styles.statSubLabel}>Total registered users</div>
             <div className={styles.statValue}>{totalUsers.toLocaleString()}</div>
-            <div className={styles.statChangeGreen}>+{userGrowthPercentage}% this month</div>
+            <div className={styles.statChangeGreen}>{userGrowthPercentage}% this month</div>
           </div>
           <div className={styles.statCard}>
             <div className={styles.statLabel}>Total Revenue</div>

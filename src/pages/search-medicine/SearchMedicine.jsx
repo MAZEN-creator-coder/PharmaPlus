@@ -3,11 +3,8 @@ import styles from './SearchMedicine.module.css';
 import SearchSidebar from './components/SearchSidebar';
 import SearchResults from './components/SearchResults';
 import PharmacyMap from './components/PharmacyMap';
-import { SearchMedicineProvider } from '../../context/SearchMedicineContext';
-
 const SearchMedicine = () => {
   return (
-    <SearchMedicineProvider>
       <div className={styles.container}>
         <div className={styles.sidebar}>
         <SearchSidebar  />
@@ -17,7 +14,6 @@ const SearchMedicine = () => {
           <PharmacyMap  />
         </main>
       </div>
-    </SearchMedicineProvider>
   );
 };
 
