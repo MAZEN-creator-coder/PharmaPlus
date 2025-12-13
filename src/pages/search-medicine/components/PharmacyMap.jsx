@@ -9,7 +9,7 @@ const MapCenter = ({ position }) => {
   
   useEffect(() => {
     if (position) {
-      map.setView([position.lat, position.lng], 13);
+      map.setView([position.lat, position.lng], 7);
     }
   }, [position, map]);
   
