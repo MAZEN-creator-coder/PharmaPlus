@@ -16,9 +16,15 @@ export default function AddMedicineModal({
   const [price, setPrice] = useState(medicine?.price || 0);
   const [description, setDescription] = useState(medicine?.description || "");
   const [threshold, setThreshold] = useState(medicine?.threshold || 10);
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(
-    medicine?.medicineImage ? `http://localhost:3000/${medicine.medicineImage}` : null
+    medicine?.medicineImage ? `${MEDIA_BASE}/${medicine.medicineImage}` : null
   );
   const fileRef = useRef(null);
   const isEditing = Boolean(medicine);
@@ -31,7 +37,7 @@ export default function AddMedicineModal({
       setPrice(medicine.price || 0);
       setDescription(medicine.description || "");
       setThreshold(medicine.threshold || 10);
-      setImagePreview(  medicine?.medicineImage ? `http://localhost:3000/${medicine.medicineImage}` : null);
+      setImagePreview(  medicine?.medicineImage ? `${MEDIA_BASE}/${medicine.medicineImage}` : null);
       setImageFile(null);
     } else if (!isOpen) {
       setName("");

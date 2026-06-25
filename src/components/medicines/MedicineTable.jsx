@@ -5,6 +5,12 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function MedicineTable({ medicines, onEdit, onDelete }) {
   console.log("Rendering MedicineTable with medicines:", medicines);
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   return (
     <div className={styles.tableWrap}>
       <table className={styles.table}>
@@ -25,7 +31,7 @@ export default function MedicineTable({ medicines, onEdit, onDelete }) {
             <tr key={medicine._id || medicine.id}>
               <td>
                 <img
-                  src={`http://localhost:3000/${medicine.medicineImage}`}
+                  src={`${MEDIA_BASE}/${medicine.medicineImage}`}
                   alt={medicine.name}
                   className={styles.thumb}
                 />

@@ -6,6 +6,12 @@ import styles from './CartItem.module.css';
 
 export default function CartItem({ item, onQuantityChange, onRemove, onSelect }) {
   const itemId = item._id || item.id;
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   
   const handleQuantityChange = (newQuantity) => {
     if (newQuantity >= 1) {
@@ -43,7 +49,7 @@ export default function CartItem({ item, onQuantityChange, onRemove, onSelect })
         
         <div className={styles.productImageContainer}>
           <img 
-            src={`http://localhost:3000/${item.medicineImage}`}
+            src={`${MEDIA_BASE}/${item.medicineImage}`}
             alt={item.name}
             className={styles.productImage}
           />

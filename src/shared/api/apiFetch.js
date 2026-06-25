@@ -1,8 +1,9 @@
 const API_BASE =
   (typeof import.meta !== "undefined" &&
     import.meta.env &&
-    import.meta.env.VITE_API_BASE) ||
-  "http://localhost:3000/api";
+    (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+const API_ENDPOINT_BASE = `${API_BASE.replace(/\/$/, "")}/api`;
 
 async function safeJson(response) {
   try {
@@ -16,7 +17,7 @@ export default async function apiFetch(path, options = {}) {
 
   const url =
     typeof path === "string" && path.startsWith("/")
-      ? `${API_BASE}${path}`
+      ? `${API_ENDPOINT_BASE}${path}`
       : path;
   let auth = token;
   if (!auth) {

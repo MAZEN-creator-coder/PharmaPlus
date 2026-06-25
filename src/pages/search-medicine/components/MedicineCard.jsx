@@ -6,6 +6,12 @@ import { SlLocationPin } from "react-icons/sl";
 const MedicineCard = ({ medicine }) => {
   console.log(medicine);
   const { selectedProducts, toggleProduct, getSelectedCount } = useContext(ProductContext);
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
 
   // استخدام _id من API بدلاً من id
   const medicineId = medicine._id || medicine.id;
@@ -26,7 +32,7 @@ console.log('Selected Products:', medicine);
       <div className={styles.header}>
         <div className={styles.medicineDetails}>
           <img
-            src={`http://localhost:3000/${medicine.medicineImage}`}
+            src={`${MEDIA_BASE}/${medicine.medicineImage}`}
             alt={medicine.name}
             className={styles.medicineImage}
           />

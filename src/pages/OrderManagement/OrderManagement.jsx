@@ -8,6 +8,13 @@ import DetailsModal from "./components/DetailsModal/DetailsModal";
 import { getOrderById } from "../../shared/api/orderApi";
 import { AuthContext } from "../../context/AuthContext";
 
+const API_BASE =
+  (typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+const API_URL = `${API_BASE.replace(/\/$/, "")}/api`;
+
 export default function OrderManagement() {
   const [orders, setOrders] = useState([]);
   const [selectedOrder, setSelectedOrder] = useState(null);
@@ -32,7 +39,7 @@ export default function OrderManagement() {
       setIsLoading(true);
       try {
         const res = await fetch(
-          `http://localhost:3000/api/orders/pharmacy/${pharmacyId}?limit=${limit}&page=${page}`,
+          `${API_URL}/orders/pharmacy/${pharmacyId}?limit=${limit}&page=${page}`,
           { headers: { Authorization: "Bearer " + token } }
         );
 
@@ -52,7 +59,7 @@ export default function OrderManagement() {
             if (order.userId) {
               try {
                 const userRes = await fetch(
-                  `http://localhost:3000/api/users/${order.userId}`,
+                  `${API_URL}/users/${order.userId}`,
                   { headers: { Authorization: "Bearer " + token } }
                 );
 
@@ -98,7 +105,7 @@ export default function OrderManagement() {
 
     try {
       const res = await fetch(
-        `http://localhost:3000/api/orders/${selectedOrder._id}/status`,
+        `${API_URL}/orders/${selectedOrder._id}/status`,
         {
           method: "PUT",
           headers: {
@@ -152,7 +159,7 @@ export default function OrderManagement() {
 
   const handleConfirmDelete = async (orderId) => {
     try {
-      const res = await fetch(`http://localhost:3000/api/orders/${orderId}`, {
+      const res = await fetch(`${API_URL}/orders/${orderId}`, {
         method: "DELETE",
         headers: { Authorization: "Bearer " + token },
       });

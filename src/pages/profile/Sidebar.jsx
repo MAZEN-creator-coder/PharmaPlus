@@ -6,6 +6,13 @@ import { useAuth } from '../../hooks/useAuth';
 import styles from './Sidebar.module.css';
 import userAvatar from '/user-avatar.png';
 
+const API_BASE =
+  (typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+const MEDIA_BASE = API_BASE.replace(/\/$/, "");
+
 const Sidebar = () => {
   const { updateUser: updateAuthUser } = useAuth();
   const [user, setUser] = useState(null);
@@ -45,7 +52,7 @@ const Sidebar = () => {
           phone: profile?.phone || '',
           preferences: profile?.preferences || {},
         });
-        if (profile?.avatar) setAvatarPreview(`http://localhost:3000/${profile.avatar}`);
+        if (profile?.avatar) setAvatarPreview(`${MEDIA_BASE}/${profile.avatar}`);
       } catch (err) {
         setError(err.message || 'Failed to load profile');
       } finally {
@@ -68,7 +75,7 @@ const Sidebar = () => {
           role={editing ? 'button' : undefined}
         >
           <img
-            src={avatarPreview ? avatarPreview : `http://localhost:3000/${user?.avatar || 'uploads/avatar.webp'}`}
+            src={avatarPreview ? avatarPreview : `${MEDIA_BASE}/${user?.avatar || 'uploads/avatar.webp'}`}
             alt={user?.fullName || 'Profile'}
             className={styles.profileImage}
           />
@@ -216,7 +223,7 @@ const Sidebar = () => {
                         const fd = new FormData();
                         fd.append('avatar', avatarFile);
 
-                        const r = await fetch(`http://localhost:3000/api/users/${id}`, {
+                        const r = await fetch(`${API_BASE.replace(/\/$/, "")}/api/users/${id}`, {
                           method: 'PUT',
                           headers: { Authorization: `Bearer ${token}` },
                           body: fd,
@@ -233,7 +240,7 @@ const Sidebar = () => {
                         setUser((prev) => ({ ...prev, ...updatedAvatarUser }));
                         // sync with AuthContext so navbar updates immediately
                         if (updateAuthUser) updateAuthUser({ ...updatedAvatarUser, image: updatedAvatarUser.avatar });
-                        if (updatedAvatarUser?.avatar) setAvatarPreview(`http://localhost:3000/${updatedAvatarUser.avatar}`);
+                        if (updatedAvatarUser?.avatar) setAvatarPreview(`${MEDIA_BASE}/${updatedAvatarUser.avatar}`);
                         setAvatarFile(null);
                       }
 
@@ -281,7 +288,7 @@ const Sidebar = () => {
                 // reset form to original values
                 setForm({ fullName: user?.fullName || '', email: user?.email || '', phone: user?.phone || '', preferences: user?.preferences || {} });
                 setAvatarFile(null);
-                setAvatarPreview(`http://localhost:3000/${user?.avatar || ''}`);
+                setAvatarPreview(`${MEDIA_BASE}/${user?.avatar || ''}`);
               }}
             >
               Cancel

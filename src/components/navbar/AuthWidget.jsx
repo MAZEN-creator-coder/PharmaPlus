@@ -8,6 +8,12 @@ import { useAuth } from "../../hooks/useAuth";
 
 export default function AuthWidget({ isOpen, setIsOpen, onOpenLogin }) {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   const [displayName, setDisplayName] = useState(() => {
     const first = user?.firstName ?? user?.firstname ?? user?.first_name;
     const last = user?.lastName ?? user?.lastname ?? user?.last_name;
@@ -84,7 +90,7 @@ console.log(user);
         onClick={() => setOpen((v) => !v)}
       >
         <img
-          src={`http://localhost:3000/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
+          src={`${MEDIA_BASE}/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
           alt="profile"
           className={styles.avatar}
         />
@@ -137,7 +143,7 @@ console.log(user);
           }}
         >
           <img
-            src={`http://localhost:3000/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
+            src={`${MEDIA_BASE}/${user?.avatar || user?.image || "uploads/avatar.webp"}`}
             alt="profile"
             className={styles.avatar}
           />

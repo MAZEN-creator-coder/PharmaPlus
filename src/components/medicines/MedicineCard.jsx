@@ -5,10 +5,16 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function MedicineCard({ medicine, onEdit, onDelete }) {
   console.log("Rendering MedicineCard with medicine:", medicine);
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   return (
     <article className={styles.card}>
       <img
-        src={`http://localhost:3000/${medicine.medicineImage}`}
+        src={`${MEDIA_BASE}/${medicine.medicineImage}`}
         alt={medicine.name}
         className={styles.thumb}
       />

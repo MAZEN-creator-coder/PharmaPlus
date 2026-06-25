@@ -3,9 +3,15 @@ import styles from "./PharmacyCard.module.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function PharmacyCard({ pharmacy, onEdit, onDelete }) {
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   const imgSrc = pharmacy?.img?.startsWith("http")
     ? pharmacy.img
-    : `http://localhost:3000/${pharmacy?.img || "uploads/pharmacy-default.jpg"}`;
+    : `${MEDIA_BASE}/${pharmacy?.img || "uploads/pharmacy-default.jpg"}`;
 
   return (
     <article className={styles.card}>

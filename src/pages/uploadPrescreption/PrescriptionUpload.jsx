@@ -3,7 +3,13 @@ import phoneImage from "../../assets/phone-prescription.png";
 import styles from "./PrescriptionUpload.module.css";
 
 
-const API_UPLOAD_URL = "http://localhost:3000/api/prescription/upload"; 
+const API_BASE =
+  (typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+const API_URL = `${API_BASE.replace(/\/$/, "")}/api`;
+const API_UPLOAD_URL = `${API_URL}/prescription/upload`;
 
 
 const statusConfig = {

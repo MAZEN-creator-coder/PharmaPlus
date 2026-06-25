@@ -27,7 +27,7 @@ export default function PharmacyTable({ pharmacies, onEdit, onDelete }) {
                     (typeof import.meta !== "undefined" &&
                       import.meta.env &&
                       import.meta.env.VITE_API_BASE) ||
-                    "http://localhost:3000/api";
+                    (typeof window !== "undefined" ? window.location.origin : "");
                   const mediaBase = API_BASE.replace(/\/api\/?$/, "");
                   const imgPath =
                     pharmacy?.img || "uploads/pharmacy-default.jpg";

@@ -1,8 +1,15 @@
+const API_BASE =
+  (typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+  (typeof window !== "undefined" ? window.location.origin : "");
+const API_URL = `${API_BASE.replace(/\/$/, "")}/api`;
+
 // Small users API module to centralize user-related fetch calls
 export async function getProfile(token) {
   if (!token) throw new Error('Missing auth token');
 
-  const res = await fetch('http://localhost:3000/api/users/profile', {
+  const res = await fetch(`${API_URL}/users/profile`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -24,7 +31,7 @@ export async function updateProfile(token, id, data) {
   if (!token) throw new Error('Missing auth token');
   if (!id) throw new Error('Missing user id');
 
-  const res = await fetch(`http://localhost:3000/api/users/${id}`, {
+  const res = await fetch(`${API_URL}/users/${id}`, {
     method: 'PUT',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -46,7 +53,7 @@ export async function getOrdersByUser(token, userId, page = 1, limit = 5) {
   if (!token) throw new Error('Missing auth token');
   if (!userId) throw new Error('Missing user id');
 
-  const url = `http://localhost:3000/api/orders/user/${encodeURIComponent(userId)}?limit=${encodeURIComponent(limit)}&page=${encodeURIComponent(page)}`;
+  const url = `${API_URL}/orders/user/${encodeURIComponent(userId)}?limit=${encodeURIComponent(limit)}&page=${encodeURIComponent(page)}`;
   const res = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });

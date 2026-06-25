@@ -11,6 +11,12 @@ function ProductCard({
   showToast,
 }) {
   const { selectedProducts, cartItems } = useContext(ProductContext);
+  const API_BASE =
+    (typeof import.meta !== "undefined" &&
+      import.meta.env &&
+      (import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE)) ||
+    (typeof window !== "undefined" ? window.location.origin : "");
+  const MEDIA_BASE = API_BASE.replace(/\/$/, "");
   const productId = product._id || product.id;
   const isAdded = selectedProducts.some((p) => (p._id || p.id) === productId);
 
@@ -23,7 +29,7 @@ function ProductCard({
     <div className={styles.card}>
       <div className={styles.imageWrapper}>
         <img
-          src={`http://localhost:3000/${product.medicineImage}`}
+          src={`${MEDIA_BASE}/${product.medicineImage}`}
           alt={product.name}
           className={styles.img}
         />
