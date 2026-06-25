@@ -1,4 +1,4 @@
-import logo from '../../assets/img/logo.png';
+import logo from '../../assets/img/Logo.png';
 import styles from './Navbar.module.css';
 import {motion} from 'framer-motion';
 
